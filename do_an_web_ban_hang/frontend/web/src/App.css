@@ -1,8 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Agu+Display&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 * {
-  margin: 0;
+  margin: 0 ;
   padding: 0;
+}
+
+@media (min-width: 1300px) {
+  .container, .container-lg, .container-md, .container-sm, .container-xl{
+    max-width: 1200px;
+  }
+  
 }
 
 body {
@@ -17,8 +24,12 @@ body {
   background-color: #00a930 !important;
 }
 
+.container{
+  max-width: 100%;
+}
+
 .headerWrapper .top-strip {
-  padding: 12px 0;
+  padding: 14px 0;
 }
 
 .headerWrapper .top-strip p {
@@ -29,12 +40,13 @@ body {
 .headerWrapper .header {
   width: 100%;
   height: auto;
-  padding: 10px;
+  padding: 5px;
+  
 
 }
 
 .logoWrapper img {
-  width: 100%;
+  width: 90%;
 }
 
 .headerWrapper .header .part2 .countryDrop {
@@ -88,10 +100,10 @@ body {
 }
 
 header .Hearder_search {
-  width: 55%;
+  width: 60%;
   height: 60px;
   background-color: rgb(240, 240, 240);
-  padding: 10px;
+  padding: 4px;
   position: relative;
   margin-left: 20px;
   border-radius: 10px;
@@ -105,14 +117,15 @@ header .Hearder_search input {
   font-size: 16px;
   color: rgba(0, 0, 0, 0.8);
   width: 100%;
-  height: 40px;
+  height: 50px;
   border: 0px !important;
-  padding: 0px 20px !important;
+  padding: 0px 25px !important;
+  box-sizing: border-box;
 }
 
 header .Hearder_search button {
   position: absolute;
-  top: 10px;
+  top: 5px;
   right: 15px;
   z-index: 100;
   min-width: 40px !important;
@@ -121,7 +134,7 @@ header .Hearder_search button {
   border-radius: 50% !important;
   color: #000;
   border: 0px !important;
-  font-size: 26px !important;
+  font-size: 20px !important;
 
 }
 
@@ -135,7 +148,7 @@ header .Hearder_search button svg {
   font-size: 25px;
 }
 
-header .part3 .circle {
+header .part3 .circle{
   align-items: center;
   justify-content: center;
   min-width: 45px!important;
@@ -144,12 +157,17 @@ header .part3 .circle {
   border-radius: 50%!important;
   border: 1px solid rgba(0, 0, 0, 0.1)!important;
   color: #000;
+  margin: 0 15px;
+}
+
+header .part3 .circle svg{
+  font-size: 20px;
 }
 
 .cartTab .price {
   font-size: 18px;
   color: rgba(0, 0, 0, 0.8);
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .cartTab button {
@@ -158,4 +176,26 @@ header .part3 .circle {
 
 .cartTab button svg {
   color: #ea2b0f!important;
+}
+.cartTab .count{
+  position: absolute; top:-3px; right: 0px; background: #ea2b0f; border-radius: 50%;
+  color: #fff1ee;
+  width: 20px;
+  height: 20px;
+  right:8px;
+  font-size: 12px;
+}
+
+/* nav */
+nav .menu_product{
+  background: #198754;
+width: 300px;
+height: 50px;
+border: 0px solid coral;
+border-radius: 10px;
+color: #fff1ee;
+font-weight: 700px;
+}
+nav .menu_produc *{
+  color: #ea2b0f;
 }
