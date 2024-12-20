@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 import Logo from "../../assets/images/logo.png";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import CountryDropdown from "../CountryDropdown";
 // import { Search } from "@mui/icons-material";
 import { IoIosSearch } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
+import { formatter } from "../../utils/fomater";
+import { FiShoppingCart } from "react-icons/fi";
 const Header = () => {
   return (
     <>
@@ -27,7 +29,7 @@ const Header = () => {
                   <img src={Logo} alt="logo" />
                 </Link>
               </div>
-              <div className="col-sm-10 d-flex align-items-center store_location">
+              <div className="col-sm-10 d-flex align-items-center part2">
                 <CountryDropdown />
 
                 {/* {Search} */}
@@ -43,13 +45,22 @@ const Header = () => {
                     <IoIosSearch />
                   </button>
                 </div>
-                {/* login */}
 
-                <div className="d-flex align-items-center hreader_login">
-                  {/* Nút đăng nhập */}
-                  <button className="circle">
+                <div className="part3 d-flex align-items-center ">
+                  <button className="mr-3 circle_user ">
                     <FaRegUser />
                   </button>
+                  <div className="ml-auto cartTab d-flex align-items-center">
+                    <span className="price">{formatter(500000)}</span>
+                    <div className="position-relative ml-2">
+                      <button className="cricle">
+                        <FiShoppingCart />
+                      </button>
+                      <span className="count d-flex justify-content-center align-items-center">
+                        0
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
