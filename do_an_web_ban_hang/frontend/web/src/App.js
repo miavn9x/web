@@ -3,11 +3,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import Header from "./Components/Header";
 
-
-
 function App() {
   return (
-    <BrowserRouter >
+    <BrowserRouter>
       <Header />
       <Routes>
         <Route path="/" exact={true} element={<Home />} />

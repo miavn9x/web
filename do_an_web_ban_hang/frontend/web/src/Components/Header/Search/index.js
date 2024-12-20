@@ -1,5 +1,5 @@
 import { CiSearch } from "react-icons/ci";
-// import { Button } from "@mui/material/Button";
+import Button from "@mui/material/Button";
 
 const Search = () => {
   return(
@@ -12,9 +12,9 @@ const Search = () => {
         type="text"
         placeholder="Tìm kiếm sản phẩm tại Siêu Thị Xanh . . ."
       />
-      <button>
+      <Button>
         <CiSearch />
-      </button>
+      </Button>
     </div>
   
   )

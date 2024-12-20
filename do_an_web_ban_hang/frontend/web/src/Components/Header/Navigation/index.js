@@ -1,5 +1,6 @@
 import { FiMenu } from "react-icons/fi";
-
+import Button from "@mui/material/Button";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const Navigation = () => {
   return (
@@ -7,13 +8,12 @@ const Navigation = () => {
       <div className="container">
         <div className="row">
           <div className="col-sm-3 nav_left">
-            <button className="menu_product">
-              <span className="text text-uppercase  ">
+            <Button className="menu_product">
+              <span className="">
                 <FiMenu />
-                danh mục sản phẩm
               </span>
-            </button>
-            <button >jvjvuuuuuuuuuuuuuuuuuuuuvj</button>
+              <span className="text text-uppercase  ">danh mục sản phẩm</span>
+            </Button>
           </div>
 
           <div className="col-sm-3 nav_right"></div>

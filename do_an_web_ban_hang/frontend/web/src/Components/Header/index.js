@@ -6,6 +6,8 @@ import { FaRegUser } from "react-icons/fa";
 import { formatter } from "../../utils/fomater";
 import { FiShoppingCart } from "react-icons/fi";
 import Navigation from "./Navigation";
+import Button from "@mui/material/Button";
+
 const Header = () => {
   return (
     <>
@@ -33,15 +35,15 @@ const Header = () => {
                 <Search />
 
                 <div className="part3  d-flex align-items-center ml-auto ">
-                  <button className="mr-3 circle ">
+                  <Button className="mr-3 circle ">
                     <FaRegUser />
-                  </button>
+                  </Button>
                   <div className="ml-auto cartTab d-flex align-items-center ">
                     <span className="price">{formatter(500000)}</span>
                     <div className="position-relative ml-2">
-                      <button className="circle">
+                      <Button className="circle">
                         <FiShoppingCart />
-                      </button>
+                      </Button>
                       <span className="count d-flex justify-content-center align-items-center">
                         0
                       </span>
@@ -54,7 +56,6 @@ const Header = () => {
         </div>
       </header>
       <Navigation />
-     
     </>
   );
 };
