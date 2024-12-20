@@ -1,5 +1,4 @@
 import { FaAngleDown } from "react-icons/fa";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 const CountryDropdown = () => {
   return (

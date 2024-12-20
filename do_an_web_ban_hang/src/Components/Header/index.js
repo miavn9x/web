@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Logo from "../../assets/images/logo.png";
-import "bootstrap/dist/css/bootstrap.min.css";
+
 import CountryDropdown from "../CountryDropdown";
 // import { Search } from "@mui/icons-material";
 import { IoIosSearch } from "react-icons/io";
