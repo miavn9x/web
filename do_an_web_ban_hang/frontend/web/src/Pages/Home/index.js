@@ -7,14 +7,15 @@ const Home = () => {
     <>
       <div className="container">
         <div className="row">
-          <div className="col-sm-3 ">
-            <div> {""}</div>
+          <div className="col-sm-12">
+            <div>
+              <Carousel />
+            </div>
           </div>
-          <div className="col-sm-9 home__Carousel ">
-            <Carousel />
+          <div>
+            <h1>Trang chu</h1>
           </div>
         </div>
-        
       </div>
     </>
   );

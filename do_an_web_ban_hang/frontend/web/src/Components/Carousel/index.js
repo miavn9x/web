@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import slide1 from "../../assets/images/1.jpg";
-import slide2 from "../../assets/images/2.jpg";
-import slide3 from "../../assets/images/3.jpg";
+import slide1 from "../../assets/images/02.jpg";
+import slide2 from "../../assets/images/01.jpg";
+import slide3 from "../../assets/images/03.png";
+import slide4 from "../../assets/images/04.jpg";
+import slide5 from "../../assets/images/05.jpg";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const Carousel = () => {
@@ -19,6 +21,16 @@ const Carousel = () => {
     },
     {
       image: slide3,
+      caption: "Third Slide Caption",
+      description: "This is the third slide description.",
+    },
+    {
+      image: slide4,
+      caption: "Third Slide Caption",
+      description: "This is the third slide description.",
+    },
+    {
+      image: slide5,
       caption: "Third Slide Caption",
       description: "This is the third slide description.",
     },

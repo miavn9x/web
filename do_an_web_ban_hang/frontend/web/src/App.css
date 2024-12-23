@@ -450,7 +450,7 @@ nav .nav_right ul li:hover .sub__menu {
 
 .carousel-item img {
   object-fit: cover;
-  height: 400px;
+  height: 100%;
   /* You can adjust the height as needed */
 }
 /* carousel */
