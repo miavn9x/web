@@ -252,17 +252,19 @@ nav {
   border-bottom: 1px solid #ddd;
 }
 
+
 nav .menu_product {
   background: #198754;
-  width: 250px;
-  height: 45px;
+  width: 100%;
+  height: auto;
   border-radius: 10px;
   color: #ffffff;
   font-weight: 450;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  /* transition: background 0.3s ease, color 0.3s ease; */
+  transition: background 0.3s ease, color 0.3s ease;
+  margin-bottom: 10px;
 }
 
 nav .menu_product:hover {
@@ -276,9 +278,58 @@ nav .menu_product .menu_product_left {
   margin-top: -4px;
 }
 
+/* nav .menu_product .menu_product-center {
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: bold;
+} */
 
 
+nav .nav_left .cardWrapper {
+  position: relative;
+}
 
+nav .nav_left .cardWrapper .sidibarNav {
+  width: 100%;
+  height: 0px;
+    opacity: 0;
+  position: absolute;
+  top: 121%;
+  left: 0px;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  padding: 15px 0px;
+  transition: all 0.3s ease-in-out;
+  visibility: hidden;
+}
+
+nav .nav_left .cardWrapper .sidibarNav ul li{
+  padding: 0px 15x;
+}
+
+nav .nav_left .cardWrapper .sidibarNav li button {
+  width: 100%;
+  color: rgba(0, 0, 0, 0.7);
+  justify-content: flex-start;
+  text-transform: capitalize;
+ /* justify-content: space-between; */
+}
+
+nav .nav_left .cardWrapper .sidibarNav.show{
+  opacity: 1;
+  visibility: inherit;
+  height: auto;
+}
+
+nav .nav_left .cardWrapper .sidibarNav li button:hover {
+  background: transparent;
+
+}
+
+
+nav .menu_product .menu_product_right {
+  font-size: 14px;
+  margin-left: 5px;
+}
 
 nav .nav_right ul {
   margin-bottom: 0px;
@@ -363,9 +414,7 @@ nav .nav_right ul li:hover .sub__menu {
   opacity: 1;
   visibility: inherit;
   top: 100%;
-
-
-
+  z-index: 9;
 }
 
 
@@ -398,3 +447,18 @@ nav .nav_right ul li:hover .sub__menu {
     padding: 3px 5px;
   }
 } */
+
+.carousel-item img {
+  object-fit: cover;
+  height: 400px;
+  /* You can adjust the height as needed */
+}
+/* carousel */
+.carousel-caption h5 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.carousel-caption p {
+  font-size: 1rem;
+}

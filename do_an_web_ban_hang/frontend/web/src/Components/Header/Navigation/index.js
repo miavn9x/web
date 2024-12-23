@@ -11,23 +11,86 @@ import { TbBrandCakephp } from "react-icons/tb";
 import { RiDrinks2Fill } from "react-icons/ri";
 import { IoCallOutline } from "react-icons/io5";
 import { AiFillCaretDown } from "react-icons/ai";
+import { useState } from "react";
+
 const Navigation = () => {
+  const [isOpensidibarNav, setIsOpensidibarNav] = useState(true);
   return (
     <nav>
       <div className="container">
         <div className="row">
           <div className="col-sm-3 nav_left  ">
-            <Button className=" menu_product">
-              <span className="menu_product_left">
-                <FiMenu />
-              </span>
-              <span className=" text-uppercase menu_product-center">
-                danh mục sản phẩm
-              </span>
-              <span className="menu_product_right">
-                <FaAngleDown />
-              </span>
-            </Button>
+            <div className="d-flex align-items-center cardWrapper">
+              <Button className=" menu_product" onClick={() => setIsOpensidibarNav(!isOpensidibarNav)}>
+                <span className="menu_product_left">
+                  <FiMenu />
+                </span>
+                <span className=" text-uppercase menu_product-center">
+                  danh mục sản phẩm
+                </span>
+                <span className="menu_product_right">
+                  <FaAngleDown />
+                </span>
+              </Button>
+              <div className={`sidibarNav  w-100 z-2 bg-white ${isOpensidibarNav ? "show" : ""}`}>
+                <ul className="list-unstyled ">
+                  <li>
+                    <Link to="/">
+                      <Button>
+                        <CiShop />
+                        shop
+                        <AiFillCaretDown />
+                      </Button>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/">
+                      <Button>
+                        <CiShop />
+                        shop
+                        <AiFillCaretDown />
+                      </Button>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/">
+                      <Button>
+                        <CiShop />
+                        shop
+                        <AiFillCaretDown />
+                      </Button>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/">
+                      <Button>
+                        <CiShop />
+                        shop
+                        <AiFillCaretDown />
+                      </Button>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/">
+                      <Button>
+                        <CiShop />
+                        shop
+                        <AiFillCaretDown />
+                      </Button>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/">
+                      <Button>
+                        <CiShop />
+                        shop
+                        <AiFillCaretDown />
+                      </Button>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
 
           <div className="col-sm-9 nav_right  align-items-center">
