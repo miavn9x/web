@@ -7,6 +7,8 @@ import { formatter } from "../../utils/fomater";
 import { FiShoppingCart } from "react-icons/fi";
 import Navigation from "./Navigation";
 import Button from "@mui/material/Button";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 
 const Header = () => {
   return (
@@ -16,7 +18,7 @@ const Header = () => {
           <div className="top-strip bg-success ">
             <div className="container">
               <p className=" mb-0 mt-0 text-center  ">
-                Siêu ưu đãi cuối năm từ <b> 20/12/2024 - 31/01/2025 </b> cơ hội{" "}
+                Siêu ưu đãi cuối năm từ <b> 20/12/2024 - 31/02/2025 </b> cơ hội
                 <b>giảm giá đến 50%</b> giá trị đơn hàng
               </p>
             </div>
@@ -39,7 +41,9 @@ const Header = () => {
                     <FaRegUser />
                   </Button>
                   <div className="ml-auto cartTab d-flex align-items-center ">
-                    <span className="price">{formatter(500000)}</span>
+                    <span className="price d-none d-sm-block">
+                      {formatter(500000)}
+                    </span>
                     <div className="position-relative ml-2">
                       <Button className="circle">
                         <FiShoppingCart />
@@ -55,7 +59,9 @@ const Header = () => {
           </div>
         </div>
       </header>
+
       <Navigation />
+
     </>
   );
 };

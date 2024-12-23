@@ -6,7 +6,7 @@ const Search = () => {
    
     <div
       className="Hearder_search ml-3 mr-3 "
-      style={{ fontFamily: "Calibri" }}
+      style={{ fontFamily: "Calibri", marginLeft: "20px" }}
     >
       <input
         type="text"
@@ -16,6 +16,7 @@ const Search = () => {
         <CiSearch />
       </Button>
     </div>
+    
   
   )
 };
