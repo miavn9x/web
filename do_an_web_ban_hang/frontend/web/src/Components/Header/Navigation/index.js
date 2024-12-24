@@ -21,7 +21,10 @@ const Navigation = () => {
         <div className="row">
           <div className="col-sm-3 nav_left  ">
             <div className="d-flex align-items-center cardWrapper">
-              <Button className=" menu_product" onClick={() => setIsOpensidibarNav(!isOpensidibarNav)}>
+              <Button
+                className=" menu_product"
+                onClick={() => setIsOpensidibarNav(!isOpensidibarNav)}
+              >
                 <span className="menu_product_left">
                   <FiMenu />
                 </span>
@@ -32,60 +35,70 @@ const Navigation = () => {
                   <FaAngleDown />
                 </span>
               </Button>
-              <div className={`sidibarNav  w-100 z-2 bg-white ${isOpensidibarNav ? "show" : ""}`}>
+              <div
+                className={`sidibarNav  w-100 z-2 bg-white ${isOpensidibarNav === true ? "show" : ""}`}
+              >
                 <ul className="list-unstyled ">
                   <li>
                     <Link to="/">
-                      <Button>
-                        <CiShop />
-                        shop
-                        <AiFillCaretDown />
-                      </Button>
+                      <Button>shop</Button>
+                    </Link>
+                    <div className="sub_menu">
+                      <li>
+                        <Link to="/">
+                          <Button>shop1</Button>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/">
+                          <Button>shop1</Button>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/">
+                          <Button>shop1</Button>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/">
+                          <Button>shop1</Button>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/">
+                          <Button>shop1</Button>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/">
+                          <Button>shop1</Button>
+                        </Link>
+                      </li>
+                    </div>
+                  </li>
+                  <li>
+                    <Link to="/">
+                      <Button>shop</Button>
                     </Link>
                   </li>
                   <li>
                     <Link to="/">
-                      <Button>
-                        <CiShop />
-                        shop
-                        <AiFillCaretDown />
-                      </Button>
+                      <Button>shop</Button>
                     </Link>
                   </li>
                   <li>
                     <Link to="/">
-                      <Button>
-                        <CiShop />
-                        shop
-                        <AiFillCaretDown />
-                      </Button>
+                      <Button>shop</Button>
                     </Link>
                   </li>
                   <li>
                     <Link to="/">
-                      <Button>
-                        <CiShop />
-                        shop
-                        <AiFillCaretDown />
-                      </Button>
+                      <Button>shop</Button>
                     </Link>
                   </li>
                   <li>
                     <Link to="/">
-                      <Button>
-                        <CiShop />
-                        shop
-                        <AiFillCaretDown />
-                      </Button>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/">
-                      <Button>
-                        <CiShop />
-                        shop
-                        <AiFillCaretDown />
-                      </Button>
+                      <Button>shop</Button>
                     </Link>
                   </li>
                 </ul>

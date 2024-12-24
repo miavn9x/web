@@ -62,7 +62,7 @@ body {
   padding: 10px 10px !important;
   text-align: center;
   justify-content: flex-start !important;
-  display: flex!important;
+  display: flex !important;
 }
 
 .headerWrapper .header .part2 .countryDrop .lable {
@@ -70,7 +70,7 @@ body {
   height: auto;
   font-size: 12px;
   text-transform: capitalize;
-  color:rgba(0, 0, 0, 0.7);
+  color: rgba(0, 0, 0, 0.7);
 
 }
 
@@ -83,9 +83,10 @@ body {
 }
 
 
-.headerWrapper .header .part2 .countryDrop span.ml-auto svg{
-margin-right: 5px;
-color: #000;}
+.headerWrapper .header .part2 .countryDrop span.ml-auto svg {
+  margin-right: 5px;
+  color: #000;
+}
 
 
 /* Hearder_search */
@@ -280,20 +281,44 @@ nav .nav_left .cardWrapper .sidibarNav {
   top: 121%;
   left: 0px;
   border: 1px solid rgba(0, 0, 0, 0.1) !important;
-  padding: 15px 0px;
+  /* padding: 15px 0px; */
   transition: all 0.3s ease-in-out;
   visibility: hidden;
 }
 
 nav .nav_left .cardWrapper .sidibarNav ul li {
+  position: static;
   padding: 0px 15x;
 }
+
+nav .nav_left .cardWrapper .sidibarNav ul li .sub_menu {
+  position: absolute;
+  top: 0px;
+  left: 100%;
+  width: 250px;
+  background: #ffffff;
+  z-index: 100;
+  height: auto;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease-in-out;
+  /* padding: 10px 0px */
+}
+
+nav .nav_left .cardWrapper .sidibarNav ul li:hover .sub_menu {
+  opacity: 1;
+  visibility: inherit;
+  transition: all 0.3s ease-in-out;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
 
 nav .nav_left .cardWrapper .sidibarNav li button {
   width: 100%;
   color: rgba(0, 0, 0, 0.7);
   justify-content: flex-start;
   text-transform: capitalize;
+  padding-left: 20px !important;
   /* justify-content: space-between; */
 }
 
@@ -314,8 +339,8 @@ nav .menu_product .menu_product_right {
   margin-left: 5px;
 }
 
-nav .nav_right ul {
-  margin-bottom: 0px;
+ul {
+  margin-bottom: 0px !important;
 }
 
 nav .nav_right ul li {
