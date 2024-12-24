@@ -4,6 +4,8 @@ import { Dialog } from "@mui/material";
 import { CiSearch } from "react-icons/ci";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../../App.css"
 const CountryDropdown = () => {
   const [isOpenModal, setisOpenModal] = useState(false);
 
@@ -75,9 +77,11 @@ const CountryDropdown = () => {
       >
         <div className="info d-flex flex-column">
           <span className="lable">Chi Nhánh </span>
-          <span className="name">Sài Gòn</span>
+          <span className="name" style={{ color: "#198754" }}>
+            Sài Gòn
+          </span>
         </div>
-        <span className="ml-aut btn ">
+        <span className="ml-auto">
           <FaAngleDown />
         </span>
       </Button>

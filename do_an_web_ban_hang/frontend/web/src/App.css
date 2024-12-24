@@ -58,51 +58,34 @@ body {
   width: 150px;
   height: 60px;
   min-width: 150px;
-  color: #000 !important;
   border: 1px solid rgba(0, 0, 0, 0.1) !important;
-  border-radius: 7px !important;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-left: 25px;
-  position: relative;
-  overflow: hidden;
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  padding: 10px 10px !important;
+  text-align: center;
+  justify-content: flex-start !important;
+  display: flex!important;
 }
 
-.headerWrapper .header .part2 .countryDrop:active {
-  transform: scale(0.98);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-  background-color: rgba(0, 0, 0, 0.1);
+.headerWrapper .header .part2 .countryDrop .lable {
+  width: 110px;
+  height: auto;
+  font-size: 12px;
+  text-transform: capitalize;
+  color:rgba(0, 0, 0, 0.7);
+
 }
 
-
-.header .part2 .countryDrop .lable {
-  font-size: 10px !important;
-  text-transform: capitalize !important;
-  color: rgb(0, 0, 0, 0.7);
-  font-weight: 500 !important;
-  margin-top: 5px;
-  line-height: 16px;
-}
-
-.header .part2 .countryDrop .name {
+.headerWrapper.header .part2 .countryDrop .name {
+  width: 110px;
+  height: auto;
   font-size: 14px;
-  text-transform: capitalize !important;
-  color: rgba(0, 103, 22, 0.8);
-  font-weight: 700 !important;
-  margin-top: 10px;
-}
-
-.header .part2 .countryDrop .name:hover {
-  color: #00a930;
-  font-weight: 700 !important;
+  text-transform: capitalize;
+  font-weight: 500;
 }
 
 
-.header .part2 .countryDrop span.ml-auto svg {
-  opacity: 0.7;
-}
+.headerWrapper .header .part2 .countryDrop span.ml-auto svg{
+margin-right: 5px;
+color: #000;}
 
 
 /* Hearder_search */
@@ -292,7 +275,7 @@ nav .nav_left .cardWrapper {
 nav .nav_left .cardWrapper .sidibarNav {
   width: 100%;
   height: 0px;
-    opacity: 0;
+  opacity: 0;
   position: absolute;
   top: 121%;
   left: 0px;
@@ -302,7 +285,7 @@ nav .nav_left .cardWrapper .sidibarNav {
   visibility: hidden;
 }
 
-nav .nav_left .cardWrapper .sidibarNav ul li{
+nav .nav_left .cardWrapper .sidibarNav ul li {
   padding: 0px 15x;
 }
 
@@ -311,10 +294,10 @@ nav .nav_left .cardWrapper .sidibarNav li button {
   color: rgba(0, 0, 0, 0.7);
   justify-content: flex-start;
   text-transform: capitalize;
- /* justify-content: space-between; */
+  /* justify-content: space-between; */
 }
 
-nav .nav_left .cardWrapper .sidibarNav.show{
+nav .nav_left .cardWrapper .sidibarNav.show {
   opacity: 1;
   visibility: inherit;
   height: auto;
@@ -453,6 +436,7 @@ nav .nav_right ul li:hover .sub__menu {
   height: 100%;
   /* You can adjust the height as needed */
 }
+
 /* carousel */
 .carousel-caption h5 {
   font-size: 1.5rem;

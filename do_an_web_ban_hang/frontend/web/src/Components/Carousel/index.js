@@ -41,8 +41,8 @@ const Carousel = () => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
     }, 5000);
 
-    return () => clearInterval(interval); // Clear interval on component unmount
-  }, [slides.length]); // Thêm slides.length vào mảng phụ thuộc
+    return () => clearInterval(interval); 
+  }, [slides.length]);
 
   const goToPrevSlide = () => {
     setCurrentIndex(
@@ -81,7 +81,7 @@ const Carousel = () => {
       <button
         className="carousel-control-prev"
         type="button"
-        onClick={goToPrevSlide} // Handle previous slide click
+        onClick={goToPrevSlide}
       >
         <span className="carousel-control-prev-icon" aria-hidden="true"></span>
         <span className="visually-hidden">Previous</span>
@@ -89,7 +89,7 @@ const Carousel = () => {
       <button
         className="carousel-control-next"
         type="button"
-        onClick={goToNextSlide} // Handle next slide click
+        onClick={goToNextSlide} 
       >
         <span className="carousel-control-next-icon" aria-hidden="true"></span>
         <span className="visually-hidden">Next</span>
