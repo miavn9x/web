@@ -68,7 +68,7 @@ const Carousel = () => {
           >
             <img
               src={slide.image}
-              className="d-block w-100"
+              className="d-block"
               alt={slide.caption}
             />
             <div className="carousel-caption d-none d-md-block">

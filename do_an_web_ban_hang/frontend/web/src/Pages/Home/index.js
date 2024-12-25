@@ -6,8 +6,15 @@ import Product from "../../Components/Product/product";
 const Home = () => {
   return (
     <>
-      <Carousel />
-      <Product />
+      <div className="container">
+        <div className="row">
+          <div className="col-sm-3"></div>
+          <div className="col-sm-9 " style={{ padding: "0" , margin: "0"}}>
+            <Carousel />
+          </div>
+          <Product />
+        </div>
+      </div>
     </>
   );
 };

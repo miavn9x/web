@@ -1,0 +1,56 @@
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import 'swiper/css';
+@import 'swiper/css/pagination';
+@import 'swiper/css/navigation';
+
+.action {
+    position: absolute;
+    top: 10px;
+    right: -1%;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+    opacity: 0 !important;
+    transition: all 0.3s !important;
+}
+
+.action button {
+    min-width: 30px !important;
+    min-height: 30px !important;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    background-color: #fff !important;
+    transition: all 0.3s!important;
+}
+
+.action button svg {
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.5) !important;
+    pointer-events: none;
+}
+
+.action button:hover {
+    background-color: #198754 !important;
+}
+
+.action button:hover svg {
+    color: #ffffff !important;
+}
+
+.product__item:hover .action {
+    right: 10px;
+    opacity: 1 !important;
+    transition: all 0.3s !important;
+}
+
+/* .product__item img {
+    transition: all 0.3s ease-in-out!important;
+}
+
+.product__item img:hover {
+    transform: scale(1.1) !important;
+} */

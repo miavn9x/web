@@ -464,15 +464,8 @@ nav .nav_right ul li:hover .sub__menu {
 } */
 
 .carousel-item img {
+  width: 100%;
   object-fit: cover;
-  height: 100%;
-}
-
-.carousel-caption h5 {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.carousel-caption p {
-  font-size: 1rem;
+  border-radius: 7px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
