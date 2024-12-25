@@ -28,8 +28,11 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.0.2",
     "react-scripts": "^5.0.1",
+    "react-slick": "^0.30.3",
     "redux": "^5.0.1",
-    "styled-components": "^6.1.13"
+    "slick-carousel": "^1.8.1",
+    "styled-components": "^6.1.13",
+    "swiper": "^11.1.15"
   },
   "scripts": {
     "start": "react-scripts start",

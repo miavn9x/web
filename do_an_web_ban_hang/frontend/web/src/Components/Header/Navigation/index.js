@@ -11,6 +11,7 @@ import { TbBrandCakephp } from "react-icons/tb";
 import { RiDrinks2Fill } from "react-icons/ri";
 import { IoCallOutline } from "react-icons/io5";
 import { AiFillCaretDown } from "react-icons/ai";
+import { FaAngleRight } from "react-icons/fa6";
 import { useState } from "react";
 
 const Navigation = () => {
@@ -41,7 +42,9 @@ const Navigation = () => {
                 <ul className="list-unstyled ">
                   <li>
                     <Link to="/">
-                      <Button>shop</Button>
+                      <Button>
+                        shop <FaAngleRight />
+                      </Button>
                     </Link>
                     <div className="sub_menu">
                       <li>
@@ -78,27 +81,37 @@ const Navigation = () => {
                   </li>
                   <li>
                     <Link to="/">
-                      <Button>shop</Button>
+                      <Button>
+                        shop <FaAngleRight />
+                      </Button>
                     </Link>
                   </li>
                   <li>
                     <Link to="/">
-                      <Button>shop</Button>
+                      <Button>
+                        shop <FaAngleRight />
+                      </Button>
                     </Link>
                   </li>
                   <li>
                     <Link to="/">
-                      <Button>shop</Button>
+                      <Button>
+                        shop <FaAngleRight />
+                      </Button>
                     </Link>
                   </li>
                   <li>
                     <Link to="/">
-                      <Button>shop</Button>
+                      <Button>
+                        shop <FaAngleRight />
+                      </Button>
                     </Link>
                   </li>
                   <li>
                     <Link to="/">
-                      <Button>shop</Button>
+                      <Button>
+                        shop <FaAngleRight />
+                      </Button>
                     </Link>
                   </li>
                 </ul>

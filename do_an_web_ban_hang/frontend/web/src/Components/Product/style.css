@@ -1,0 +1,80 @@
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import 'swiper/css';
+@import 'swiper/css/pagination';
+@import 'swiper/css/navigation';
+
+
+
+
+
+.home__product {
+    padding: 25px 0;
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+.home__product .product__row {
+    background-color: #d1fde8;
+    padding: 10px 10px;
+    border-radius: 7px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.home__product .product__info {
+    color: #198754;
+    font-weight: 900;
+    font-size: 18px;
+    margin-left: 10px;
+
+}
+
+.home__product .product__info .product__sale {
+    width: 190px;
+    color: #ffffff;
+    background: #198754;
+    font-weight: 700;
+    font-size: 18px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 1px 0;
+    border-radius: 7px;
+    margin: 10px 0px 0px 10px;
+}
+
+.home__product .product__info .product__time {
+    color: #198754;
+    background: #ffffff;
+    font-size: 13px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 0 6px;
+    border-radius: 5px;
+    margin-left: 5px;
+
+}
+
+.product__btn__viewall {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 7px;
+    padding: 8px 8px !important;
+    background-color: #ffffff !important;
+    color: #198754 !important;
+    font-size: 14px !important;
+    width: auto !important;
+}
+
+.product__btn__viewall svg {
+    margin-left: 5px;
+    font-size: 16px;
+
+}
+
+.product__btn__viewall:hover {
+    background-color: #198754 !important;
+    color: #ffffff !important;
+}
+
+.product__item{
+   width: 100% !important;
+   height: 100% !important;
+}
