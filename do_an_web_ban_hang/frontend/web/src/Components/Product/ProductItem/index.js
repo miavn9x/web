@@ -3,7 +3,6 @@ import { Button, Rating } from "@mui/material";
 import { MdOutlineZoomOutMap } from "react-icons/md";
 import { FaRegHeart } from "react-icons/fa";
 import "./style.css";
-// import "swiper/css";
 
 const ProductItem = () => {
   return (

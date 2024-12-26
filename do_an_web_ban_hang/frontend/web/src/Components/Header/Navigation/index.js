@@ -9,7 +9,7 @@ import { GiFruitBowl } from "react-icons/gi";
 import { FaHome } from "react-icons/fa";
 import { TbBrandCakephp } from "react-icons/tb";
 import { RiDrinks2Fill } from "react-icons/ri";
-import { IoCallOutline } from "react-icons/io5";
+// import { IoCallOutline } from "react-icons/io5";
 import { AiFillCaretDown } from "react-icons/ai";
 import { FaAngleRight } from "react-icons/fa6";
 import { useState } from "react";
@@ -271,14 +271,14 @@ const Navigation = () => {
                   </Link>
                 </div>
               </li>
-              <li className="list-inline-item">
+              {/* <li className="list-inline-item">
                 <Link to="/">
                   <Button>
                     <IoCallOutline />
                     liên hệ
                   </Button>
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>
