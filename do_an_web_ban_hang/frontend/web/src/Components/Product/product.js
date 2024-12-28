@@ -15,7 +15,12 @@ const Product = () => {
         <div className="product__row">
           <div className="d-flex align-items-center product__row__title  w-100">
             <div className="info product__info w-75 ">
-              <h3 className="text-uppercase mb-0">Khuyến mãi sốc</h3>
+              <h4
+                className="text-uppercase mb-0"
+                style={{ color: "red", paddingTop: "8px" }}
+              >
+                Khuyến mãi sốc
+              </h4>
               <p className="product__sale d-flex justify-content-center align-items-center">
                 Flash Sale :
                 <span className="product__time">
@@ -72,9 +77,8 @@ const Product = () => {
         </div>
       </section>
 
-      <div >
+      <div>
         <Productlist />
-
       </div>
     </>
   );

@@ -39,9 +39,9 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div className="footer__social">
+          <div className="footer__social ">
             <h3>Theo dõi chúng tôi</h3>
-            <ul>
+            <ul className="footer__social-icons ">
               <li>
                 <Link to="https://www.facebook.com/tungmia9x">
                   <FaFacebookF />

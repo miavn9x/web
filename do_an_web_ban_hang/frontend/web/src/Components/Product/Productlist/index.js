@@ -9,7 +9,7 @@ const ProductList = () => {
       <div className="product__row">
         <div className="d-flex align-items-center product__row__title  w-100">
           <div className="info product__info w-75 ">
-            <h3 className="text-uppercase mb-0">Danh sách san phẩm</h3>
+            <h4 className="text-uppercase mb-0">Danh sách san phẩm</h4>
           </div>
           <Button className="product__btn__viewall justify-content-end">
             Xem thêm khuyến mãi <VscArrowRight />
