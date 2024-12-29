@@ -13,7 +13,7 @@ const Productcart = () => {
               slidesPerView={5}
               spaceBetween={30}
               navigation={true}
-              slidesPerGroup={5}
+              slidesPerGroup={0}
               pagination={{
                 clickable: true,
               }}

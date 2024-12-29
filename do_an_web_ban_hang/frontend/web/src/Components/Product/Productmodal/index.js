@@ -6,6 +6,7 @@ import InnerImageZoom from "react-inner-image-zoom";
 import Slider from "react-slick";
 import "./style.css";
 import QuantityBox from "../../QuantityBox";
+import { formatter } from "../../../utils/fomater";
 import { FaRegHeart } from "react-icons/fa6";const ProductModal = (props) => {
   const zoomSliderBig = useRef();
   var settings = {
@@ -62,7 +63,8 @@ import { FaRegHeart } from "react-icons/fa6";const ProductModal = (props) => {
 
         <div className="row mt-2 product__modal__content">
           <div className="col-md-5">
-            <div className="product__modal__zoom">
+            <div className="product__modal__zoom position-relative">
+              <div className="badge badge-primary bg-primary">20%</div>
               <Slider
                 {...settings}
                 className="zoomSliderBig"
@@ -142,7 +144,7 @@ import { FaRegHeart } from "react-icons/fa6";const ProductModal = (props) => {
                 15.000.000đ
               </span>
               <span className="product__price__old text-danger fs-5 fw-bold">
-                12.000.000đ
+                {formatter(5000000)}
               </span>
             </div>
             <div className="d-flex align-items-center">

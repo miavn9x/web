@@ -6,7 +6,7 @@ const QuantityBox = () => {
   const [inputVal, setInputVal] = useState(1);
 
   const minus = () => {
-    if (inputVal > 1) {
+    if (inputVal > 0) {
       setInputVal(inputVal - 1);
     }
   };
@@ -21,7 +21,7 @@ const QuantityBox = () => {
     const value = e.target.value;
 
     if (value === "" || /^[0-9\b]+$/.test(value)) {
-      setInputVal(Math.max(1, Math.min(99, value)));
+      setInputVal(Math.max(0, Math.min(99, value)));
     }
   };
 

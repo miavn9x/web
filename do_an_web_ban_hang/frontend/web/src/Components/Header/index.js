@@ -8,9 +8,24 @@ import { FiShoppingCart } from "react-icons/fi";
 import Navigation from "./Navigation";
 import Button from "@mui/material/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
+// import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 
+import Login from "../../Pages/Login";
+import { Modal } from "@mui/material";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const Header = () => {
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+
+  const handleOpenLogin = () => {
+    setIsLoginOpen(true);
+  };
+
+  const handleCloseLogin = () => {
+    setIsLoginOpen(false);
+  };
+
   return (
     <>
       <header className="headerWrapper ">
@@ -37,7 +52,7 @@ const Header = () => {
                 <Search />
 
                 <div className="part3  d-flex align-items-center ml-auto ">
-                  <Button className="mr-3 circle ">
+                  <Button className="mr-3 circle " onClick={handleOpenLogin}>
                     <FaRegUser />
                   </Button>
                   <div className="ml-auto cartTab d-flex align-items-center ">
@@ -61,7 +76,12 @@ const Header = () => {
       </header>
 
       <Navigation />
-
+      {/* Login Modal */}
+      <Modal open={isLoginOpen} onClose={handleCloseLogin}>
+        <div className="login-modal">
+          <Login closeModal={handleCloseLogin} />
+        </div>
+      </Modal>
     </>
   );
 };

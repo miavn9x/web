@@ -3,19 +3,25 @@ import Button from "@mui/material/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaAngleDown } from "react-icons/fa";
 import { Link } from "@mui/material";
-import { CiShop } from "react-icons/ci";
+// import { CiShop } from "react-icons/ci";
 import { TbMeat } from "react-icons/tb";
 import { GiFruitBowl } from "react-icons/gi";
 import { FaHome } from "react-icons/fa";
 import { TbBrandCakephp } from "react-icons/tb";
 import { RiDrinks2Fill } from "react-icons/ri";
-// import { IoCallOutline } from "react-icons/io5";
-import { AiFillCaretDown } from "react-icons/ai";
+import { IoCallOutline } from "react-icons/io5";
+// import { AiFillCaretDown } from "react-icons/ai";
 import { FaAngleRight } from "react-icons/fa6";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Navigation = () => {
   const [isOpensidibarNav, setIsOpensidibarNav] = useState(true);
+    const navigate = useNavigate();
+    const handleNavigate = (path) => {
+      navigate(path);
+    };
+
   return (
     <nav>
       <div className="container">
@@ -123,41 +129,16 @@ const Navigation = () => {
             <ul className="list list-inline  list-unstyled w-100 text-uppercase ">
               <li className="list-inline-item home__icone">
                 <Link to="/">
-                  <Button className="home__icone_button">
+                  <Button
+                    className="home__icone_button"
+                    onClick={() => handleNavigate("/")}
+                  >
                     <FaHome />
                     home
                   </Button>
                 </Link>
               </li>
-              <li className="list-inline-item  ">
-                <Link to="/">
-                  <Button>
-                    <CiShop />
-                    shop
-                    <AiFillCaretDown />
-                  </Button>
-                </Link>
-                <div className="sub__menu shadow">
-                  <Link to="/">
-                    <Button>shop</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>shop</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>shop</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>shop</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>shop</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>shop</Button>
-                  </Link>
-                </div>
-              </li>
+
               <li className="list-inline-item">
                 <Link to="/">
                   <Button>
@@ -271,14 +252,14 @@ const Navigation = () => {
                   </Link>
                 </div>
               </li>
-              {/* <li className="list-inline-item">
+              <li className="list-inline-item">
                 <Link to="/">
                   <Button>
                     <IoCallOutline />
                     liên hệ
                   </Button>
                 </Link>
-              </li> */}
+              </li>
             </ul>
           </div>
         </div>

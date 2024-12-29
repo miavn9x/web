@@ -1,0 +1,75 @@
+.login-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -80%);
+    background-color: white;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+    width: 95%;
+    max-width: 600px;
+}
+
+.login__box {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.login__form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.login__title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 2rem;
+    color: #333;
+}
+
+.login__field {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.login__icon {
+    color: #555;
+    font-size: 1.5rem;
+}
+
+.login__button {
+    margin-top: 20px;
+    background-color: #198754;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 15px;
+    font-size: 1.2rem;
+    border-radius: 8px;
+}
+
+.login__button:hover {
+    background-color: #198754;
+}
+
+.login__error {
+    text-align: center;
+    color: red;
+    font-size: 1rem;
+}
+
+.toggle-auth {
+    text-align: center;
+    margin-top: 15px;
+    color: #198754;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.toggle-auth:hover {
+    text-decoration: underline;
+}

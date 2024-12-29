@@ -45,33 +45,6 @@ const Product = () => {
               <SwiperSlide>
                 <ProductItem />
               </SwiperSlide>
-              <SwiperSlide>
-                <ProductItem />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ProductItem />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ProductItem />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ProductItem />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ProductItem />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ProductItem />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ProductItem />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ProductItem />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ProductItem />
-              </SwiperSlide>
             </Swiper>
           </div>
         </div>

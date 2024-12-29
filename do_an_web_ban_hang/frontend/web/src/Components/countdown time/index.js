@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 
-const CountdownTime = ({ targetHour = 24 }) => {
+const CountdownTime = ({ targetHour = 48 }) => {
   const calculateTimeLeft = useCallback(() => {
     const now = new Date();
     const targetTime = new Date();
@@ -9,7 +9,7 @@ const CountdownTime = ({ targetHour = 24 }) => {
     const difference = targetTime - now;
 
     if (difference > 0) {
-      const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+      const hours = Math.floor((difference / (1000 * 60 * 60)) % 48);
       const minutes = Math.floor((difference / (1000 * 60)) % 60);
       const seconds = Math.floor((difference / 1000) % 60);
       return { hours, minutes, seconds };

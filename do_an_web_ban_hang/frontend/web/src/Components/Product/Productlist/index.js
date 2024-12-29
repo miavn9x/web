@@ -3,7 +3,16 @@ import { VscArrowRight } from "react-icons/vsc";
 import { Button } from "@mui/material";
 import ProductItem from "../ProductItem";
 import "./style.css";
+import { useNavigate } from "react-router-dom";
+
 const ProductList = () => {
+
+
+    const navigate = useNavigate();
+    const handleNavigate = (path) => {
+      navigate(path);
+    };
+
   return (
     <section className="home__product">
       <div className="product__row">
@@ -11,15 +20,14 @@ const ProductList = () => {
           <div className="info product__info w-75 ">
             <h4 className="text-uppercase mb-0">Danh sách san phẩm</h4>
           </div>
-          <Button className="product__btn__viewall justify-content-end">
-            Xem thêm khuyến mãi <VscArrowRight />
+          <Button
+            className="product__btn__viewall justify-content-end"
+            onClick={() => handleNavigate("/danh-sach-san-pham")}
+          >
+            Xem thêm sản phẩm <VscArrowRight />
           </Button>
         </div>
         <div className="product__list_item w-100 ">
-          <ProductItem />
-          <ProductItem />
-          <ProductItem />
-          <ProductItem />
           <ProductItem />
         </div>
       </div>

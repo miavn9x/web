@@ -8,33 +8,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const slides = [
-    {
-      image: slide1,
-      // caption: "First Slide Caption",
-      // description: "This is the first slide description.",
-    },
-    {
-      image: slide2,
-      // caption: "Second Slide Caption",
-      // description: "This is the second slide description.",
-    },
-    {
-      image: slide3,
-      // caption: "Third Slide Caption",
-      // description: "This is the third slide description.",
-    },
-    {
-      image: slide4,
-      // caption: "Third Slide Caption",
-      // description: "This is the third slide description.",
-    },
-    {
-      image: slide5,
-      // caption: "Third Slide Caption",
-      // description: "This is the third slide description.",
-    },
-  ];
+const slides = [
+  { image: slide1 },
+  { image: slide2 },
+  { image: slide3 },
+  { image: slide4 },
+  { image: slide5 },
+];
 
   useEffect(() => {
     const interval = setInterval(() => {
