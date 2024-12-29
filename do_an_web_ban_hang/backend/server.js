@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const bcrypt = require("bcryptjs"); // Thêm bcryptjs để mã hóa mật khẩu
 
 dotenv.config();
 
@@ -25,8 +26,18 @@ mongoose
 // Tạo Schema cho User
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true }, // Lưu mật khẩu dưới dạng văn bản thuần túy
+  password: { type: String, required: true },
   role: { type: String, default: "user" },
+});
+
+// Mã hóa mật khẩu trước khi lưu vào DB
+userSchema.pre("save", async function (next) {
+  if (this.isModified("password")) {
+    // Mã hóa mật khẩu khi lưu lần đầu hoặc khi thay đổi mật khẩu
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+  }
+  next();
 });
 
 const User = mongoose.model("User", userSchema);
@@ -41,7 +52,7 @@ app.post("/api/auth/register", async (req, res) => {
       return res.status(400).json({ message: "Email đã được đăng ký" });
     }
 
-    // Tạo người dùng mới và lưu mật khẩu trực tiếp (không mã hóa)
+    // Tạo người dùng mới và lưu mật khẩu đã mã hóa
     const newUser = new User({ email, password });
     await newUser.save();
 
@@ -66,8 +77,9 @@ app.post("/api/auth/login", async (req, res) => {
         .json({ message: "Thông tin đăng nhập không đúng" });
     }
 
-    // So sánh mật khẩu (so sánh trực tiếp mà không sử dụng bcrypt)
-    if (password !== user.password) {
+    // So sánh mật khẩu đã mã hóa
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
       return res
         .status(400)
         .json({ message: "Thông tin đăng nhập không đúng" });

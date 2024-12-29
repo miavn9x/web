@@ -6,13 +6,13 @@ import { MdLogin, MdHowToReg } from "react-icons/md";
 import "./style.css"; // Đảm bảo bạn đã định nghĩa style cho class này
 
 const LoginRegister = ({ setUser, closeModal }) => {
-  const [isLogin, setIsLogin] = useState(true); // Toggle giữa đăng nhập và đăng ký
+  const [isLogin, setIsLogin] = useState(true); // Kiểm tra chế độ Đăng Nhập hay Đăng Ký
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    name: "",
+    email: "", // email của người dùng
+    password: "", // mật khẩu của người dùng
+    name: "", // tên người dùng (chỉ dùng trong đăng ký)
   });
-  const [error, setError] = useState("");
+  const [error, setError] = useState(""); // Lưu trữ lỗi khi đăng nhập/đăng ký
 
   // Hàm xử lý thay đổi input
   const handleChange = (e) => {
@@ -21,20 +21,21 @@ const LoginRegister = ({ setUser, closeModal }) => {
 
   // Hàm xử lý gửi form đăng nhập/đăng ký
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Ngừng hành động mặc định khi submit form
 
     try {
       let res;
       if (isLogin) {
-        // Đăng nhập
+        // Nếu đang ở chế độ Đăng Nhập
         res = await axios.post("http://localhost:5000/api/auth/login", {
-          email: formData.email,
-          password: formData.password,
+          email: formData.email, // Gửi email
+          password: formData.password, // Gửi mật khẩu
         });
+        // Lưu token vào localStorage để xác thực người dùng trong các request sau
         localStorage.setItem("token", res.data.token);
-        setUser(res.data.user);
+        setUser(res.data.user); // Lưu thông tin người dùng vào state
       } else {
-        // Đăng ký
+        // Nếu đang ở chế độ Đăng Ký
         await axios.post("http://localhost:5000/api/auth/register", formData);
         alert("Đăng ký thành công! Vui lòng đăng nhập.");
         setIsLogin(true); // Chuyển về chế độ đăng nhập sau khi đăng ký thành công
@@ -47,8 +48,8 @@ const LoginRegister = ({ setUser, closeModal }) => {
     } catch (err) {
       setError(
         isLogin
-          ? "Đăng nhập thất bại, vui lòng kiểm tra thông tin!"
-          : "Đăng ký thất bại, vui lòng thử lại."
+          ? "Đăng nhập thất bại, vui lòng kiểm tra thông tin!" // Nếu đăng nhập thất bại
+          : "Đăng ký thất bại, vui lòng thử lại." // Nếu đăng ký thất bại
       );
     }
   };
@@ -60,6 +61,7 @@ const LoginRegister = ({ setUser, closeModal }) => {
         {isLogin ? "Đăng Nhập" : "Đăng Ký"}
       </Typography>
       <form onSubmit={handleSubmit} className="login__form">
+        {/* Chỉ hiển thị trường "Họ và Tên" khi đang ở chế độ đăng ký */}
         {!isLogin && (
           <div className="login__field">
             <FaUserAlt className="login__icon" />
@@ -74,6 +76,7 @@ const LoginRegister = ({ setUser, closeModal }) => {
             />
           </div>
         )}
+        {/* Trường email */}
         <div className="login__field">
           <FaUserAlt className="login__icon" />
           <TextField
@@ -86,6 +89,7 @@ const LoginRegister = ({ setUser, closeModal }) => {
             required
           />
         </div>
+        {/* Trường mật khẩu */}
         <div className="login__field">
           <FaLock className="login__icon" />
           <TextField
@@ -99,11 +103,13 @@ const LoginRegister = ({ setUser, closeModal }) => {
             required
           />
         </div>
+        {/* Hiển thị lỗi nếu có */}
         {error && (
           <Typography color="error" className="login__error">
             {error}
           </Typography>
         )}
+        {/* Nút Đăng Nhập/Đăng Ký */}
         <Button
           variant="contained"
           color="primary"
@@ -114,6 +120,7 @@ const LoginRegister = ({ setUser, closeModal }) => {
           {isLogin ? "Đăng Nhập" : "Đăng Ký"}
         </Button>
       </form>
+      {/* Chuyển đổi giữa chế độ Đăng Nhập và Đăng Ký */}
       <Typography
         className="toggle-auth"
         onClick={() => setIsLogin(!isLogin)} // Toggle giữa Đăng Nhập và Đăng Ký
