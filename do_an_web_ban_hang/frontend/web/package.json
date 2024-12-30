@@ -12,6 +12,7 @@
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
     "classnames": "^2.5.1",
+    "cloudinary": "^2.5.1",
     "cra-template": "1.2.0",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",

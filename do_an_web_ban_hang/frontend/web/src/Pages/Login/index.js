@@ -1,136 +1,148 @@
-import React, { useState } from "react";
-import { Button, TextField, Typography } from "@mui/material";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { FaLock, FaUserAlt } from "react-icons/fa";
-import { MdLogin, MdHowToReg } from "react-icons/md";
-import "./style.css"; // Đảm bảo bạn đã định nghĩa style cho class này
+import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
+import "./style.css";
 
-const LoginRegister = ({ setUser, closeModal }) => {
-  const [isLogin, setIsLogin] = useState(true); // Kiểm tra chế độ Đăng Nhập hay Đăng Ký
-  const [formData, setFormData] = useState({
-    email: "", // email của người dùng
-    password: "", // mật khẩu của người dùng
-    name: "", // tên người dùng (chỉ dùng trong đăng ký)
-  });
-  const [error, setError] = useState(""); // Lưu trữ lỗi khi đăng nhập/đăng ký
+const Login = ({ closeModal, onLoginSuccess }) => {
+  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [error, setError] = useState(null);
+  const [message, setMessage] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Hàm xử lý thay đổi input
+  const navigate = useNavigate();
+  const modalRef = useRef(null); // Ref để xác định vùng của modal
+
+  // Kiểm tra nếu đã có token trong localStorage
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  // Xử lý đóng modal khi click bên ngoài
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        closeModal(); // Đóng modal nếu click bên ngoài
+      }
+    };
+
+    // Thêm sự kiện lắng nghe click
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Dọn dẹp sự kiện khi component unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [closeModal]);
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  // Hàm xử lý gửi form đăng nhập/đăng ký
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Ngừng hành động mặc định khi submit form
+    e.preventDefault();
+    setError(null); // Xóa lỗi trước đó nếu có
 
     try {
-      let res;
-      if (isLogin) {
-        // Nếu đang ở chế độ Đăng Nhập
-        res = await axios.post("http://localhost:5000/api/auth/login", {
-          email: formData.email, // Gửi email
-          password: formData.password, // Gửi mật khẩu
-        });
-        // Lưu token vào localStorage để xác thực người dùng trong các request sau
-        localStorage.setItem("token", res.data.token);
-        setUser(res.data.user); // Lưu thông tin người dùng vào state
-      } else {
-        // Nếu đang ở chế độ Đăng Ký
-        await axios.post("http://localhost:5000/api/auth/register", formData);
-        alert("Đăng ký thành công! Vui lòng đăng nhập.");
-        setIsLogin(true); // Chuyển về chế độ đăng nhập sau khi đăng ký thành công
-      }
-
-      // Reset form sau khi thao tác thành công
-      setFormData({ email: "", password: "", name: "" });
-      setError(""); // Reset lỗi nếu có
-      closeModal(); // Đóng modal sau khi thành công
-    } catch (err) {
-      setError(
-        isLogin
-          ? "Đăng nhập thất bại, vui lòng kiểm tra thông tin!" // Nếu đăng nhập thất bại
-          : "Đăng ký thất bại, vui lòng thử lại." // Nếu đăng ký thất bại
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        formData
       );
+      setMessage(response.data.message);
+
+      // Lưu token vào localStorage
+      localStorage.setItem("token", response.data.token);
+
+      // Cập nhật trạng thái đăng nhập
+      setIsLoggedIn(true);
+
+      // Điều hướng đến trang chủ hoặc trang khác
+      navigate("/");
+
+      // Đóng modal nếu có
+      closeModal();
+
+      // Gọi callback để thông báo đăng nhập thành công
+      onLoginSuccess("Đăng nhập thành công!");
+    } catch (err) {
+      // Xử lý lỗi khi đăng nhập thất bại
+      setError(err.response?.data?.message || "Đăng nhập thất bại");
     }
   };
 
+  const handleLogout = () => {
+    // Xóa token khỏi localStorage
+    localStorage.removeItem("token");
+
+    // Cập nhật trạng thái đăng xuất
+    setIsLoggedIn(false);
+
+    // Điều hướng về trang chủ
+    navigate("/");
+
+    // Đóng modal khi cần thiết
+    closeModal();
+  };
+
   return (
-    <div className="login-modal">
-      <Typography variant="h4" className="login__title" gutterBottom>
-        {isLogin ? <MdLogin /> : <MdHowToReg />}{" "}
-        {isLogin ? "Đăng Nhập" : "Đăng Ký"}
-      </Typography>
-      <form onSubmit={handleSubmit} className="login__form">
-        {/* Chỉ hiển thị trường "Họ và Tên" khi đang ở chế độ đăng ký */}
-        {!isLogin && (
-          <div className="login__field">
-            <FaUserAlt className="login__icon" />
-            <TextField
-              label="Họ và Tên"
-              name="name"
-              variant="outlined"
-              fullWidth
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
+    <div className="login-container">
+      <div className="login-form" ref={modalRef}>
+        <button className="close-btn" onClick={closeModal}>
+          &times;
+        </button>
+        {!isLoggedIn ? (
+          <>
+            <h2>Đăng nhập</h2>
+            {error && <div className="error">{error}</div>}
+            {message && <div className="success">{message}</div>}
+
+            <form onSubmit={handleSubmit}>
+              <div className="input-group">
+                <label>Tên đăng nhập</label>
+                <input
+                  type="text"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  placeholder="Nhập tên đăng nhập"
+                  required
+                />
+              </div>
+              <div className="input-group">
+                <label>Mật khẩu</label>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Nhập mật khẩu"
+                  required
+                />
+              </div>
+              <button type="submit" className="btn-submit">
+                Đăng nhập
+              </button>
+            </form>
+          </>
+        ) : (
+          <div>
+            <h3>Chào mừng bạn đã đăng nhập!</h3>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleLogout}
+            >
+              Đăng xuất
+            </Button>
           </div>
         )}
-        {/* Trường email */}
-        <div className="login__field">
-          <FaUserAlt className="login__icon" />
-          <TextField
-            label="Email"
-            name="email"
-            variant="outlined"
-            fullWidth
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        {/* Trường mật khẩu */}
-        <div className="login__field">
-          <FaLock className="login__icon" />
-          <TextField
-            label="Mật khẩu"
-            name="password"
-            type="password"
-            variant="outlined"
-            fullWidth
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        {/* Hiển thị lỗi nếu có */}
-        {error && (
-          <Typography color="error" className="login__error">
-            {error}
-          </Typography>
-        )}
-        {/* Nút Đăng Nhập/Đăng Ký */}
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          fullWidth
-          className="login__button"
-        >
-          {isLogin ? "Đăng Nhập" : "Đăng Ký"}
-        </Button>
-      </form>
-      {/* Chuyển đổi giữa chế độ Đăng Nhập và Đăng Ký */}
-      <Typography
-        className="toggle-auth"
-        onClick={() => setIsLogin(!isLogin)} // Toggle giữa Đăng Nhập và Đăng Ký
-      >
-        {isLogin
-          ? "Chưa có tài khoản? Đăng ký ngay!"
-          : "Đã có tài khoản? Đăng nhập tại đây."}
-      </Typography>
+      </div>
     </div>
   );
 };
 
-export default LoginRegister;
+export default Login;

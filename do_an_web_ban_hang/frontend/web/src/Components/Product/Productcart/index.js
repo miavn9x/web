@@ -10,10 +10,10 @@ const Productcart = () => {
         <div className="container">
           <div className="row">
             <Swiper
-              slidesPerView={5}
+              slidesPerView={7}
               spaceBetween={30}
-              navigation={true}
-              slidesPerGroup={0}
+              navigation={false}
+              slidesPerGroup={9}
               pagination={{
                 clickable: true,
               }}

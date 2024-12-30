@@ -1,0 +1,8 @@
+.dropdown-menu .dropdown-item {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #198754;
+    color: white;
+}

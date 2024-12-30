@@ -1,75 +1,117 @@
-.login-modal {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -80%);
-    background-color: white;
-    border-radius: 12px;
-    padding: 40px;
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
-    width: 95%;
-    max-width: 600px;
-}
-
-.login__box {
+/* style.css */
+.login-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Nền mờ */
     display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
-.login__form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.login__title {
-    text-align: center;
-    font-weight: bold;
-    font-size: 2rem;
-    color: #333;
-}
-
-.login__field {
-    display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 15px;
+    z-index: 1000;
+    /* Đảm bảo modal hiển thị trên tất cả các thành phần khác */
 }
 
-.login__icon {
+.login-form {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    animation: fadeIn 0.3s ease-in-out;
+    /* Hiệu ứng xuất hiện */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-form h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
     color: #555;
-    font-size: 1.5rem;
 }
 
-.login__button {
-    margin-top: 20px;
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #198754;
+    outline: none;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 12px;
     background-color: #198754;
-    color: white;
-    font-weight: bold;
-    text-transform: uppercase;
-    padding: 15px;
-    font-size: 1.2rem;
-    border-radius: 8px;
-}
-
-.login__button:hover {
-    background-color: #198754;
-}
-
-.login__error {
-    text-align: center;
-    color: red;
-    font-size: 1rem;
-}
-
-.toggle-auth {
-    text-align: center;
-    margin-top: 15px;
-    color: #198754;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
     cursor: pointer;
-    font-size: 1rem;
+    transition: background-color 0.3s ease;
 }
 
-.toggle-auth:hover {
-    text-decoration: underline;
+.btn-submit:hover {
+    background-color: #1fa164;
+}
+
+.error {
+    color: #dc3545;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.success {
+    color: #28a745;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #000;
 }
