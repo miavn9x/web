@@ -10,42 +10,48 @@ import Login from "../../Pages/Login";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.css";
 import Navigation from "./Navigation";
+import { jwtDecode } from "jwt-decode";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [userRole, setUserRole] = useState(null);
 
-  // UseEffect hook to check if the user is logged in (based on token)
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
+      const decodedToken = jwtDecode(token);
+      const userRole = decodedToken?.role || "";
+      setUserRole(userRole);
     }
   }, []);
 
-  // Toggle login modal visibility
   const toggleLoginModal = () => {
     setShowLoginModal(!showLoginModal);
   };
 
-  // Handle login success, update login state
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
-    setShowLoginModal(false); // Close login modal on successful login
+    setShowLoginModal(false);
+    const token = localStorage.getItem("token");
+    const decodedToken = jwtDecode(token);
+    const userRole = decodedToken?.role || "";
+    setUserRole(userRole);
   };
 
-  // Handle logout, remove token from localStorage and update state
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
     setIsLoggedIn(false);
+    setUserRole(null);
   };
-
 
   return (
     <>
       <header className="headerWrapper">
-        <div className="container-fluid d-none d-sm-block">
-          <div className="top-strip bg-success">
+        <div className="container-fluid d-none d-sm-block bg-success">
+          <div className="top-strip">
             <div className="container">
               <p className="mb-0 mt-0 text-center">
                 Siêu ưu đãi cuối năm từ <b>20/12/2024 - 31/02/2025</b>, cơ hội
@@ -76,9 +82,20 @@ const Header = () => {
                         <FaRegUser />
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
-                        <Dropdown.Item >Thông tin tài khoản</Dropdown.Item>
-                        <Dropdown.Item>Số sản phẩm yêu thích</Dropdown.Item>
-                        <Dropdown.Item>Các sản phẩm đã mua</Dropdown.Item>
+                        {userRole !== "admin" && (
+                          <>
+                            <Dropdown.Item>Thông tin tài khoản</Dropdown.Item>
+                            <Dropdown.Item>Số sản phẩm yêu thích</Dropdown.Item>
+                            <Dropdown.Item>Các sản phẩm đã mua</Dropdown.Item>
+                          </>
+                        )}
+                        {userRole === "admin" && (
+                          <>
+                            <Dropdown.Item>Quản lý</Dropdown.Item>
+                            <Dropdown.Item>Quản lý sản phẩm</Dropdown.Item>
+                            <Dropdown.Item>Đăng sản phẩm</Dropdown.Item>
+                          </>
+                        )}
                         <Dropdown.Item onClick={handleLogout}>
                           Đăng xuất
                         </Dropdown.Item>
@@ -105,12 +122,13 @@ const Header = () => {
           </div>
         </div>
       </header>
-      <Navigation/>
-
+      <div>
+        <Navigation />
+      </div>
       {showLoginModal && (
         <Login
           closeModal={toggleLoginModal}
-          onLoginSuccess={handleLoginSuccess} 
+          onLoginSuccess={handleLoginSuccess} // Truyền hàm xử lý đăng nhập thành công
         />
       )}
     </>
