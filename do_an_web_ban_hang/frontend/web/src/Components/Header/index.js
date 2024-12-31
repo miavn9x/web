@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Thêm useNavigate vào đây
 import { Dropdown } from "react-bootstrap";
 import { FaRegUser } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
@@ -16,6 +16,8 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [userRole, setUserRole] = useState(null);
+
+  const navigate = useNavigate(); // Thêm useNavigate tại đây
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -45,6 +47,10 @@ const Header = () => {
     localStorage.removeItem("role");
     setIsLoggedIn(false);
     setUserRole(null);
+  };
+
+  const handleClick = () => {
+    navigate("/add-product"); // Điều hướng đến AddProduct
   };
 
   return (
@@ -93,7 +99,9 @@ const Header = () => {
                           <>
                             <Dropdown.Item>Quản lý</Dropdown.Item>
                             <Dropdown.Item>Quản lý sản phẩm</Dropdown.Item>
-                            <Dropdown.Item>Đăng sản phẩm</Dropdown.Item>
+                            <Dropdown.Item onClick={handleClick}>
+                              Đăng sản phẩm
+                            </Dropdown.Item>
                           </>
                         )}
                         <Dropdown.Item onClick={handleLogout}>

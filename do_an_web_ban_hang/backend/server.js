@@ -1,13 +1,13 @@
+// Khai báo các thư viện cần thiết
 const express = require("express");
 const cors = require("cors");
 const jwt = require("jwt-simple");
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
-require("dotenv").config(); 
+require("dotenv").config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-
 
 const MONGO_URI = process.env.MONGO_URI;
 mongoose
@@ -84,7 +84,7 @@ app.post("/api/auth/register", async (req, res) => {
     fullName,
     phone,
     address,
-    role: role || "user", 
+    role: role || "user",
   });
 
   try {
@@ -120,7 +120,6 @@ const adminMiddleware = (req, res, next) => {
       return res.status(403).json({ message: "Quyền truy cập bị từ chối" });
     }
     req.user = decoded;
-    // decoded = false;
     next();
   } catch (err) {
     res.status(401).json({ message: "Token không hợp lệ hoặc đã hết hạn" });
@@ -169,28 +168,10 @@ app.post("/api/auth/logout", (req, res) => {
   res.status(200).json({ message: "Đăng xuất thành công" });
 });
 
-// // API quản lý bài viết
-// let posts = [];
+// Import product routes chỉ một lần
+const productRoutes = require("./routes/productRoutes"); // Đảm bảo import đúng
 
-// // Đăng bài
-// app.post("/api/posts", adminMiddleware, (req, res) => {
-//   const { title, content } = req.body;
-
-//   if (!title || !content) {
-//     return res
-//       .status(400)
-//       .send({ message: "Tiêu đề và nội dung là bắt buộc." });
-//   }
-
-//   const newPost = { title, content, createdAt: new Date() };
-//   posts.push(newPost);
-//   res.status(201).send(newPost);
-// });
-
-// // Lấy danh sách bài viết
-// app.get("/api/posts", (req, res) => {
-//   res.status(200).json(posts);
-// });
+app.use("/api", productRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
