@@ -91,6 +91,9 @@
     font-weight: 700;
     z-index: 1;
 }
+.home__product .swiper .swiper-wrapper{
+padding: 5px 0!important;
+}
 
 .badge-primary {
     background-color: rgb(21, 134, 255) !important;

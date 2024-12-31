@@ -22,9 +22,8 @@ function App() {
       <Routes>
         <Route path="/" exact={true} element={<Home />} />
         <Route path="/danh-sach-san-pham" exact={true} element={<Listing />} />
-        <Route path="/danh-sach-san-pham" exact={true} element={<Listing />} />
+        {/* <Route path="/danh-sach-san-pham" exact={true} element={<Listing />} /> */}
         <Route path="/add-product" exact={true} element={<AddProduct />} />{" "}
-        {/* Route cho AddProduct */}
         {/* Trang đăng nhập */}
         <Route path="/dang-nhap" exact={true} element={<Login />} />
         {/* Các trang yêu cầu người dùng đăng nhập */}

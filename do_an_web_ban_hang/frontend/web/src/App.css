@@ -32,6 +32,8 @@ body {
 
 .container {
   max-width: 100%;
+  /* padding-top: 10px!important ; */
+
 }
 
 .headerWrapper .top-strip {
@@ -46,7 +48,7 @@ body {
 .headerWrapper .header {
   width: 100%;
   height: auto;
-  padding: 5px;
+  padding: 5px 0px;
 
 
 }
@@ -57,13 +59,14 @@ body {
 
 .headerWrapper .header .part2 .countryDrop {
   width: 150px;
-  height: 60px;
+  height: 50px;
   min-width: 150px;
   border: 1px solid rgba(0, 0, 0, 0.1) !important;
   padding: 10px 10px !important;
   text-align: center;
   justify-content: flex-start !important;
   display: flex !important;
+  border-radius: 7px;
 }
 
 .headerWrapper .header .part2 .countryDrop .lable {
@@ -94,7 +97,7 @@ body {
 
 .Hearder_search {
   width: 60%;
-  height: 60px;
+  height: 50px;
   background-color: rgb(240, 240, 240);
   padding: 4px;
   position: relative;
@@ -113,7 +116,7 @@ body {
   font-size: 16px;
   color: rgba(0, 0, 0, 0.8);
   width: 100%;
-  height: 50px;
+  height: 40px;
   border: 0px !important;
   padding: 0px 25px !important;
   box-sizing: border-box;
@@ -121,7 +124,7 @@ body {
 
 .Hearder_search button {
   position: absolute;
-  top: 9px;
+  /* top: 9px; */
   right: 5px;
   z-index: 100;
   min-width: 40px !important;
@@ -236,7 +239,7 @@ header .part3 .circle svg {
 
 nav {
   background-color: #fff;
-  padding-top: 25px;
+  padding-top: 0px;
   border-bottom: 1px solid #ddd;
 }
 
@@ -282,7 +285,7 @@ nav .nav_left .cardWrapper .sidibarNav {
   height: 0px;
   opacity: 0;
   position: absolute;
-  top: 122%;
+  top: 102%;
   left: 0px;
   border: 1px solid rgba(0, 0, 0, 0.1) !important;
   transition: all 0.3s ease-in-out;
@@ -355,12 +358,13 @@ ul {
 }
 
 nav .nav_right ul li {
-  padding-bottom: 20px;
+  padding-bottom: 10px!important;
 }
 
 nav .nav_right ul li a {
   text-decoration: none;
 }
+
 
 nav .nav_right ul li a button {
   font-size: 14px;
@@ -373,6 +377,7 @@ nav .nav_right ul li a button {
   padding: 10px 10px;
   transition: all 0.3s ease-in-out;
   border-radius: 15px;
+
 }
 
 nav .nav_right ul li a svg {
@@ -409,7 +414,7 @@ nav .nav_right ul li .sub__menu {
   top: 100%;
   left: 0;
   min-width: 150px;
-  background: #fff;
+  background: #ffffff;
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease-in-out;

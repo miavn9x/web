@@ -14,6 +14,7 @@
     display: grid;
     grid-template-columns: repeat(5, 1.1fr);
     gap: 5px;
+    padding: 5px 0px;
 }
 
 .product__item-inner {

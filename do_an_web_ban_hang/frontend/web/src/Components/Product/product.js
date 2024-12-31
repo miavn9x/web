@@ -17,7 +17,7 @@ const Product = () => {
             <div className="info product__info w-75 ">
               <h4
                 className="text-uppercase mb-0"
-                style={{ color: "red", paddingTop: "8px" }}
+                style={{ color: "red", paddingTop: "2px" }}
               >
                 Khuyến mãi sốc
               </h4>

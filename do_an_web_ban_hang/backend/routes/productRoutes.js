@@ -15,9 +15,18 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+// Kiểm tra trùng lặp sản phẩm
+const checkDuplicate = async (name, brand, category) => {
+  try {
+    const existingProduct = await Product.findOne({ name, brand, category });
+    return existingProduct; // Nếu có sản phẩm trùng, sẽ trả về sản phẩm đó
+  } catch (err) {
+    throw new Error("Lỗi kiểm tra trùng lặp");
+  }
+};
+
 // Route thêm sản phẩm mới với hình ảnh lên Cloudinary
 router.post("/products", upload.array("images", 20), async (req, res) => {
-  // Set 20 images max, or remove the second argument for unlimited
   const {
     name,
     category,
@@ -31,6 +40,12 @@ router.post("/products", upload.array("images", 20), async (req, res) => {
   } = req.body;
 
   try {
+    // Kiểm tra trùng lặp sản phẩm
+    const duplicateProduct = await checkDuplicate(name, brand, category);
+    if (duplicateProduct) {
+      return res.status(400).json({ message: "Sản phẩm này đã tồn tại." });
+    }
+
     // Upload tất cả các hình ảnh lên Cloudinary
     const imageUploadPromises = req.files.map((file) => {
       return new Promise((resolve, reject) => {
@@ -46,6 +61,7 @@ router.post("/products", upload.array("images", 20), async (req, res) => {
     const uploadResults = await Promise.all(imageUploadPromises);
     const images = uploadResults.map((result) => result.secure_url);
 
+    // Tạo mới sản phẩm và lưu vào database
     const newProduct = new Product({
       name,
       category,
@@ -61,6 +77,7 @@ router.post("/products", upload.array("images", 20), async (req, res) => {
 
     await newProduct.save();
 
+    // Trả về thông báo thành công
     res.status(201).json({
       message: "Sản phẩm đã được thêm thành công",
       product: newProduct,

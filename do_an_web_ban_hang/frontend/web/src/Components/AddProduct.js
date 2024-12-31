@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./AddProduct.css";
 
 const AddProduct = () => {
@@ -25,52 +25,75 @@ const AddProduct = () => {
     setProduct((prevState) => ({ ...prevState, [name]: value }));
 
     if (name === "originalPrice" || name === "discountPercentage") {
-      // Calculate price after discount
       const priceAfterDiscount =
-        product.originalPrice -
-        (product.originalPrice * product.discountPercentage) / 100;
-      setProduct((prevState) => ({ ...prevState, priceAfterDiscount }));
+        Number(product.originalPrice) *
+          (1 - Number(product.discountPercentage) / 100) || "";
+      setProduct((prevState) => ({
+        ...prevState,
+        priceAfterDiscount: priceAfterDiscount,
+      }));
     }
   };
 
   const handleImageChange = (e) => {
-    const files = e.target.files;
-    setSelectedImages([...selectedImages, ...files]);
+    const files = Array.from(e.target.files);
+    setSelectedImages((prevImages) => [...prevImages, ...files]);
+  };
+
+  const checkDuplicate = async (newProduct) => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/products", {
+        params: {
+          name: newProduct.name,
+          brand: newProduct.brand,
+          category: newProduct.category,
+        },
+      });
+      return response.data.products.some(
+        (product) =>
+          product.name === newProduct.name &&
+          product.brand === newProduct.brand &&
+          product.category === newProduct.category
+      );
+    } catch (error) {
+      console.error("Error checking for duplicates", error);
+      return false;
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const isDuplicate = await checkDuplicate(product);
+    if (isDuplicate) {
+      setErrorMessage("Sản phẩm với thông tin này đã tồn tại.");
+      return;
+    }
+
     const formData = new FormData();
     selectedImages.forEach((image) => {
       formData.append("images", image);
     });
-    formData.append("name", product.name);
-    formData.append("category", product.category);
-    formData.append("productGroup", product.productGroup);
-    formData.append("brand", product.brand);
-    formData.append("description", product.description);
-    formData.append("originalPrice", product.originalPrice);
-    formData.append("discountPercentage", product.discountPercentage);
-    formData.append("priceAfterDiscount", product.priceAfterDiscount);
-    formData.append("discountCode", product.discountCode);
+    Object.keys(product).forEach((key) => {
+      formData.append(key, product[key]);
+    });
 
     try {
-      const token = localStorage.getItem("token"); // Assuming JWT token is stored here
+      const token = localStorage.getItem("token");
       const response = await axios.post(
         "http://localhost:5000/api/products",
         formData,
         {
           headers: {
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`,
           },
         }
       );
 
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 201) {
         setSuccessMessage("Sản phẩm đã được thêm thành công!");
         setErrorMessage("");
-        // Clear form content
         setProduct({
           name: "",
           category: "",
