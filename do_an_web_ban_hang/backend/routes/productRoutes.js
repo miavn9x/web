@@ -96,7 +96,6 @@ router.get("/products", async (req, res) => {
       category,
       minPrice,
       maxPrice,
-      sortPrice, // Thêm tham số sortPrice để điều chỉnh thứ tự sắp xếp giá
     } = req.query;
 
     // Tạo điều kiện tìm kiếm và bộ lọc
@@ -119,17 +118,8 @@ router.get("/products", async (req, res) => {
         }),
     };
 
-    // Xác định phương thức sắp xếp giá
-    let sortQuery = {};
-    if (sortPrice === "asc") {
-      sortQuery = { priceAfterDiscount: 1 }; // Thứ tự tăng dần
-    } else if (sortPrice === "desc") {
-      sortQuery = { priceAfterDiscount: -1 }; // Thứ tự giảm dần
-    }
-
-    // Lấy danh sách sản phẩm theo phân trang, bộ lọc và sắp xếp
+    // Lấy danh sách sản phẩm theo phân trang và bộ lọc
     const products = await Product.find(query)
-      .sort(sortQuery) // Sắp xếp theo giá
       .limit(limit)
       .skip((page - 1) * limit);
 
@@ -146,8 +136,6 @@ router.get("/products", async (req, res) => {
     res.status(500).json({ message: "Lỗi khi lấy danh sách sản phẩm." });
   }
 });
-
-
 
 // Route xóa sản phẩm
 router.delete("/products/:id", async (req, res) => {

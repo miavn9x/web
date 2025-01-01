@@ -3,20 +3,16 @@ import axios from "axios";
 import "./ProductTable.css"; // Đảm bảo tạo file CSS này
 
 const ProductTable = () => {
-  // State quản lý sản phẩm, tìm kiếm, chỉnh sửa, v.v.
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState(""); // Bộ lọc theo chủng loại
-  const [priceFilter, setPriceFilter] = useState(""); // Bộ lọc theo giá
+  const [categoryFilter, setCategoryFilter] = useState("");
   const [editingProduct, setEditingProduct] = useState(null);
   const [editFormData, setEditFormData] = useState({});
   const [selectedImages, setSelectedImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-
-
 
   // Fetch danh sách sản phẩm từ API
   const fetchProducts = useCallback(async () => {
@@ -27,7 +23,6 @@ const ProductTable = () => {
           page: currentPage,
           search,
           category: categoryFilter, // Thêm bộ lọc cho category
-          price: priceFilter, // Thêm bộ lọc cho price
           limit: 10, // Giới hạn 10 sản phẩm mỗi trang
         },
       });
@@ -40,7 +35,7 @@ const ProductTable = () => {
     } finally {
       setLoading(false);
     }
-  }, [currentPage, search, categoryFilter, priceFilter]);
+  }, [currentPage, search, categoryFilter]);
 
   // Gọi fetchProducts khi trang hoặc tìm kiếm thay đổi
   useEffect(() => {
@@ -74,7 +69,24 @@ const ProductTable = () => {
   // Cập nhật giá trị form chỉnh sửa
   const handleEditFormChange = (e) => {
     const { name, value } = e.target;
-    setEditFormData((prev) => ({ ...prev, [name]: value }));
+    setEditFormData((prev) => {
+      const updatedFormData = { ...prev, [name]: value };
+
+      // Tính toán giá sau giảm khi giá gốc hoặc phần trăm giảm thay đổi
+      if (name === "originalPrice" || name === "discountPercentage") {
+        const originalPrice = parseFloat(updatedFormData.originalPrice);
+        const discountPercentage = parseFloat(
+          updatedFormData.discountPercentage
+        );
+
+        if (!isNaN(originalPrice) && !isNaN(discountPercentage)) {
+          updatedFormData.priceAfterDiscount =
+            originalPrice * (1 - discountPercentage / 100);
+        }
+      }
+
+      return updatedFormData;
+    });
   };
 
   // Xử lý khi người dùng chọn ảnh mới
@@ -87,6 +99,7 @@ const ProductTable = () => {
     e.preventDefault();
     setLoading(true);
     try {
+      // Đảm bảo giá sau giảm được tính lại trước khi gửi
       const formData = new FormData();
       for (const key in editFormData) {
         if (key !== "images" && key !== "_id" && key !== "__v") {
@@ -136,19 +149,13 @@ const ProductTable = () => {
     setCurrentPage(1); // Reset về trang 1 khi bộ lọc thay đổi
   };
 
-  // Thay đổi bộ lọc giá
-  const handlePriceFilterChange = (e) => {
-    setPriceFilter(e.target.value); // Cập nhật bộ lọc giá
-    setCurrentPage(1); // Reset về trang 1 khi bộ lọc thay đổi
-  };
-
   // Hiển thị giao diện
   return (
     <div className="container mt-3">
       <h1>Quản lý sản phẩm</h1>
       {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
 
-      {/* Bộ lọc tìm kiếm và lọc theo giá, chủng loại */}
+      {/* Bộ lọc tìm kiếm và lọc theo chủng loại */}
       <input
         type="text"
         className="form-control mb-3"
@@ -175,16 +182,6 @@ const ProductTable = () => {
           <option value="các loại trứng">Các loại trứng</option>
           <option value="đồ ăn đóng hộp">Đồ ăn đóng hộp</option>
           <option value="sữa">Sữa</option>
-        </select>
-
-        <select
-          className="form-control mb-2"
-          value={priceFilter}
-          onChange={handlePriceFilterChange}
-        >
-          <option value="">Chọn giá</option>
-          <option value="low">Giá thấp đến cao</option>
-          <option value="high">Giá cao đến thấp</option>
         </select>
       </div>
 
@@ -264,7 +261,7 @@ const ProductTable = () => {
                       type="number"
                       name="priceAfterDiscount"
                       value={editFormData.priceAfterDiscount || ""}
-                      onChange={handleEditFormChange}
+                      readOnly
                       className="form-control mb-2"
                       placeholder="Giá sau giảm"
                     />
@@ -286,7 +283,6 @@ const ProductTable = () => {
                       type="button"
                       className="btn btn-secondary btn-sm"
                       onClick={handleCancelEdit}
-                      disabled={loading}
                     >
                       Hủy
                     </button>
@@ -294,25 +290,21 @@ const ProductTable = () => {
                 </td>
               ) : (
                 <>
-                  <td>{(currentPage - 1) * 10 + index + 1}</td>{" "}
-                  {/* Số thứ tự */}
+                  <td>{index + 1}</td>
                   <td>{product.name}</td>
                   <td>{product.category}</td>
                   <td>{product.brand}</td>
                   <td>{product.description}</td>
-                  <td>{product.originalPrice} đ</td>
+                  <td>{product.originalPrice}</td>
                   <td>{product.discountPercentage}%</td>
-                  <td>{product.priceAfterDiscount} đ</td>
+                  <td>{product.priceAfterDiscount}</td>
                   <td>
-                    {product.images?.map((img, i) => (
-                      <img
-                        key={i}
-                        src={img}
-                        alt={product.name}
-                        className="img-thumbnail"
-                        style={{ width: "50px", height: "50px" }}
-                      />
-                    ))}
+                    <img
+                      src={product.images[0]}
+                      alt={product.name}
+                      width="50"
+                      height="50"
+                    />
                   </td>
                   <td>
                     <button
@@ -335,43 +327,29 @@ const ProductTable = () => {
         </tbody>
       </table>
 
-      {/* Phân trang */}
-      <nav>
-        <ul className="pagination justify-content-center">
-          <li className="page-item">
-            <button
-              className="page-link"
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1 || loading}
-            >
-              &laquo; Trước
-            </button>
-          </li>
-          {[...Array(totalPages)].map((_, idx) => (
-            <li
-              key={idx + 1}
-              className={`page-item ${currentPage === idx + 1 ? "active" : ""}`}
-            >
-              <button
-                className="page-link"
-                onClick={() => handlePageChange(idx + 1)}
-                disabled={loading}
-              >
-                {idx + 1}
-              </button>
-            </li>
-          ))}
-          <li className="page-item">
-            <button
-              className="page-link"
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages || loading}
-            >
-              Sau &raquo;
-            </button>
-          </li>
-        </ul>
-      </nav>
+      {/* Hiển thị phân trang */}
+      <div className="pagination">
+        <button
+          className="btn btn-secondary btn-sm"
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1 || loading}
+        >
+          &laquo; Trước
+        </button>
+
+        {/* Hiển thị thông tin trang hiện tại và tổng số trang */}
+        <span className="page-number">
+          Trang {currentPage} / {totalPages}
+        </span>
+
+        <button
+          className="btn btn-secondary btn-sm"
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages || loading}
+        >
+          Sau &raquo;
+        </button>
+      </div>
     </div>
   );
 };

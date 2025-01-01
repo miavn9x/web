@@ -142,3 +142,30 @@ img.img-thumbnail {
     padding: 0.25rem 0.5rem;
     font-size: 0.875rem;
 }
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    margin: 0 10px;
+}
+
+.page-number {
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0 10px;
+}
+
+/* Button styling for previous and next page */
+.pagination button.btn-secondary {
+    padding: 6px 12px;
+    font-size: 0.875rem;
+}
+
+.pagination .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
