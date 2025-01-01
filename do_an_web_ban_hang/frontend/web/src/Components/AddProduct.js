@@ -120,7 +120,7 @@ const AddProduct = () => {
         <div className="col-sm-3"></div>
         <div className="col-sm-9">
           <div>
-            <h2 className="text-center mb-4">Thêm Sản Phẩm Mới</h2>
+            <h4 className="text-center mb-4">Thêm Sản Phẩm Mới</h4>
             {successMessage && (
               <div className="alert alert-success">{successMessage}</div>
             )}
@@ -156,9 +156,27 @@ const AddProduct = () => {
                       <option value="cá">Cá</option>
                       <option value="rau">Rau</option>
                       <option value="gia vị">Gia vị</option>
+                      <option value="Đồ uống">Đồ uống</option>
+                      <option value="gạo">gạo</option>
+                      <option value="mì ăn liền">mì ăn liền</option>
+                      <option value="đồ khô">đồ khô</option>
+                      <option value="các loại trứng">các loại trứng</option>
+                      <option value="đồ ăn đóng hộp">đồ ăn đóng hộp</option>
+                      <option value="sữa">sữa</option>
                     </select>
                   </div>
                   <div className="form-group">
+                    <label>Mô tả chi tiết</label>
+                    <textarea
+                      name="description"
+                      className="form-control"
+                      placeholder="Mô tả chi tiết"
+                      value={product.description}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  {/* <div className="form-group">
                     <label>Nhóm sản phẩm</label>
                     <select
                       name="productGroup"
@@ -171,8 +189,12 @@ const AddProduct = () => {
                       <option value="thịt & hải sản">Thịt & Hải sản</option>
                       <option value="rau & trái cây">Rau & Trái cây</option>
                       <option value="bánh kẹo">Bánh kẹo</option>
+                      <option value="gia vị">Gia vị</option>
+                      <option value="Đồ uống">Đồ uống</option>
+                      <option value="giao dạch">Giao dạch</option>
+                      <option value="thư viện">Thư viện</option>
                     </select>
-                  </div>
+                  </div> */}
                   <div className="form-group">
                     <label>Thương hiệu</label>
                     <input
@@ -188,17 +210,6 @@ const AddProduct = () => {
                 </div>
 
                 <div className="col-md-6">
-                  <div className="form-group">
-                    <label>Mô tả chi tiết</label>
-                    <textarea
-                      name="description"
-                      className="form-control"
-                      placeholder="Mô tả chi tiết"
-                      value={product.description}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
                   <div className="form-group">
                     <label>Giá gốc</label>
                     <input
@@ -233,7 +244,7 @@ const AddProduct = () => {
                       disabled
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="form-group" style={{marginTop: "46px"}}>
                     <label>Chọn ảnh sản phẩm</label>
                     <input
                       type="file"
@@ -244,9 +255,14 @@ const AddProduct = () => {
                   </div>
                 </div>
               </div>
-              <button type="submit" className="btn btn-success btn-block mt-4">
-                Thêm sản phẩm
-              </button>
+              <div className="justify-content-center d-flex" style={{paddingBottom: "40px"}}>
+                <button
+                  type="submit"
+                  className="btn btn-success btn-block mt-4"
+                >
+                  Thêm sản phẩm
+                </button>
+              </div>
             </form>
           </div>
         </div>

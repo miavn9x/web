@@ -49,10 +49,10 @@ const ProductItem = () => {
             style={{ padding: "0 10px" }}
           >
             <span className="product__price text-decoration-line-through opacity-50">
-              15.000.000đ
+              15.000đ
             </span>
             <span className="product__price__old text-danger fs-5 fw-bold">
-              12.000.000đ
+              12.000đ
             </span>
           </div>
         </div>

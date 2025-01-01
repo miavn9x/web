@@ -30,7 +30,7 @@ router.post("/products", upload.array("images", 20), async (req, res) => {
   const {
     name,
     category,
-    productGroup,
+    // productGroup,
     brand,
     description,
     originalPrice,
@@ -65,7 +65,7 @@ router.post("/products", upload.array("images", 20), async (req, res) => {
     const newProduct = new Product({
       name,
       category,
-      productGroup,
+      // productGroup,
       brand,
       description,
       originalPrice,

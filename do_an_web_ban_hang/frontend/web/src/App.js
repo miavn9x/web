@@ -1,32 +1,38 @@
-import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import Listing from "./Pages/listing";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer/Footer";
-
-// import Login from "./Pages/Login";
-// Các trang mới
 import Login from "./Pages/Login";
 import Checkout from "./Pages/Checkout/Checkout";
 import RequireLogin from "./Pages/RequireLogin/RequireLogin";
 import Cart from "./Pages/Cart/Cart";
-
-import AddProduct from "./Components/AddProduct"; // Import AddProduct
-
+import AddProduct from "./Components/AddProduct";
+import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
+import { useState } from "react";
 
 function App() {
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
+  const toggleLoginModal = (state) => {
+    setShowLoginModal(state);
+  };
+
   return (
     <BrowserRouter>
-      <Header />
+      <Header toggleLoginModal={toggleLoginModal} />
       <Routes>
-        <Route path="/" exact={true} element={<Home />} />
-        <Route path="/danh-sach-san-pham" exact={true} element={<Listing />} />
-        {/* <Route path="/danh-sach-san-pham" exact={true} element={<Listing />} /> */}
-        <Route path="/add-product" exact={true} element={<AddProduct />} />{" "}
-        {/* Trang đăng nhập */}
-        <Route path="/dang-nhap" exact={true} element={<Login />} />
-        {/* Các trang yêu cầu người dùng đăng nhập */}
+        <Route path="/" element={<Home />} />
+        <Route path="/danh-sach-san-pham" element={<Listing />} />
+        {/* Các route yêu cầu đăng nhập */}
+        <Route
+          path="/add-product"
+          element={
+            <PrivateRoute setShowLoginModal={setShowLoginModal}>
+              <AddProduct />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/gio-hang"
           element={
@@ -43,12 +49,20 @@ function App() {
             </RequireLogin>
           }
         />
-        {/* <Route path="/dang-nhap" exact={true} element={<Login />} /> */}
+        <Route
+          path="/dang-nhap"
+          element={<Login closeModal={() => setShowLoginModal(false)} />}
+        />
       </Routes>
       <Footer />
+      {showLoginModal && (
+        <Login
+          closeModal={() => setShowLoginModal(false)}
+          onLoginSuccess={() => setShowLoginModal(false)}
+        />
+      )}
     </BrowserRouter>
   );
 }
 
 export default App;
-

@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const productSchema = new mongoose.Schema({
   name: { type: String, required: true }, // Tên sản phẩm
   category: { type: String, required: true }, // Chủng loại (thịt, cá, rau, gia vị,...)
-  productGroup: { type: String, required: true }, // Nhóm sản phẩm
+  // productGroup: { type: String, required: true }, // Nhóm sản phẩm
   brand: { type: String, required: true }, // Thương hiệu
   description: { type: String, required: true }, // Mô tả chi tiết
   images: [
