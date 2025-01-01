@@ -7,7 +7,6 @@ const AddProduct = () => {
   const [product, setProduct] = useState({
     name: "",
     category: "",
-    productGroup: "",
     brand: "",
     description: "",
     originalPrice: "",
@@ -22,17 +21,26 @@ const AddProduct = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setProduct((prevState) => ({ ...prevState, [name]: value }));
+    setProduct((prevState) => {
+      const updatedProduct = { ...prevState, [name]: value };
 
-    if (name === "originalPrice" || name === "discountPercentage") {
-      const priceAfterDiscount =
-        Number(product.originalPrice) *
-          (1 - Number(product.discountPercentage) / 100) || "";
-      setProduct((prevState) => ({
-        ...prevState,
-        priceAfterDiscount: priceAfterDiscount,
-      }));
-    }
+      if (name === "originalPrice" || name === "discountPercentage") {
+        let discountPercentage = Number(updatedProduct.discountPercentage) || 0;
+        if (discountPercentage < 0 || discountPercentage >= 100) {
+          discountPercentage = 0;
+        }
+
+        const originalPrice = Number(updatedProduct.originalPrice) || 0;
+        const priceAfterDiscount =
+          originalPrice - (originalPrice * discountPercentage) / 100;
+
+        updatedProduct.discountPercentage = discountPercentage.toString();
+        updatedProduct.priceAfterDiscount =
+          priceAfterDiscount > 0 ? priceAfterDiscount.toFixed(2) : "";
+      }
+
+      return updatedProduct;
+    });
   };
 
   const handleImageChange = (e) => {
@@ -97,7 +105,6 @@ const AddProduct = () => {
         setProduct({
           name: "",
           category: "",
-          productGroup: "",
           brand: "",
           description: "",
           originalPrice: "",
@@ -120,7 +127,9 @@ const AddProduct = () => {
         <div className="col-sm-3"></div>
         <div className="col-sm-9">
           <div>
-            <h4 className="text-center mb-4">Thêm Sản Phẩm Mới</h4>
+            <h4 className="text-center mb-4 text-uppercase mt-5">
+              Thêm Sản Phẩm Mới
+            </h4>
             {successMessage && (
               <div className="alert alert-success">{successMessage}</div>
             )}
@@ -165,7 +174,7 @@ const AddProduct = () => {
                       <option value="sữa">sữa</option>
                     </select>
                   </div>
-                  <div className="form-group">
+                  <div className="form-group ">
                     <label>Mô tả chi tiết</label>
                     <textarea
                       name="description"
@@ -174,27 +183,12 @@ const AddProduct = () => {
                       value={product.description}
                       onChange={handleInputChange}
                       required
+                      style={{ height: "200px" }}
                     />
                   </div>
-                  {/* <div className="form-group">
-                    <label>Nhóm sản phẩm</label>
-                    <select
-                      name="productGroup"
-                      className="form-control"
-                      value={product.productGroup}
-                      onChange={handleInputChange}
-                      required
-                    >
-                      <option value="">Chọn nhóm sản phẩm</option>
-                      <option value="thịt & hải sản">Thịt & Hải sản</option>
-                      <option value="rau & trái cây">Rau & Trái cây</option>
-                      <option value="bánh kẹo">Bánh kẹo</option>
-                      <option value="gia vị">Gia vị</option>
-                      <option value="Đồ uống">Đồ uống</option>
-                      <option value="giao dạch">Giao dạch</option>
-                      <option value="thư viện">Thư viện</option>
-                    </select>
-                  </div> */}
+                </div>
+
+                <div className="col-md-6">
                   <div className="form-group">
                     <label>Thương hiệu</label>
                     <input
@@ -207,9 +201,6 @@ const AddProduct = () => {
                       required
                     />
                   </div>
-                </div>
-
-                <div className="col-md-6">
                   <div className="form-group">
                     <label>Giá gốc</label>
                     <input
@@ -244,7 +235,7 @@ const AddProduct = () => {
                       disabled
                     />
                   </div>
-                  <div className="form-group" style={{marginTop: "46px"}}>
+                  <div className="form-group" style={{ marginTop: "46px" }}>
                     <label>Chọn ảnh sản phẩm</label>
                     <input
                       type="file"
@@ -255,7 +246,10 @@ const AddProduct = () => {
                   </div>
                 </div>
               </div>
-              <div className="justify-content-center d-flex" style={{paddingBottom: "40px"}}>
+              <div
+                className="justify-content-center d-flex"
+                style={{ paddingBottom: "40px" }}
+              >
                 <button
                   type="submit"
                   className="btn btn-success btn-block mt-4"

@@ -1,0 +1,144 @@
+
+
+/* Table styles */
+.table {
+    margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    text-align: center;
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+/* Các thuộc tính cho việc điều chỉnh form */
+input[type="text"],
+input[type="number"],
+select,
+textarea,
+input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Thêm padding cho button trong form */
+button {
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Đảm bảo các hình ảnh không làm thay đổi kích thước và đảm bảo không gian cho các ảnh */
+.img-thumbnail {
+    max-width: 50px;
+    max-height: 50px;
+    margin: 5px;
+}
+
+.pagination {
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Thêm các phần tử nhỏ khác nếu cần thiết */
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+.alert {
+    margin-top: 20px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-uppercase {
+    text-transform: uppercase;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+.mb-2 {
+    margin-bottom: 0.5rem;
+}
+
+.mt-5 {
+    margin-top: 3rem;
+}
+
+.mt-3 {
+    margin-top: 1rem;
+}
+
+/* CSS Styles cho giao diện ProductTable */
+.table th,
+.table td {
+    vertical-align: middle;
+}
+
+.pagination .page-item {
+    cursor: pointer;
+}
+
+.pagination .active .page-link {
+    background-color: #00bb29 !important;
+    border-color: #fdfeff !important;
+    color: white;
+}
+
+.pagination .disabled .page-link {
+    background-color: #e9ecef;
+    border-color: #e9ecef;
+    color: #6c757d;
+}
+
+img.img-thumbnail {
+    margin: 5px;
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.form-control {
+    margin-bottom: 10px;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}

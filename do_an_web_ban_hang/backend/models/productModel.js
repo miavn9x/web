@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const productSchema = new mongoose.Schema({
   name: { type: String, required: true }, // Tên sản phẩm
   category: { type: String, required: true }, // Chủng loại (thịt, cá, rau, gia vị,...)
-  // productGroup: { type: String, required: true }, // Nhóm sản phẩm
   brand: { type: String, required: true }, // Thương hiệu
   description: { type: String, required: true }, // Mô tả chi tiết
   images: [
@@ -14,7 +13,7 @@ const productSchema = new mongoose.Schema({
         validator: function (value) {
           // Kiểm tra xem có phải URL hợp lệ hoặc là đường dẫn của ảnh
           return (
-            /^(http|https):\/\/[^ "]+$/.test(value) ||
+            /^(http|https):\/\/[^ "\n]+$/.test(value) ||
             /\.(jpg|jpeg|png|gif)$/.test(value)
           );
         },

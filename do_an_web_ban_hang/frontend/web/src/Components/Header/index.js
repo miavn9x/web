@@ -62,17 +62,19 @@ const Header = () => {
     navigate("/add-product");
   };
 
+  const handManageProductsClick = () => {
+    navigate("Editproduct");
+  };
+
   return (
     <>
       <header className="headerWrapper">
         <div className="container-fluid d-none d-sm-block bg-success">
           <div className="top-strip">
-      
-              <p className="mb-0 mt-0 text-center">
-                Siêu ưu đãi cuối năm từ <b>20/12/2024 - 31/02/2025</b>, cơ hội{" "}
-                <b>giảm giá đến 50%</b> giá trị đơn hàng.
-              </p>
-         
+            <p className="mb-0 mt-0 text-center">
+              Siêu ưu đãi cuối năm từ <b>20/12/2024 - 31/02/2025</b>, cơ hội{" "}
+              <b>giảm giá đến 50%</b> giá trị đơn hàng.
+            </p>
           </div>
         </div>
         <div className="header">
@@ -107,7 +109,9 @@ const Header = () => {
                         {userRole === "admin" && (
                           <>
                             <Dropdown.Item>Quản lý</Dropdown.Item>
-                            <Dropdown.Item>Quản lý sản phẩm</Dropdown.Item>
+                            <Dropdown.Item onClick={handManageProductsClick}>
+                              Quản lý sản phẩm
+                            </Dropdown.Item>
                             <Dropdown.Item onClick={handleClick}>
                               Đăng sản phẩm
                             </Dropdown.Item>

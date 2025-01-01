@@ -10,6 +10,7 @@ import Cart from "./Pages/Cart/Cart";
 import AddProduct from "./Components/AddProduct";
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
 import { useState } from "react";
+import ProductTable from "./Components/ProductTable";
 
 function App() {
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -33,6 +34,15 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/Editproduct"
+          element={
+            <PrivateRoute setShowLoginModal={setShowLoginModal}>
+              <ProductTable />
+            </PrivateRoute>
+          }
+        />
+
         <Route
           path="/gio-hang"
           element={
