@@ -299,12 +299,16 @@ const ProductTable = () => {
                   <td>{product.discountPercentage}%</td>
                   <td>{product.priceAfterDiscount}</td>
                   <td>
-                    <img
-                      src={product.images[0]}
-                      alt={product.name}
-                      width="50"
-                      height="50"
-                    />
+                    {product.images.map((image, index) => (
+                      <img
+                        key={index}
+                        src={image}
+                        alt={product.name}
+                        width="50"
+                        height="50"
+                        className="mr-2"
+                      />
+                    ))}
                   </td>
                   <td>
                     <button
