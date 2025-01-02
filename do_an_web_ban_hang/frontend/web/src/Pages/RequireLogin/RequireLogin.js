@@ -1,16 +1,13 @@
-// src/Components/RequireLogin.js
-import { useEffect } from "react"; // Không cần import React nếu không sử dụng JSX
-import { useNavigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
+import { useAuth } from "../../Components/contexts/AuthContext";
 
 const RequireLogin = ({ children }) => {
-  const navigate = useNavigate();
+  const { user } = useAuth(); // Lấy thông tin user từ Context
+  const location = useLocation(); // Lấy vị trí trang hiện tại
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/login"); // Redirect to login if not logged in
-    }
-  }, [navigate]);
+  if (!user) {
+    return <Navigate to="/dang-nhap" state={{ from: location }} replace />;
+  }
 
   return children;
 };
