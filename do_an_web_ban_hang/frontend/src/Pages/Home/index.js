@@ -1,15 +1,11 @@
 import React from "react";
-import Carousel from "../../Components/Carousel/index";
+import Carousel from "../../Components/common/Carousel/index";
 import "../../App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Product from "../../Components/Product/product";
 import Productcart from "../../Components/Product/Productcart";
 
 const Home = () => {
-  
-
- 
-
   return (
     <>
       <div className="container">
@@ -17,7 +13,7 @@ const Home = () => {
           <div className="col-sm-3"></div>
           <div className="col-sm-9">
             <Carousel />
- 
+
             <Productcart />
           </div>
           <div className="col-sm-12">

@@ -1,6 +1,6 @@
 import React from "react";
 import "./style.css";
-import CountdownTime from "../countdown time";
+import CountdownTime from "../common/countdown time";
 import { Button } from "@mui/material";
 import { VscArrowRight } from "react-icons/vsc";
 import { Swiper, SwiperSlide } from "swiper/react";

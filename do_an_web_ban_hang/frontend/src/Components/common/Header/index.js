@@ -4,11 +4,11 @@ import { Dropdown } from "react-bootstrap";
 import { FaRegUser } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
 import { jwtDecode } from "jwt-decode"; 
-import Logo from "../../assets/images/logo.png";
-import CountryDropdown from "../CountryDropdown";
+import Logo from "../../../assets/images/logo.png";
+import CountryDropdown from "../../common/CountryDropdown/index";
 import Search from "./Search";
-import Login from "../../Pages/Login";
-import "bootstrap/dist/css/bootstrap.min.css";
+import Login from "../../../Pages/Login/index";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import "./style.css";
 import Navigation from "./Navigation";
 

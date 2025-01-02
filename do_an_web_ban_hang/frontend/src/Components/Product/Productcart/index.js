@@ -2,7 +2,7 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "./style.css";
-import '../Productcart/style.css'
+import "./style.css";
 const Productcart = () => {
   return (
     <>

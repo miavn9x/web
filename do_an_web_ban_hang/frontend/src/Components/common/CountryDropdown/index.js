@@ -5,7 +5,7 @@ import { CiSearch } from "react-icons/ci";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../../App.css";
+import "../../../App.css";
 const CountryDropdown = () => {
   const [isOpenModal, setisOpenModal] = useState(false);
 
