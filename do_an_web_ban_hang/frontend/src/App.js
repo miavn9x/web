@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
-import Listing from "./Pages/Listing/Listing";
+import Listing from "./Components/Product/Listing/Listing";
 import Header from "./Components/common/Header/index";
 import Footer from "./Components/common/Footer/Footer";
 import Login from "./Pages/Login/index";
-import Checkout from "./Pages/Checkout/Checkout";
+import Checkout from "./Pages/Product/Checkout/Checkout";
 import RequireLogin from "./Pages/RequireLogin/RequireLogin";
-import Cart from "./Pages/Cart/Cart";
+import Cart from "./Pages/Product/Cart/Cart";
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
 import { useState } from "react";
 import AddProduct from "./Components/Product/AddProduct/AddProduct";

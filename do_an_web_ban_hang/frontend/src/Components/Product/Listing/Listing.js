@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.css";
-import ProductItem from "../../Components/Product/ProductItem";
-import Carousel from "../../Components/common/Carousel";
+import ProductItem from "../ProductItem";
+import Carousel from "../../common/Carousel";
 // import { Button } from "@mui/material";
 // import { VscArrowRight } from "react-icons/vsc";
 
