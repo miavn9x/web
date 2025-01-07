@@ -1,4 +1,4 @@
-// Khai báo các thư viện cần thiết
+// Import các thư viện cần thiết
 const express = require("express");
 const cors = require("cors");
 const jwt = require("jwt-simple");
@@ -7,15 +7,26 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
+// Cấu hình từ file .env
+const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
+const JWT_SECRET = process.env.JWT_SECRET;
+
+// Kết nối đến MongoDB
 mongoose
   .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.log("MongoDB connection error: ", err));
+  .then(() => console.log("kết nối thành công"))
+  .catch((err) => {
+    console.error("Có lỗi khi kết nối: ", err);
+    process.exit(1);
+  });
 
-// khai báo dăng ky
+// Middleware cơ bản
+app.use(cors());
+app.use(express.json());
+
+// Định nghĩa Schema và Model cho User
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
@@ -27,39 +38,6 @@ const userSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model("User", userSchema);
-
-// Sử dụng trung gian
-app.use(cors());
-app.use(express.json());
-
-const JWT_SECRET = process.env.JWT_SECRET;
-
-// Đăng nhập
-app.post("/api/auth/login", async (req, res) => {
-  const { username, password } = req.body;
-
-  try {
-    const user = await User.findOne({ username });
-    if (!user) {
-      return res.status(404).json({ message: "Tên đăng nhập không tồn tại" });
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(401).json({ message: "Mật khẩu không đúng" });
-    }
-
-    const payload = { id: user._id, username: user.username, role: user.role };
-    const token = jwt.encode(payload, JWT_SECRET);
-
-    res.status(200).json({
-      message: "Đăng nhập thành công",
-      token,
-    });
-  } catch (err) {
-    res.status(500).json({ message: "Có lỗi xảy ra, vui lòng thử lại" });
-  }
-});
 
 // Đăng ký tài khoản
 app.post("/api/auth/register", async (req, res) => {
@@ -106,30 +84,57 @@ app.post("/api/auth/register", async (req, res) => {
   }
 });
 
-// Middleware để kiểm tra quyền admin
-const adminMiddleware = (req, res, next) => {
-  const token = req.header("Authorization")?.split(" ")[1];
-
-  if (!token) {
-    return res.status(401).json({ message: "Không tìm thấy token" });
-  }
+// Đăng nhập
+app.post("/api/auth/login", async (req, res) => {
+  const { username, password } = req.body;
 
   try {
-    const decoded = jwt.decode(token, JWT_SECRET);
-    if (decoded.role !== "admin") {
-      return res.status(403).json({ message: "Quyền truy cập bị từ chối" });
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ message: "Tên đăng nhập không tồn tại" });
     }
-    req.user = decoded;
-    next();
-  } catch (err) {
-    res.status(401).json({ message: "Token không hợp lệ hoặc đã hết hạn" });
-  }
-};
 
-// API yêu cầu quyền admin
-app.get("/api/admin", adminMiddleware, (req, res) => {
-  res.status(200).json({ message: "Chào mừng admin", user: req.user });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Mật khẩu không đúng" });
+    }
+
+    const payload = { id: user._id, username: user.username, role: user.role };
+    const token = jwt.encode(payload, JWT_SECRET);
+
+    res.status(200).json({
+      message: "Đăng nhập thành công",
+      token,
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Có lỗi xảy ra, vui lòng thử lại" });
+  }
 });
+
+// // Middleware kiểm tra quyền admin
+// const adminMiddleware = (req, res, next) => {
+//   const token = req.header("Authorization")?.split(" ")[1];
+
+//   if (!token) {
+//     return res.status(401).json({ message: "Không tìm thấy token" });
+//   }
+
+//   try {
+//     const decoded = jwt.decode(token, JWT_SECRET);
+//     if (decoded.role !== "admin") {
+//       return res.status(403).json({ message: "Quyền truy cập bị từ chối" });
+//     }
+//     req.user = decoded;
+//     next();
+//   } catch (err) {
+//     res.status(401).json({ message: "Token không hợp lệ hoặc đã hết hạn" });
+//   }
+// };
+
+// // API yêu cầu quyền admin
+// app.get("/api/admin", adminMiddleware, (req, res) => {
+//   res.status(200).json({ message: "Chào mừng admin", user: req.user });
+// });
 
 // API yêu cầu người dùng đã đăng nhập
 app.get("/api/user", (req, res) => {
@@ -168,11 +173,11 @@ app.post("/api/auth/logout", (req, res) => {
   res.status(200).json({ message: "Đăng xuất thành công" });
 });
 
-// Import product routes chỉ một lần
-const productRoutes = require("./routes/productRoutes"); // Đảm bảo import đúng
-
+// Import product routes
+const productRoutes = require("./routes/productRoutes");
 app.use("/api", productRoutes);
 
+// Lắng nghe trên cổng được chỉ định
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

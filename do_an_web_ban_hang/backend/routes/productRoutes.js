@@ -25,7 +25,7 @@ const checkDuplicate = async (name, brand, category) => {
   }
 };
 
-// Route thêm sản phẩm mới với hình ảnh lên Cloudinary
+// thêm sản phẩm mới với hình ảnh lên Cloudinary
 router.post("/products", upload.array("images", 20), async (req, res) => {
   const {
     name,
