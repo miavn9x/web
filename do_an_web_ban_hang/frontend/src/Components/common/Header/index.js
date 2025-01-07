@@ -7,7 +7,7 @@ import { jwtDecode } from "jwt-decode";
 import Logo from "../../../assets/images/logo.png";
 import CountryDropdown from "../../common/CountryDropdown/index";
 import Search from "./Search";
-import Login from "../../../Pages/Login/index";
+import Login from "../../../Pages/Auth/Login/index";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./style.css";
 import Navigation from "./Navigation";
