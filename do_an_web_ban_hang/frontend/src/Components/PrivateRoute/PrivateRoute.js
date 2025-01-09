@@ -1,15 +1,26 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
-const PrivateRoute = ({ children }) => {
+const PrivateRoute = ({ children, requiredRole }) => {
   const token = localStorage.getItem("token");
 
   if (!token) {
-    // Nếu không có token, chuyển hướng đến trang đăng nhập
     return <Navigate to="/login" />;
   }
 
-  return children; // Hiển thị nội dung nếu đã đăng nhập
+  try {
+    const decodedToken = jwtDecode(token);
+    const userRole = decodedToken.role;
+
+    if (requiredRole && userRole !== requiredRole) {
+      return <Navigate to="/Error403" />;
+    }
+
+    return children;
+  } catch (error) {
+    return <Navigate to="/login" />;
+  }
 };
 
 export default PrivateRoute;

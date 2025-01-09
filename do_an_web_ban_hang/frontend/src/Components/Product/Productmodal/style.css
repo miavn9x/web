@@ -58,7 +58,7 @@
     width: 100% !important;
 }
 
-.zoomSliderBig img {
+/* .zoomSliderBig img {
     width: 100% !important;
 
     height: auto !important;
@@ -66,7 +66,10 @@
     object-fit: contain;
     cursor: zoom-in;
         border: 1px solid rgba(0, 0, 0, 0.4);
-}
+} */
+
+
+
 .zoomSlider {
     padding-top: 30px;
 }

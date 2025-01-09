@@ -156,14 +156,6 @@ import { FaRegHeart } from "react-icons/fa6";const ProductModal = (props) => {
 
               <button className="btn__buy ">Mua ngay</button>
             </div>
-            {/* <div className="d-flex align-items-center ">
-              <Button
-                className="btn-round text-uppercase add_to_favorites"
-                variant="outlined"
-              >
-                <FaRegHeart /> &nbsp; Thêm vào yêu thích
-              </Button>
-            </div> */}
           </div>
         </div>
       </Dialog>
