@@ -1,14 +1,15 @@
+// src/Components/common/Header/index.js
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Dropdown } from "react-bootstrap";
 import { FaRegUser } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
-import { jwtDecode } from "jwt-decode"; 
+import { jwtDecode } from "jwt-decode"; // Sửa cách import
 import Logo from "../../../assets/images/logo.png";
 import CountryDropdown from "../../common/CountryDropdown/index";
 import Search from "./Search";
 import Login from "../../../Pages/Auth/Login/index";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.css";
 import Navigation from "./Navigation";
 
@@ -17,6 +18,7 @@ const Header = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -30,25 +32,25 @@ const Header = () => {
         setIsLoggedIn(false);
         setUserRole(null);
       }
-    }
-  }, []);
-
-  const toggleLoginModal = () => {
-    setShowLoginModal(!showLoginModal);
-  };
-
-  const handleLoginSuccess = () => {
-    const token = localStorage.getItem("token");
-    try {
-      const decodedToken = jwtDecode(token);
-      setIsLoggedIn(true);
-      setUserRole(decodedToken?.role || "");
-      setShowLoginModal(false);
-    } catch (error) {
-      console.error("Token không hợp lệ:", error);
+    } else {
       setIsLoggedIn(false);
       setUserRole(null);
     }
+  }, [location]);
+
+  const toggleLoginModal = () => {
+    if (location.pathname === "/login" || location.pathname === "/register") {
+      // Nếu đang ở trang /login hoặc /register, không mở modal
+      navigate("/"); // Điều hướng về trang chủ hoặc một trang khác
+    } else {
+      setShowLoginModal(!showLoginModal);
+    }
+  };
+
+  const handleLoginSuccess = (role) => {
+    setIsLoggedIn(true);
+    setUserRole(role);
+    setShowLoginModal(false);
   };
 
   const handleLogout = () => {
@@ -56,14 +58,6 @@ const Header = () => {
     setIsLoggedIn(false);
     setUserRole(null);
     navigate("/");
-  };
-
-  const handleClick = () => {
-    navigate("/add-product");
-  };
-
-  const handManageProductsClick = () => {
-    navigate("Editproduct");
   };
 
   return (
@@ -101,18 +95,32 @@ const Header = () => {
                       <Dropdown.Menu>
                         {userRole !== "admin" && (
                           <>
-                            <Dropdown.Item>Thông tin tài khoản</Dropdown.Item>
-                            <Dropdown.Item>Sản phẩm yêu thích</Dropdown.Item>
-                            <Dropdown.Item>Các sản phẩm đã mua</Dropdown.Item>
+                            <Dropdown.Item onClick={() => navigate("/profile")}>
+                              Thông tin tài khoản
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                              onClick={() => navigate("/wishlist")}
+                            >
+                              Sản phẩm yêu thích
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => navigate("/orders")}>
+                              Các sản phẩm đã mua
+                            </Dropdown.Item>
                           </>
                         )}
                         {userRole === "admin" && (
                           <>
-                            <Dropdown.Item>Quản lý</Dropdown.Item>
-                            <Dropdown.Item onClick={handManageProductsClick}>
+                            <Dropdown.Item onClick={() => navigate("/admin")}>
+                              Quản lý
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                              onClick={() => navigate("/Editproduct")}
+                            >
                               Quản lý sản phẩm
                             </Dropdown.Item>
-                            <Dropdown.Item onClick={handleClick}>
+                            <Dropdown.Item
+                              onClick={() => navigate("/add-product")}
+                            >
                               Đăng sản phẩm
                             </Dropdown.Item>
                           </>

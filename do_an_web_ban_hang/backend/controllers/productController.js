@@ -46,7 +46,7 @@ const getProducts = async (req, res) => {
       currentPage: parseInt(page),
     });
   } catch (err) {
-    console.log("Lỗi khi lấy danh sách sản phẩm:", err);
+    console.error("Lỗi khi lấy danh sách sản phẩm:", err);
     res.status(500).json({ message: "Lỗi khi lấy danh sách sản phẩm." });
   }
 };

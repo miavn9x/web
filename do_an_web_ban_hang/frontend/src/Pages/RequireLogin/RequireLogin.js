@@ -1,6 +1,5 @@
 // import { Navigate, useLocation } from "react-router-dom";
-// import { useAuth } from "../../Contexts/AuthContext";
-
+// import { useAuth } from "../../Context/AuthContext";
 // const RequireLogin = ({ children }) => {
 //   const { user } = useAuth(); // Lấy thông tin user từ Context
 //   const location = useLocation(); // Lấy vị trí trang hiện tại
