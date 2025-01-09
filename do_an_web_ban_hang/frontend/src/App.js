@@ -74,7 +74,7 @@ function App() {
 
         {/* Route đăng nhập */}
         <Route
-          path="/dang-nhap"
+          path="/login"
           element={<Login closeModal={() => setShowLoginModal(false)} />}
         />
 
