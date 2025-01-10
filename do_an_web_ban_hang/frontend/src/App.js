@@ -54,7 +54,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Protected Routes - User */}
+        {/* Protected Routes - User & admin */}
         <Route
           path="/gio-hang"
           element={

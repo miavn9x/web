@@ -134,7 +134,7 @@ const Header = () => {
                         ) : (
                           <>
                             <Dropdown.Item
-                              onClick={() => navigate("/")}
+                              onClick={() => navigate("/gio-hang")}
                             >
                               Thông tin tài khoản
                             </Dropdown.Item>

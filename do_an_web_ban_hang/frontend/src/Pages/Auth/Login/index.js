@@ -12,29 +12,28 @@ const Login = ({ isModal = false, closeModal, onLoginSuccess }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleLoginComplete = useCallback(
-    (token, role) => {
-      localStorage.setItem("token", token);
-      localStorage.setItem("userRole", role);
+ const handleLoginComplete = useCallback(
+   (token, role) => {
+     localStorage.setItem("token", token);
+     localStorage.setItem("userRole", role);
 
-      if (onLoginSuccess) {
-        onLoginSuccess(role);
-      }
+     if (onLoginSuccess) {
+       onLoginSuccess(role);
+     }
 
-      // Đợi state được cập nhật trước khi điều hướng
-      setTimeout(() => {
-        if (isModal) {
-          closeModal();
-        } else {
-          const redirectPath =
-            location.state?.from || (role === "admin" ? "/" : "/");
-          navigate(redirectPath, { replace: true });
-        }
-      }, 0);
-    },
-    [isModal, closeModal, navigate, onLoginSuccess, location]
-  );
-
+     setTimeout(() => {
+       if (isModal) {
+         closeModal();
+       } else {
+         const redirectPath =
+           location.state?.from || (role === "admin" ? "/" : "/");
+         navigate(redirectPath, { replace: true });
+       }
+     }, 0);
+   },
+   [isModal, closeModal, navigate, onLoginSuccess, location]
+ );
+//
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setError("");
