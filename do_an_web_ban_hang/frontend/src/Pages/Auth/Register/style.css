@@ -1,3 +1,4 @@
+/* Container for the modal, covering the entire screen */
 .login-container,
 .login-page-container {
     position: fixed;
@@ -6,12 +7,15 @@
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent black background */
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
+    /* Ensure modal is above other content */
 }
 
+/* Modal form style */
 .login-form,
 .login-page-form {
     background-color: #fff;
@@ -22,8 +26,10 @@
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
     position: relative;
     animation: fadeIn 0.4s ease-out;
+    /* Fade-in animation */
 }
 
+/* Close button style */
 .close-btn {
     position: absolute;
     top: 12px;
@@ -38,8 +44,10 @@
 
 .close-btn:hover {
     color: #e74c3c;
+    /* Change color on hover */
 }
 
+/* Header text style */
 h2 {
     margin-bottom: 25px;
     font-size: 26px;
@@ -48,6 +56,7 @@ h2 {
     font-weight: 600;
 }
 
+/* Error and success message styles */
 .error,
 .success {
     color: red;
@@ -56,10 +65,12 @@ h2 {
     font-weight: bold;
 }
 
+/* Form input fields container */
 .input-group {
     margin-bottom: 20px;
 }
 
+/* Label styling */
 .input-group label {
     display: block;
     font-weight: 600;
@@ -68,6 +79,7 @@ h2 {
     color: #555;
 }
 
+/* Input field styling */
 .input-group input {
     width: 100%;
     padding: 12px;
@@ -78,12 +90,15 @@ h2 {
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Input field focus effect */
 .input-group input:focus {
     outline: none;
     border-color: #3498db;
     box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+    /* Blue glow on focus */
 }
 
+/* Submit button style */
 .btn-submit {
     width: 100%;
     padding: 12px;
@@ -96,16 +111,20 @@ h2 {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+/* Submit button hover effect */
 .btn-submit:hover {
     background-color: #2980b9;
     transform: translateY(-2px);
+    /* Slight lift effect */
 }
 
+/* Disabled submit button */
 .btn-submit:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }
 
+/* Link to switch to login page */
 .switch-login-link {
     display: block;
     text-align: center;
@@ -117,6 +136,7 @@ h2 {
     font-weight: 500;
 }
 
+/* Hover effect for switch login link */
 .switch-login-link:hover {
     text-decoration: underline;
 }

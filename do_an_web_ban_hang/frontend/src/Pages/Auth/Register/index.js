@@ -17,6 +17,7 @@ const Register = ({ closeModal, onRegisterSuccess, switchToLogin }) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const modalRef = useRef(null);
+  const containerRef = useRef(null); // Thêm ref cho container
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,7 +25,9 @@ const Register = ({ closeModal, onRegisterSuccess, switchToLogin }) => {
       if (
         closeModal &&
         modalRef.current &&
-        !modalRef.current.contains(event.target)
+        !modalRef.current.contains(event.target) &&
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
       ) {
         closeModal();
       }
@@ -54,23 +57,19 @@ const Register = ({ closeModal, onRegisterSuccess, switchToLogin }) => {
       return false;
     }
 
-    // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setError("Email không hợp lệ");
       return false;
     }
 
-    // Sửa lại validation số điện thoại
-    const phoneNumber = formData.phone.replace(/\s+/g, ""); // Xóa khoảng trắng
-    // Kiểm tra độ dài từ 10-14 số và chỉ chứa số
+    const phoneNumber = formData.phone.replace(/\s+/g, "");
     const phoneRegex = /^[0-9]{10,14}$/;
     if (!phoneRegex.test(phoneNumber)) {
       setError("Số điện thoại phải có từ 10 đến 14 số");
       return false;
     }
 
-    // Validate password
     if (formData.password.length < 6) {
       setError("Mật khẩu phải có ít nhất 6 ký tự");
       return false;
@@ -79,12 +78,10 @@ const Register = ({ closeModal, onRegisterSuccess, switchToLogin }) => {
     return true;
   };
 
-  // Thêm xử lý format số điện thoại khi nhập
   const handleChange = (e) => {
     const { name, value } = e.target;
 
     if (name === "phone") {
-      // Chỉ cho phép nhập số và khoảng trắng
       const formattedValue = value.replace(/[^\d\s]/g, "");
       setFormData((prev) => ({ ...prev, [name]: formattedValue }));
     } else {
@@ -93,8 +90,6 @@ const Register = ({ closeModal, onRegisterSuccess, switchToLogin }) => {
 
     setError(null);
   };
-
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -113,7 +108,6 @@ const Register = ({ closeModal, onRegisterSuccess, switchToLogin }) => {
           onRegisterSuccess("Đăng ký thành công!");
         }
 
-        // Clear form
         setFormData({
           fullName: "",
           phone: "",
@@ -146,7 +140,7 @@ const Register = ({ closeModal, onRegisterSuccess, switchToLogin }) => {
   const formClass = closeModal ? "login-form" : "login-page-form";
 
   return (
-    <div className={containerClass}>
+    <div className={containerClass} ref={containerRef}>
       <div className={formClass} ref={modalRef}>
         {closeModal && (
           <button className="close-btn" onClick={closeModal}>
