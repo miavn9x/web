@@ -97,12 +97,11 @@ const Header = () => {
               </div>
 
               {/* Main content area */}
-              <div className="col-sm-10 d-flex align-items-center part2">
+              <div className="col-sm-10 d-flex align-items-center part2 col-sm-10">
                 <CountryDropdown />
                 <Search />
-
                 {/* User and Cart section */}
-                <div className="part3 d-flex align-items-center ml-auto">
+                <div className="part3 d-flex align-items-center ml-auto col-sm-2">
                   {/* User dropdown/login button */}
                   {isLoggedIn ? (
                     <Dropdown>
@@ -116,8 +115,10 @@ const Header = () => {
                       <Dropdown.Menu>
                         {userRole === "admin" ? (
                           <>
-                            <Dropdown.Item onClick={() => navigate("/admin")}>
-                              Quản lý
+                            <Dropdown.Item
+                              onClick={() => navigate("/admin/user-management")}
+                            >
+                              Quản lý user
                             </Dropdown.Item>
                             <Dropdown.Item
                               onClick={() => navigate("/admin/edit-product")}

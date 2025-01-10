@@ -1,0 +1,16 @@
+.table th,
+.table td {
+    /* Set a fixed width for all table columns */
+    width: 150px;
+    word-wrap: break-word;
+    white-space: nowrap;
+}
+
+.fixed-column {
+    width: 150px;
+}
+
+.table td input {
+    width: 100%;
+    /* Make inputs take up the full width of the cell */
+}

@@ -8,11 +8,12 @@ import Login from "./Pages/Auth/Login";
 import Register from "./Pages/Auth/Register";
 import Checkout from "./Pages/Product/Checkout/Checkout";
 import Cart from "./Pages/Product/Cart/Cart";
-import AddProduct from "./Components/Product/AddProduct/AddProduct";
-import ProductTable from "./Components/Product/ProductTable/ProductTable";
 import Error403 from "./Components/common/Error403/Error403";
 import { jwtDecode } from "jwt-decode";
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
+import AddProduct from "./Pages/Auth/AddProduct/AddProduct";
+import ProductTable from "./Pages/Auth/ProductTable/ProductTable";
+import AccountList from "./Pages/Auth/AccountList/AccountList";
 
 function App() {
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -80,6 +81,7 @@ function App() {
               requiredRole="admin"
             >
               <Routes>
+                <Route path="user-management" element={<AccountList />} />
                 <Route path="add-product" element={<AddProduct />} />
                 <Route path="edit-product" element={<ProductTable />} />
               </Routes>

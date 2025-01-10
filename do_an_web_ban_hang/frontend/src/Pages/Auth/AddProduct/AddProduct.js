@@ -124,8 +124,8 @@ const AddProduct = () => {
   return (
     <div className="container">
       <div className="row">
-        <div className="col-sm-3"></div>
-        <div className="col-sm-9">
+        {/* <div className="col-sm-3"></div> */}
+        <div className="col-sm-12">
           <div>
             <h4 className="text-center mb-4 text-uppercase mt-5">
               Thêm Sản Phẩm Mới

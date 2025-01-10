@@ -16,7 +16,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Navigation = () => {
-  const [isOpensidibarNav, setIsOpensidibarNav] = useState(true);
+  const [isOpensidibarNav, setIsOpensidibarNav] = useState(false);
     const navigate = useNavigate();
     const handleNavigate = (path) => {
       navigate(path);
@@ -36,7 +36,7 @@ const Navigation = () => {
                   <FiMenu />
                 </span>
                 <span className=" text-uppercase menu_product-center">
-                  danh mục sản phẩm
+                  xem thêm nhiều sản phẩm
                 </span>
                 <span className="menu_product_right">
                   <FaAngleDown />
@@ -52,7 +52,7 @@ const Navigation = () => {
                         shop <FaAngleRight />
                       </Button>
                     </Link>
-                    <div className="sub_menu">
+                    {/* <div className="sub_menu">
                       <li>
                         <Link to="/">
                           <Button>shop1</Button>
@@ -83,7 +83,7 @@ const Navigation = () => {
                           <Button>shop1</Button>
                         </Link>
                       </li>
-                    </div>
+                    </div> */}
                   </li>
                   <li>
                     <Link to="/">

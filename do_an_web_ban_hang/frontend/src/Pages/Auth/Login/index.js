@@ -140,7 +140,7 @@ const Login = ({ isModal = false, closeModal, onLoginSuccess }) => {
           </button>
         </form>
         <div className="additional-links">
-          <a href="/forgot-password">Quên mật khẩu?</a>
+          {/* <a href="/forgot-password">Quên mật khẩu?</a> */}
           <a href="/register">Đăng ký tài khoản mới</a>
         </div>
       </div>

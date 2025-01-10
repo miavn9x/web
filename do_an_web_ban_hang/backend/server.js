@@ -16,7 +16,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 // Kết nối đến MongoDB
 mongoose
   .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("Kết nối thành công"))
+  .then(() => console.log("Kết nối thành công đến MongoDB"))
   .catch((err) => {
     console.error("Có lỗi khi kết nối: ", err);
     process.exit(1);
@@ -38,6 +38,30 @@ const userSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model("User", userSchema);
+
+// Middleware kiểm tra token
+const authMiddleware = (req, res, next) => {
+  const token = req.header("Authorization")?.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ message: "Không tìm thấy token" });
+  }
+
+  try {
+    const decoded = jwt.decode(token, JWT_SECRET);
+    req.user = decoded; // Gắn thông tin người dùng vào request
+    next();
+  } catch (err) {
+    res.status(401).json({ message: "Token không hợp lệ hoặc đã hết hạn" });
+  }
+};
+
+// Middleware kiểm tra quyền admin
+const adminMiddleware = (req, res, next) => {
+  if (req.user.role !== "admin") {
+    return res.status(403).json({ message: "Quyền truy cập bị từ chối" });
+  }
+  next();
+};
 
 // API Đăng ký
 app.post("/api/auth/register", async (req, res) => {
@@ -111,31 +135,6 @@ app.post("/api/auth/login", async (req, res) => {
   }
 });
 
-// Middleware kiểm tra quyền
-const authMiddleware = (req, res, next) => {
-  const token = req.header("Authorization")?.split(" ")[1];
-
-  if (!token) {
-    return res.status(401).json({ message: "Không tìm thấy token" });
-  }
-
-  try {
-    const decoded = jwt.decode(token, JWT_SECRET);
-    req.user = decoded; // Gắn thông tin người dùng vào request
-    next();
-  } catch (err) {
-    res.status(401).json({ message: "Token không hợp lệ hoặc đã hết hạn" });
-  }
-};
-
-// Middleware kiểm tra quyền admin
-const adminMiddleware = (req, res, next) => {
-  if (req.user.role !== "admin") {
-    return res.status(403).json({ message: "Quyền truy cập bị từ chối" });
-  }
-  next();
-};
-
 // API yêu cầu quyền admin
 app.get("/api/admin", authMiddleware, adminMiddleware, (req, res) => {
   res.status(200).json({ message: "Chào mừng admin", user: req.user });
@@ -146,10 +145,51 @@ app.get("/api/user", authMiddleware, (req, res) => {
   res.status(200).json({ message: "Chào mừng người dùng", user: req.user });
 });
 
-// Đăng xuất (thực tế chỉ là xóa token ở phía client)
-app.post("/api/auth/logout", (req, res) => {
-  res.status(200).json({ message: "Đăng xuất thành công" });
+// API lấy toàn bộ dữ liệu người dùng
+app.get("/api/users", authMiddleware, adminMiddleware, async (req, res) => {
+  try {
+    const users = await User.find(); // Lấy tất cả người dùng từ MongoDB
+    res.status(200).json(users);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Có lỗi xảy ra khi lấy dữ liệu người dùng" });
+  }
 });
+
+// API sửa và  cập nhật thông tin người dùng
+app.put("/api/users/:id", authMiddleware, adminMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user)
+      return res.status(404).json({ message: "Người dùng không tồn tại" });
+
+    Object.assign(user, req.body);
+    const updatedUser = await user.save();
+    res.status(200).json(updatedUser);
+  } catch (err) {
+    res.status(500).json({ message: "Không thể cập nhật người dùng" });
+  }
+});
+
+// API xóa người dùng
+app.delete(
+  "/api/users/:id",
+  authMiddleware,
+  adminMiddleware,
+  async (req, res) => {
+    try {
+      const user = await User.findByIdAndDelete(req.params.id); // Xóa trực tiếp theo ID
+      if (!user) {
+        return res.status(404).json({ message: "Người dùng không tồn tại" });
+      }
+      res.status(200).json({ message: "Xóa người dùng thành công" });
+    } catch (err) {
+      console.error("Lỗi khi xóa người dùng:", err);
+      res.status(500).json({ message: "Không thể xóa người dùng" });
+    }
+  }
+);
 
 
 
@@ -157,7 +197,7 @@ app.post("/api/auth/logout", (req, res) => {
 const productRoutes = require("./routes/productRoutes");
 app.use("/api", productRoutes);
 
-// Lắng nghe trên cổng được chỉ định
+// Khởi chạy server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server đang chạy tại http://localhost:${PORT}`);
 });
