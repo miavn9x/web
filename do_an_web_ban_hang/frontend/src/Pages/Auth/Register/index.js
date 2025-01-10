@@ -1,7 +1,6 @@
-// src/Pages/Auth/Register/index.js
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // Import để điều hướng
+import { useNavigate } from "react-router-dom";
 import "./style.css";
 
 const Register = ({ closeModal, onRegisterSuccess, switchToLogin }) => {
@@ -12,12 +11,13 @@ const Register = ({ closeModal, onRegisterSuccess, switchToLogin }) => {
     email: "",
     username: "",
     password: "",
+    role: "user", // Thêm role mặc định là user
   });
-  const [error, setError] = useState(null);
-  const [message, setMessage] = useState("");
-  const modalRef = useRef(null);
 
-  const navigate = useNavigate(); // Sử dụng để điều hướng nếu không có `switchToLogin`
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const modalRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -26,7 +26,7 @@ const Register = ({ closeModal, onRegisterSuccess, switchToLogin }) => {
         modalRef.current &&
         !modalRef.current.contains(event.target)
       ) {
-        closeModal(); // Close modal if click outside
+        closeModal();
       }
     };
 
@@ -41,47 +41,105 @@ const Register = ({ closeModal, onRegisterSuccess, switchToLogin }) => {
     };
   }, [closeModal]);
 
+  const validateForm = () => {
+    if (
+      !formData.fullName ||
+      !formData.phone ||
+      !formData.address ||
+      !formData.email ||
+      !formData.username ||
+      !formData.password
+    ) {
+      setError("Vui lòng điền đầy đủ thông tin");
+      return false;
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError("Email không hợp lệ");
+      return false;
+    }
+
+    // Sửa lại validation số điện thoại
+    const phoneNumber = formData.phone.replace(/\s+/g, ""); // Xóa khoảng trắng
+    // Kiểm tra độ dài từ 10-14 số và chỉ chứa số
+    const phoneRegex = /^[0-9]{10,14}$/;
+    if (!phoneRegex.test(phoneNumber)) {
+      setError("Số điện thoại phải có từ 10 đến 14 số");
+      return false;
+    }
+
+    // Validate password
+    if (formData.password.length < 6) {
+      setError("Mật khẩu phải có ít nhất 6 ký tự");
+      return false;
+    }
+
+    return true;
+  };
+
+  // Thêm xử lý format số điện thoại khi nhập
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
+
+    if (name === "phone") {
+      // Chỉ cho phép nhập số và khoảng trắng
+      const formattedValue = value.replace(/[^\d\s]/g, "");
+      setFormData((prev) => ({ ...prev, [name]: formattedValue }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
+
+    setError(null);
   };
+
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null); // Reset previous errors
-    setMessage(""); // Reset previous messages
 
+    if (!validateForm()) return;
+
+    setLoading(true);
     try {
       const response = await axios.post(
         "http://localhost:5000/api/auth/register",
         formData
       );
-      setMessage(response.data.message);
-      setError(null);
-      onRegisterSuccess("Đăng ký thành công!"); // Truyền thông báo lên cha
 
-      // Nếu đang ở modal, đóng modal sau khi đăng ký thành công
-      if (closeModal) {
-        closeModal();
-      } else {
-        // Nếu ở trang riêng, điều hướng về trang đăng nhập
-        navigate("/login");
+      if (response.data.user) {
+        if (onRegisterSuccess) {
+          onRegisterSuccess("Đăng ký thành công!");
+        }
+
+        // Clear form
+        setFormData({
+          fullName: "",
+          phone: "",
+          address: "",
+          email: "",
+          username: "",
+          password: "",
+          role: "user",
+        });
+
+        if (closeModal) {
+          closeModal();
+          if (switchToLogin) switchToLogin();
+        } else {
+          navigate("/login");
+        }
       }
     } catch (err) {
-      setMessage("");
-      setError(err.response?.data?.message || "Đăng ký thất bại");
+      const errorMessage =
+        err.response?.data?.message || "Có lỗi xảy ra, vui lòng thử lại";
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleSwitchToLogin = () => {
-    if (switchToLogin) {
-      switchToLogin(); // Chuyển sang đăng nhập từ modal
-    } else {
-      navigate("/login"); // Điều hướng về trang đăng nhập nếu ở trang riêng biệt
-    }
-  };
-
-  // Xác định kiểu giao diện dựa trên việc có nhận được các prop modal hay không
   const containerClass = closeModal
     ? "login-container"
     : "login-page-container";
@@ -97,7 +155,6 @@ const Register = ({ closeModal, onRegisterSuccess, switchToLogin }) => {
         )}
         <h2>Đăng ký</h2>
         {error && <div className="error">{error}</div>}
-        {message && <div className="success">{message}</div>}
 
         <form onSubmit={handleSubmit}>
           <div className="input-group">
@@ -114,7 +171,7 @@ const Register = ({ closeModal, onRegisterSuccess, switchToLogin }) => {
           <div className="input-group">
             <label>Số điện thoại</label>
             <input
-              type="text"
+              type="tel"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
@@ -164,16 +221,17 @@ const Register = ({ closeModal, onRegisterSuccess, switchToLogin }) => {
               onChange={handleChange}
               placeholder="Nhập mật khẩu"
               required
+              autoComplete="current-password"
             />
           </div>
-          <button type="submit" className="btn-submit">
-            Đăng ký
+          <button type="submit" className="btn-submit" disabled={loading}>
+            {loading ? "Đang xử lý..." : "Đăng ký"}
           </button>
         </form>
 
         <button
           type="button"
-          onClick={handleSwitchToLogin} // Sử dụng hàm mới để chuyển đổi
+          onClick={switchToLogin || (() => navigate("/login"))}
           className="switch-login-link"
         >
           Quay lại đăng nhập

@@ -1,14 +1,19 @@
-// import { Navigate, useLocation } from "react-router-dom";
-// import { useAuth } from "../../Context/AuthContext";
-// const RequireLogin = ({ children }) => {
-//   const { user } = useAuth(); // Lấy thông tin user từ Context
-//   const location = useLocation(); // Lấy vị trí trang hiện tại
+// src/Components/RequireLogin/RequireLogin.js
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-//   if (!user) {
-//     return <Navigate to="/dang-nhap" state={{ from: location }} replace />;
-//   }
+const RequireLogin = ({ setShowLoginModal, children }) => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
-//   return children;
-// };
+  useEffect(() => {
+    if (!token) {
+      setShowLoginModal(true);
+      navigate("/login");
+    }
+  }, [token, navigate, setShowLoginModal]);
 
-// export default RequireLogin;
+  return token ? children : null;
+};
+
+export default RequireLogin;

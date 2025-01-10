@@ -1,119 +1,139 @@
-/* src/Pages/Auth/Login/style.css */
-
-/* Styles cho Modal */
+/* General modal background */
 .login-container {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    right: 0;
+    bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
     /* Nền mờ */
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 9999;
+    /* Đảm bảo modal xuất hiện phía trên các phần tử khác */
+    opacity: 0;
+    /* Ban đầu ẩn modal */
+    transition: opacity 0.3s ease-in-out;
+    /* Hiệu ứng khi modal xuất hiện */
 }
 
-.login-form {
-    background-color: #fff;
+.login-container.modal {
+    opacity: 1;
+    /* Modal hiển thị khi có class modal */
+}
+
+/* Nội dung của modal */
+.login-content {
+    background-color: white;
     padding: 20px;
     border-radius: 8px;
-    width: 400px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     position: relative;
 }
 
-/* Styles cho Trang Đăng Nhập Riêng Biệt */
-.login-page-container {
-    padding: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 80vh;
-    background-color: #f5f5f5;
-}
-
-.login-page-form {
-    background-color: #fff;
-    padding: 30px 40px;
-    border-radius: 8px;
-    width: 100%;
-    max-width: 500px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Button đóng modal */
-.close-btn {
+/* Nút đóng modal */
+.close-button {
     position: absolute;
     top: 10px;
-    right: 15px;
+    right: 10px;
+    font-size: 24px;
     background: none;
     border: none;
-    font-size: 24px;
+    color: #333;
     cursor: pointer;
 }
 
-/* Các styles chung */
-.login-form h2,
-.login-page-form h2 {
+/* Tiêu đề modal */
+h2 {
     text-align: center;
+    font-size: 24px;
     margin-bottom: 20px;
 }
 
-.input-group {
+/* Thông báo lỗi */
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Các nhóm input */
+.form-group {
     margin-bottom: 15px;
 }
 
-.input-group label {
-    display: block;
+.form-group label {
+    font-weight: bold;
     margin-bottom: 5px;
-    font-weight: 600;
+    display: block;
 }
 
-.input-group input {
+.form-group input {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 5px;
+    box-sizing: border-box;
 }
 
-.btn-submit {
+.form-group input:focus {
+    outline: none;
+    border-color: #007bff;
+    /* Đổi màu border khi focus */
+}
+
+/* Nút đăng nhập */
+.login-button {
     width: 100%;
     padding: 10px;
-    background-color: #4caf50;
-    border: none;
+    background-color: #007bff;
     color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
     font-size: 16px;
-    border-radius: 4px;
-    cursor: pointer;
 }
 
-.btn-submit:hover {
-    background-color: #45a049;
+.login-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }
 
-.switch-link {
+/* Liên kết bổ sung */
+.additional-links {
+    margin-top: 15px;
     text-align: center;
-    margin-top: 10px;
 }
 
-.switch-link .link {
+.additional-links a {
+    display: block;
     color: #007bff;
-    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    margin-bottom: 5px;
 }
 
-.switch-link .link:hover {
+.additional-links a:hover {
     text-decoration: underline;
 }
 
-.error {
-    color: red;
-    margin-bottom: 10px;
-    text-align: center;
+/* Hiệu ứng mở modal */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
-.success {
-    color: green;
-    margin-bottom: 10px;
-    text-align: center;
+.login-container.modal .login-content {
+    animation: fadeIn 0.3s ease-out;
 }

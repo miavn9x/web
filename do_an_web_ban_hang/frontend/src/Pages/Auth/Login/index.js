@@ -1,126 +1,118 @@
 // src/Pages/Auth/Login/index.js
-import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
-import { Button } from "@mui/material";
-import "./style.css";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Register from "../Register"; // Import Register
-import { jwtDecode } from "jwt-decode"; // Sửa cách import
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import "./style.css";
 
-const Login = ({ closeModal, onLoginSuccess }) => {
-  const [formData, setFormData] = useState({ username: "", password: "" });
-  const [error, setError] = useState(null);
-  const [message, setMessage] = useState("");
-  const [isRegistering, setIsRegistering] = useState(false); // Giữ nó ở đây để quản lý chuyển đổi giữa Login và Register
-
+const Login = ({ isModal = false, closeModal, onLoginSuccess }) => {
   const navigate = useNavigate();
-  const modalRef = useRef(null);
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  // Kiểm tra token khi trang login được truy cập
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      // Nếu đã đăng nhập, điều hướng người dùng đến trang chủ
-      navigate("/");
-      if (closeModal) closeModal(); // Đảm bảo đóng modal nếu đã đăng nhập
-    }
-  }, [navigate, closeModal]);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        closeModal &&
-        modalRef.current &&
-        !modalRef.current.contains(event.target)
-      ) {
-        closeModal();
+      try {
+        const decoded = jwtDecode(token);
+        if (decoded && decoded.id) {
+          if (isModal) {
+            closeModal();
+          } else {
+            navigate("/");
+          }
+        }
+      } catch (error) {
+        localStorage.removeItem("token");
       }
-    };
-
-    if (closeModal) {
-      document.addEventListener("mousedown", handleClickOutside);
     }
-
-    return () => {
-      if (closeModal) {
-        document.removeEventListener("mousedown", handleClickOutside);
-      }
-    };
-  }, [closeModal]);
+  }, [navigate, isModal, closeModal]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+    setError("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
-    setMessage("");
+    setLoading(true);
+    setError("");
+
+    if (!formData.username || !formData.password) {
+      setError("Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu");
+      setLoading(false);
+      return;
+    }
 
     try {
       const response = await axios.post(
         "http://localhost:5000/api/auth/login",
         formData
       );
-      setMessage(response.data.message);
-      setError(null);
-      const token = response.data.token;
-      localStorage.setItem("token", token); // Lưu token vào localStorage
 
-      const decodedToken = jwtDecode(token); // Giải mã token
-      if (onLoginSuccess) {
-        onLoginSuccess(decodedToken?.role || "");
-      }
+      const { token } = response.data;
 
-      navigate("/"); // Điều hướng tới trang chủ
-      if (closeModal) {
-        closeModal(); // Đóng modal nếu đang ở dạng modal
+      if (token) {
+        localStorage.setItem("token", token);
+        const decoded = jwtDecode(token);
+        localStorage.setItem("userRole", decoded.role);
+        onLoginSuccess(decoded.role);
+
+        if (isModal) {
+          closeModal();
+        } else {
+          navigate(decoded.role === "admin" ? "/admin" : "/");
+        }
       }
     } catch (err) {
-      setMessage("");
-      setError(err.response?.data?.message || "Đăng nhập thất bại");
+      if (err.response) {
+        switch (err.response.status) {
+          case 404:
+            setError("Tên đăng nhập không tồn tại");
+            break;
+          case 401:
+            setError("Mật khẩu không đúng");
+            break;
+          case 500:
+            setError("Có lỗi xảy ra từ server");
+            break;
+          default:
+            setError(err.response.data.message || "Đăng nhập thất bại");
+        }
+      } else {
+        setError("Không thể kết nối đến server");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
-  const switchToRegister = () => {
-    setIsRegistering(true); // Chuyển sang trang đăng ký
+  const handleClose = () => {
+    if (isModal) {
+      closeModal();
+    } else {
+      navigate("/");
+    }
   };
-
-  const switchToLogin = () => {
-    setIsRegistering(false); // Quay lại trang đăng nhập
-  };
-
-  if (isRegistering) {
-    return (
-      <Register
-        closeModal={closeModal}
-        onRegisterSuccess={switchToLogin} // Khi đăng ký thành công, quay lại đăng nhập
-        switchToLogin={switchToLogin} // Truyền thêm prop này để chuyển đổi quay lại đăng nhập
-      />
-    );
-  }
-
-  // Xác định kiểu giao diện dựa trên việc có nhận được các prop modal hay không
-  const containerClass = closeModal
-    ? "login-container"
-    : "login-page-container";
-  const formClass = closeModal ? "login-form" : "login-page-form";
 
   return (
-    <div className={containerClass}>
-      <div className={formClass} ref={modalRef}>
-        {closeModal && (
-          <button className="close-btn" onClick={closeModal}>
-            &times;
-          </button>
-        )}
+    <div className={`login-container ${isModal ? "modal" : ""}`}>
+      <div className="login-content">
+        <button className="close-button" onClick={handleClose}>
+          ×
+        </button>
         <h2>Đăng nhập</h2>
-        {error && <div className="error">{error}</div>}
-        {message && <div className="success">{message}</div>}
+        {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label>Tên đăng nhập</label>
+          <div className="form-group">
+            <label>Tên đăng nhập:</label>
             <input
               type="text"
               name="username"
@@ -128,10 +120,11 @@ const Login = ({ closeModal, onLoginSuccess }) => {
               onChange={handleChange}
               placeholder="Nhập tên đăng nhập"
               required
+              autoComplete="username"
             />
           </div>
-          <div className="input-group">
-            <label>Mật khẩu</label>
+          <div className="form-group">
+            <label>Mật khẩu:</label>
             <input
               type="password"
               name="password"
@@ -139,19 +132,16 @@ const Login = ({ closeModal, onLoginSuccess }) => {
               onChange={handleChange}
               placeholder="Nhập mật khẩu"
               required
+              autoComplete="current-password"
             />
           </div>
-          <Button type="submit" className="btn-submit">
-            Đăng nhập
-          </Button>
+          <button type="submit" className="login-button" disabled={loading}>
+            {loading ? "Đang đăng nhập..." : "Đăng nhập"}
+          </button>
         </form>
-        <div className="switch-link">
-          <p>
-            Chưa có tài khoản?{" "}
-            <span onClick={switchToRegister} className="link">
-              Đăng ký ngay
-            </span>
-          </p>
+        <div className="additional-links">
+          <a href="/forgot-password">Quên mật khẩu?</a>
+          <a href="/register">Đăng ký tài khoản mới</a>
         </div>
       </div>
     </div>

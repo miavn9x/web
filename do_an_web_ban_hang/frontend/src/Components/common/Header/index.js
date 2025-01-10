@@ -1,68 +1,81 @@
-// src/Components/common/Header/index.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Dropdown } from "react-bootstrap";
 import { FaRegUser } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
-import { jwtDecode } from "jwt-decode"; // Sửa cách import
+import { jwtDecode } from "jwt-decode";
 import Logo from "../../../assets/images/logo.png";
 import CountryDropdown from "../../common/CountryDropdown/index";
 import Search from "./Search";
-import Login from "../../../Pages/Auth/Login/index";
+import Login from "../../../Pages/Auth/Login";
+import Navigation from "./Navigation";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.css";
-import Navigation from "./Navigation";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [userRole, setUserRole] = useState(null);
+  const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
+  // Định nghĩa handleLogout trước để có thể sử dụng trong checkLoginStatus
+  const handleLogout = useCallback(() => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userRole");
+    setIsLoggedIn(false);
+    setUserRole(null);
+    setCartCount(0);
+    navigate("/");
+  }, [navigate]);
+
+  const checkLoginStatus = useCallback(() => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
-        const decodedToken = jwtDecode(token);
-        setIsLoggedIn(true);
-        setUserRole(decodedToken?.role || "");
+        const decoded = jwtDecode(token);
+        if (decoded && decoded.id) {
+          setIsLoggedIn(true);
+          setUserRole(decoded.role);
+        } else {
+          handleLogout();
+        }
       } catch (error) {
-        console.error("Token không hợp lệ:", error);
-        setIsLoggedIn(false);
-        setUserRole(null);
+        handleLogout();
       }
     } else {
       setIsLoggedIn(false);
       setUserRole(null);
     }
-  }, [location]);
+  }, [handleLogout]); // Thêm handleLogout vào dependencies
 
-  const toggleLoginModal = () => {
-    if (location.pathname === "/login" || location.pathname === "/register") {
-      // Nếu đang ở trang /login hoặc /register, không mở modal
-      navigate("/"); // Điều hướng về trang chủ hoặc một trang khác
+  useEffect(() => {
+    checkLoginStatus();
+  }, [checkLoginStatus]);
+
+  const handleLoginClick = useCallback(() => {
+    if (location.pathname === "/login") {
+      navigate("/");
     } else {
-      setShowLoginModal(!showLoginModal);
+      setShowLoginModal(true);
     }
-  };
+  }, [location.pathname, navigate]);
 
-  const handleLoginSuccess = (role) => {
-    setIsLoggedIn(true);
-    setUserRole(role);
-    setShowLoginModal(false);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setIsLoggedIn(false);
-    setUserRole(null);
-    navigate("/");
-  };
+  const handleLoginSuccess = useCallback(
+    (role) => {
+      setIsLoggedIn(true);
+      setUserRole(role);
+      setShowLoginModal(false);
+      checkLoginStatus();
+    },
+    [checkLoginStatus]
+  );
 
   return (
     <>
       <header className="headerWrapper">
+        {/* Banner section */}
         <div className="container-fluid d-none d-sm-block bg-success">
           <div className="top-strip">
             <p className="mb-0 mt-0 text-center">
@@ -71,18 +84,26 @@ const Header = () => {
             </p>
           </div>
         </div>
+
+        {/* Main header section */}
         <div className="header">
           <div className="container">
             <div className="row">
+              {/* Logo */}
               <div className="logoWrapper d-flex align-items-center col-sm-2">
                 <Link to="/">
                   <img src={Logo} alt="logo" />
                 </Link>
               </div>
+
+              {/* Main content area */}
               <div className="col-sm-10 d-flex align-items-center part2">
                 <CountryDropdown />
                 <Search />
+
+                {/* User and Cart section */}
                 <div className="part3 d-flex align-items-center ml-auto">
+                  {/* User dropdown/login button */}
                   {isLoggedIn ? (
                     <Dropdown>
                       <Dropdown.Toggle
@@ -93,9 +114,27 @@ const Header = () => {
                         <FaRegUser />
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
-                        {userRole !== "admin" && (
+                        {userRole === "admin" ? (
                           <>
-                            <Dropdown.Item onClick={() => navigate("/profile")}>
+                            <Dropdown.Item onClick={() => navigate("/admin")}>
+                              Quản lý
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                              onClick={() => navigate("/admin/edit-product")}
+                            >
+                              Quản lý sản phẩm
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                              onClick={() => navigate("/admin/add-product")}
+                            >
+                              Đăng sản phẩm
+                            </Dropdown.Item>
+                          </>
+                        ) : (
+                          <>
+                            <Dropdown.Item
+                              onClick={() => navigate("/gio-hang")}
+                            >
                               Thông tin tài khoản
                             </Dropdown.Item>
                             <Dropdown.Item
@@ -108,43 +147,28 @@ const Header = () => {
                             </Dropdown.Item>
                           </>
                         )}
-                        {userRole === "admin" && (
-                          <>
-                            <Dropdown.Item onClick={() => navigate("/admin")}>
-                              Quản lý
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                              onClick={() => navigate("/Editproduct")}
-                            >
-                              Quản lý sản phẩm
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                              onClick={() => navigate("/add-product")}
-                            >
-                              Đăng sản phẩm
-                            </Dropdown.Item>
-                          </>
-                        )}
                         <Dropdown.Item onClick={handleLogout}>
                           Đăng xuất
                         </Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
                   ) : (
-                    <button className="mr-3 circle" onClick={toggleLoginModal}>
+                    <button className="mr-3 circle" onClick={handleLoginClick}>
                       <FaRegUser />
                     </button>
                   )}
+
+                  {/* Shopping cart */}
                   <div className="ml-auto cartTab d-flex align-items-center">
                     <div className="position-relative ml-2">
                       <button
                         className="circle"
-                        onClick={() => navigate("/cart")}
+                        onClick={() => navigate("/gio-hang")}
                       >
                         <FiShoppingCart />
                       </button>
                       <span className="count d-flex justify-content-center align-items-center">
-                        0
+                        {cartCount}
                       </span>
                     </div>
                   </div>
@@ -154,12 +178,15 @@ const Header = () => {
           </div>
         </div>
       </header>
-      <div>
-        <Navigation />
-      </div>
+
+      {/* Navigation menu */}
+      <Navigation />
+
+      {/* Login modal */}
       {showLoginModal && (
         <Login
-          closeModal={toggleLoginModal}
+          isModal={true}
+          closeModal={() => setShowLoginModal(false)}
           onLoginSuccess={handleLoginSuccess}
         />
       )}
