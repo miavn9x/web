@@ -1,42 +1,42 @@
 // src/Pages/Auth/Login/index.js
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useCallback } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import "./style.css";
 
 const Login = ({ isModal = false, closeModal, onLoginSuccess }) => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
+  const location = useLocation();
+  const [formData, setFormData] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      try {
-        const decoded = jwtDecode(token);
-        if (decoded && decoded.id) {
-          if (isModal) {
-            closeModal();
-          } else {
-            navigate("/");
-          }
-        }
-      } catch (error) {
-        localStorage.removeItem("token");
+  const handleLoginComplete = useCallback(
+    (token, role) => {
+      localStorage.setItem("token", token);
+      localStorage.setItem("userRole", role);
+
+      if (onLoginSuccess) {
+        onLoginSuccess(role);
       }
-    }
-  }, [navigate, isModal, closeModal]);
+
+      // Đợi state được cập nhật trước khi điều hướng
+      setTimeout(() => {
+        if (isModal) {
+          closeModal();
+        } else {
+          const redirectPath =
+            location.state?.from || (role === "admin" ? "/" : "/");
+          navigate(redirectPath, { replace: true });
+        }
+      }, 0);
+    },
+    [isModal, closeModal, navigate, onLoginSuccess, location]
+  );
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
     setError("");
   };
 
@@ -46,7 +46,7 @@ const Login = ({ isModal = false, closeModal, onLoginSuccess }) => {
     setError("");
 
     if (!formData.username || !formData.password) {
-      setError("Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu");
+      setError("Vui lòng nhập đầy đủ thông tin");
       setLoading(false);
       return;
     }
@@ -58,37 +58,15 @@ const Login = ({ isModal = false, closeModal, onLoginSuccess }) => {
       );
 
       const { token } = response.data;
-
       if (token) {
-        localStorage.setItem("token", token);
         const decoded = jwtDecode(token);
-        localStorage.setItem("userRole", decoded.role);
-        onLoginSuccess(decoded.role);
-
-        if (isModal) {
-          closeModal();
-        } else {
-          navigate(decoded.role === "admin" ? "/admin" : "/");
-        }
+        handleLoginComplete(token, decoded.role);
       }
     } catch (err) {
-      if (err.response) {
-        switch (err.response.status) {
-          case 404:
-            setError("Tên đăng nhập không tồn tại");
-            break;
-          case 401:
-            setError("Mật khẩu không đúng");
-            break;
-          case 500:
-            setError("Có lỗi xảy ra từ server");
-            break;
-          default:
-            setError(err.response.data.message || "Đăng nhập thất bại");
-        }
-      } else {
-        setError("Không thể kết nối đến server");
-      }
+      console.error("Login error:", err);
+      const errorMessage =
+        err.response?.data?.message || "Không thể kết nối đến server";
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -140,7 +118,6 @@ const Login = ({ isModal = false, closeModal, onLoginSuccess }) => {
           </button>
         </form>
         <div className="additional-links">
-          {/* <a href="/forgot-password">Quên mật khẩu?</a> */}
           <a href="/register">Đăng ký tài khoản mới</a>
         </div>
       </div>

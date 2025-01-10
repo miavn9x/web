@@ -41,13 +41,13 @@ const User = mongoose.model("User", userSchema);
 
 // Middleware kiểm tra token
 const authMiddleware = (req, res, next) => {
-  const token = req.header("Authorization")?.split(" ")[1];
+  const token = req.header("Authorization")?.split(" ")[1]; // Lấy token từ header
   if (!token) {
     return res.status(401).json({ message: "Không tìm thấy token" });
   }
 
   try {
-    const decoded = jwt.decode(token, JWT_SECRET);
+    const decoded = jwt.decode(token, JWT_SECRET); // Giải mã token
     req.user = decoded; // Gắn thông tin người dùng vào request
     next();
   } catch (err) {
@@ -190,8 +190,6 @@ app.delete(
     }
   }
 );
-
-
 
 // Import product routes
 const productRoutes = require("./routes/productRoutes");

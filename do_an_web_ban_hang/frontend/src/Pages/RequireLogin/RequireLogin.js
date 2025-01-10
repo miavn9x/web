@@ -1,19 +1,24 @@
-// src/Components/RequireLogin/RequireLogin.js
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const RequireLogin = ({ setShowLoginModal, children }) => {
+const RequireLogin = ({ children }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     if (!token) {
-      setShowLoginModal(true);
       navigate("/login");
+    } else {
+      setIsLoggedIn(true);
     }
-  }, [token, navigate, setShowLoginModal]);
+  }, [navigate]);
 
-  return token ? children : null;
+  if (!isLoggedIn) {
+    return <div>Loading...</div>;
+  }
+
+  return <>{children}</>;
 };
 
 export default RequireLogin;

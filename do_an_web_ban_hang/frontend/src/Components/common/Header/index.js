@@ -134,16 +134,16 @@ const Header = () => {
                         ) : (
                           <>
                             <Dropdown.Item
-                              onClick={() => navigate("/gio-hang")}
+                              onClick={() => navigate("/")}
                             >
                               Thông tin tài khoản
                             </Dropdown.Item>
                             <Dropdown.Item
-                              onClick={() => navigate("/wishlist")}
+                              onClick={() => navigate("/")}
                             >
                               Sản phẩm yêu thích
                             </Dropdown.Item>
-                            <Dropdown.Item onClick={() => navigate("/orders")}>
+                            <Dropdown.Item onClick={() => navigate("/")}>
                               Các sản phẩm đã mua
                             </Dropdown.Item>
                           </>
