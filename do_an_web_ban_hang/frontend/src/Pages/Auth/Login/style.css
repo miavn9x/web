@@ -1,139 +1,143 @@
-/* General modal background */
+/* src/Pages/Auth/Login/style.css */
 .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f7fa;
+    font-family: 'Roboto', sans-serif;
+}
+
+.login-container.modal {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    /* Nền mờ */
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999;
-    /* Đảm bảo modal xuất hiện phía trên các phần tử khác */
-    opacity: 0;
-    /* Ban đầu ẩn modal */
-    transition: opacity 0.3s ease-in-out;
-    /* Hiệu ứng khi modal xuất hiện */
 }
 
-.login-container.modal {
-    opacity: 1;
-    /* Modal hiển thị khi có class modal */
-}
-
-/* Nội dung của modal */
 .login-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 400px;
+    background: #fff;
+    padding: 1.5rem 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     width: 100%;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 380px;
     position: relative;
+    transform: translateY(20px);
+    animation: fadeInUp 0.4s ease-in-out;
 }
 
-/* Nút đóng modal */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .close-button {
     position: absolute;
     top: 10px;
     right: 10px;
-    font-size: 24px;
     background: none;
     border: none;
-    color: #333;
+    font-size: 1.6rem;
+    color: #888;
     cursor: pointer;
+    transition: color 0.3s ease;
 }
 
-/* Tiêu đề modal */
+.close-button:hover {
+    color: #333;
+}
+
 h2 {
     text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 1.4rem;
+    color: #333;
+    margin-bottom: 1.2rem;
 }
 
-/* Thông báo lỗi */
-.error-message {
-    color: red;
-    font-size: 14px;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-/* Các nhóm input */
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 1.2rem;
 }
 
 .form-group label {
-    font-weight: bold;
-    margin-bottom: 5px;
     display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    color: #555;
+    font-size: 0.9rem;
 }
 
 .form-group input {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
+    padding: 0.6rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-group input:focus {
-    outline: none;
     border-color: #007bff;
-    /* Đổi màu border khi focus */
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.2);
 }
 
-/* Nút đăng nhập */
 .login-button {
     width: 100%;
-    padding: 10px;
+    padding: 0.6rem;
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
 .login-button:disabled {
-    background-color: #ccc;
+    background-color: #6c757d;
     cursor: not-allowed;
 }
 
-/* Liên kết bổ sung */
 .additional-links {
-    margin-top: 15px;
+    margin-top: 1.2rem;
     text-align: center;
 }
 
 .additional-links a {
     display: block;
+    margin: 0.5rem 0;
     color: #007bff;
-    font-size: 14px;
     text-decoration: none;
-    margin-bottom: 5px;
+    font-size: 0.9rem;
 }
 
 .additional-links a:hover {
     text-decoration: underline;
 }
 
-/* Hiệu ứng mở modal */
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-.login-container.modal .login-content {
-    animation: fadeIn 0.3s ease-out;
+.error-message {
+    color: red;
+    margin-bottom: 1.2rem;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1rem;
 }
