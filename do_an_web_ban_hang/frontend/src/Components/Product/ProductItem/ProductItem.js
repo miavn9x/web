@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Rating } from "@mui/material";
 import { MdOutlineZoomOutMap } from "react-icons/md";
 import { FaRegHeart } from "react-icons/fa";
 import "./ProductItem.css";
-import { useState } from "react";
 import ProductModal from "../Productmodal/Productmodal";
-const ProductItem = () => {
+import { formatter } from "../../../utils/fomater";
+
+
+const ProductItem = ({ product }) => {
   const [isOpenProductModal, setIsOpenProductModal] = useState(false);
-  const viewProductDetail = (id) => {
+
+  if (!product) {
+    return null; // hoặc return một placeholder/skeleton
+  }
+
+  const viewProductDetail = () => {
     setIsOpenProductModal(true);
   };
 
@@ -18,14 +25,20 @@ const ProductItem = () => {
   return (
     <>
       <div className="product__item">
-        <img
-          src="https://cdnv2.tgdd.vn/bhx-static/bhx/Products/Images/6562/332944/bhx/anh-slide-26_202412091504407992.jpg"
-          className="w-100"
-          alt="Product 1"
-        />
-        <span className="badge badge-primary bg-primary text-white">-20%</span>
+        {product.images && product.images.length > 0 ? (
+          <img src={product.images[0]} className="w-100" alt={product.name} />
+        ) : (
+          <img
+            src="placeholder-image-url.jpg" // Thay bằng URL ảnh placeholder
+            className="w-100"
+            alt="Placeholder"
+          />
+        )}
+        <span className="badge badge-primary bg-primary text-white">
+          -{product.discountPercentage || 0}%
+        </span>
         <div className="action">
-          <Button onClick={() => viewProductDetail(1)}>
+          <Button onClick={viewProductDetail}>
             <MdOutlineZoomOutMap />
           </Button>
           <Button>
@@ -33,13 +46,11 @@ const ProductItem = () => {
           </Button>
         </div>
         <div>
-          <h4 className="text-center fs-6 ">
-            Máy ảnh Canon EOS 200D II &amp; ngừa lão hóa 50g
-          </h4>
-          <span className="text-success d-block">oop</span>
+          <h4 className="text-center fs-6">{product.name}</h4>
+          <span className="text-success d-block">{product.brand}</span>
           <Rating
             name="read-only"
-            value={6}
+            value={product.rating || 0}
             readOnly
             size="small"
             precision={0.5}
@@ -49,17 +60,18 @@ const ProductItem = () => {
             style={{ padding: "0 10px" }}
           >
             <span className="product__price text-decoration-line-through opacity-50">
-              15.000đ
+               {formatter(product.originalPrice)}
             </span>
             <span className="product__price__old text-danger fs-5 fw-bold">
-              12.000đ
+              {formatter(product.priceAfterDiscount)}
             </span>
           </div>
         </div>
       </div>
 
-      {/* <ProductModal /> */}
-      {isOpenProductModal === true && <ProductModal CloseProductModal = {CloseProductModal}/>}
+      {isOpenProductModal && (
+        <ProductModal product={product} CloseProductModal={CloseProductModal} />
+      )}
     </>
   );
 };

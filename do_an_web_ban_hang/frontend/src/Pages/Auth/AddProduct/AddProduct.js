@@ -36,7 +36,7 @@ const AddProduct = () => {
 
         updatedProduct.discountPercentage = discountPercentage.toString();
         updatedProduct.priceAfterDiscount =
-          priceAfterDiscount > 0 ? priceAfterDiscount.toFixed(2) : "";
+          priceAfterDiscount > 0 ? priceAfterDiscount.toFixed() : "";
       }
 
       return updatedProduct;

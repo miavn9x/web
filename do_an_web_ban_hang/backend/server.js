@@ -193,13 +193,11 @@ app.delete(
 
 // Import product routes
 const producAdmintRoutes = require("./routes/producAdmintRoutes");
-app.use("/api/admin", authMiddleware, adminMiddleware, producAdmintRoutes);
+app.use("/api", producAdmintRoutes);
 
-// Import product routes
-const producRoutes = require("./routes/producRoutes");
-app.use("/api/products", producRoutes);
-
-
+// // Import product routes
+// const producRoutes = require("./models/productRoutes");
+// app.use("/api", producRoutes);
 
 // Khởi chạy server
 app.listen(PORT, () => {

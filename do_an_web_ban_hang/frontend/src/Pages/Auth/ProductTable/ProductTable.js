@@ -79,8 +79,11 @@ const ProductTable = () => {
         );
 
         if (!isNaN(originalPrice) && !isNaN(discountPercentage)) {
-          updatedFormData.priceAfterDiscount =
-            originalPrice * (1 - discountPercentage / 100);
+          // Tính giá sau giảm và làm tròn đến 2 chữ số thập phân
+          updatedFormData.priceAfterDiscount = (
+            originalPrice *
+            (1 - discountPercentage / 100)
+          ).toFixed();
         }
       }
 
