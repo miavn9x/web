@@ -2,9 +2,9 @@ import React from "react";
 import { Button, Rating } from "@mui/material";
 import { MdOutlineZoomOutMap } from "react-icons/md";
 import { FaRegHeart } from "react-icons/fa";
-import "./style.css";
+import "./ProductItem.css";
 import { useState } from "react";
-import ProductModal from "../Productmodal";
+import ProductModal from "../Productmodal/Productmodal";
 const ProductItem = () => {
   const [isOpenProductModal, setIsOpenProductModal] = useState(false);
   const viewProductDetail = (id) => {

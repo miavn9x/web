@@ -1,17 +1,15 @@
 import React from "react";
 import { VscArrowRight } from "react-icons/vsc";
 import { Button } from "@mui/material";
-import ProductItem from "../ProductItem";
-import "./style.css";
+import "./Productlist.css";
 import { useNavigate } from "react-router-dom";
+import ProductItem from "../ProductItem/ProductItem";
 
-const ProductList = () => {
-
-
-    const navigate = useNavigate();
-    const handleNavigate = (path) => {
-      navigate(path);
-    };
+const ListProduct = () => {
+  const navigate = useNavigate();
+  const handleNavigate = (path) => {
+    navigate(path);
+  };
 
   return (
     <section className="home__product">
@@ -28,6 +26,8 @@ const ProductList = () => {
           </Button>
         </div>
         <div className="product__list_item w-100 ">
+          {/* hiện thị toàn bộ sản phẩm tại  đây */}
+
           <ProductItem />
         </div>
       </div>
@@ -35,4 +35,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default ListProduct;

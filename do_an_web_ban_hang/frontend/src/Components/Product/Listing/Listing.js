@@ -1,8 +1,7 @@
 import React from "react";
-import "./style.css";
-import ProductItem from "../ProductItem";
+import "./Listing.css";
+import ProductItem from "../ProductItem/ProductItem";
 import Carousel from "../../common/Carousel";
-
 
 const Listing = () => {
   return (

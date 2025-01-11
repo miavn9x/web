@@ -1,13 +1,12 @@
 import React from "react";
-import "./style.css";
+import "./product.css";
 import CountdownTime from "../common/countdown time";
 import { Button } from "@mui/material";
 import { VscArrowRight } from "react-icons/vsc";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-import ProductItem from "./ProductItem";
-import Productlist from "./Productlist";
-
+import ProductItem from "./ProductItem/ProductItem";
+import ListProduct from "./Productlist/Productlist";
 const Product = () => {
   return (
     <>
@@ -51,7 +50,7 @@ const Product = () => {
       </section>
 
       <div>
-        <Productlist />
+        <ListProduct />
       </div>
     </>
   );

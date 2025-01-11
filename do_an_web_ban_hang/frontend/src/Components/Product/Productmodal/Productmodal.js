@@ -4,7 +4,7 @@ import Rating from "@mui/material/Rating";
 import { useRef } from "react";
 import InnerImageZoom from "react-inner-image-zoom";
 import Slider from "react-slick";
-import "./style.css";
+import "./Productmodal.css";
 import QuantityBox from "../../common/QuantityBox";
 import { formatter } from "../../../utils/fomater";
 import { FaRegHeart } from "react-icons/fa6";const ProductModal = (props) => {
