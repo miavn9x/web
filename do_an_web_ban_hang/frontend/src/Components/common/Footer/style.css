@@ -1,8 +1,30 @@
+/* General Layout Styles */
+body,
+html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+footer {
+    margin-top: auto;
+    /* Ensure footer stays at the bottom */
+}
+
 /* Footer Styles */
 .footer {
     background-color: #375534;
     color: #fff;
     padding: 20px 0 10px;
+    margin-top: auto;
+    /* Ensures footer is always at the bottom of the page */
 }
 
 .footer .container {
@@ -82,17 +104,19 @@
 .footer .footer__bottom {
     text-align: center;
     border-top: 1px solid #375534;
-    /* padding-top: 15px;
-    margin-top: 30px; */
 }
 
 .footer .footer__bottom p {
     font-size: 14px;
 }
-.footer__social-icons  {
-    margin-left: 18%!important;
+
+.footer__social-icons {
+    margin-left: 18% !important;
 }
 
-.footer__social-icons li:hover{
+.footer__social-icons li:hover {
     background: #6b9071;
+}
+.footer__text >h2{
+    text-align: left !important;
 }

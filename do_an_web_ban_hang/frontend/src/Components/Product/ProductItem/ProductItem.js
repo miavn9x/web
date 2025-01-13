@@ -34,7 +34,7 @@ const ProductItem = ({ product }) => {
             alt="Placeholder"
           />
         )}
-        <span className="badge badge-primary bg-primary text-white">
+        <span className="badge badge-primary bg-primary text-white py-1">
           -{product.discountPercentage || 0}%
         </span>
         <div className="action">
@@ -45,26 +45,32 @@ const ProductItem = ({ product }) => {
             <FaRegHeart />
           </Button>
         </div>
-        <div>
-          <h4 className="text-center fs-6">{product.name}</h4>
-          <span className="text-success d-block">{product.brand}</span>
+        <div className="product___content">
+          <h4 className="text-center fs-6 py-2  px-3"
+         >{product.name}</h4>
+          <span className="text-success d-block py-1 ps-3">
+            {product.brand}
+          </span>
           <Rating
             name="read-only"
             value={product.rating || 0}
             readOnly
             size="small"
             precision={0.5}
+            style={{ left: "10px" }}
           />
           <div
             className="d-flex justify-content-between align-items-center"
-            style={{ padding: "0 10px" }}
+            style={{ padding: "9px 0px" }}
           >
-            <span className="product__price text-decoration-line-through opacity-50">
-               {formatter(product.originalPrice)}
-            </span>
-            <span className="product__price__old text-danger fs-5 fw-bold">
-              {formatter(product.priceAfterDiscount)}
-            </span>
+            <div className="product__prices">
+              <span className="product___price text-decoration-line-through opacity-50">
+                {formatter(product.originalPrice)}
+              </span>
+              <span className="product__price___old text-danger fs-5 fw-bold">
+                {formatter(product.priceAfterDiscount)}
+              </span>
+            </div>
           </div>
         </div>
       </div>

@@ -25,7 +25,7 @@ const checkDuplicate = async (name, brand, category) => {
   }
 };
 
-// thêm sản phẩm mới với hình ảnh lên Cloudinary
+// Thêm sản phẩm mới với hình ảnh lên Cloudinary
 router.post("/products", upload.array("images", 20), async (req, res) => {
   const {
     name,
@@ -36,6 +36,8 @@ router.post("/products", upload.array("images", 20), async (req, res) => {
     discountPercentage,
     priceAfterDiscount,
     discountCode,
+    remainingStock,
+    stock,
   } = req.body;
 
   try {
@@ -71,6 +73,8 @@ router.post("/products", upload.array("images", 20), async (req, res) => {
       priceAfterDiscount,
       discountCode,
       images,
+      remainingStock: stock, // Số lượng còn lại ban đầu bằng số lượng trong kho
+      stock, // Số lượng trong kho
     });
 
     await newProduct.save();
@@ -181,6 +185,8 @@ router.put("/products/:id", upload.array("images", 20), async (req, res) => {
       discountPercentage,
       priceAfterDiscount,
       discountCode,
+      remainingStock,
+      stock,
     } = req.body;
 
     const updatedProductData = {
@@ -192,6 +198,8 @@ router.put("/products/:id", upload.array("images", 20), async (req, res) => {
       discountPercentage,
       priceAfterDiscount,
       discountCode,
+      remainingStock,
+      stock,
     };
 
     // Nếu có tệp hình ảnh mới, upload lên Cloudinary
@@ -224,12 +232,47 @@ router.put("/products/:id", upload.array("images", 20), async (req, res) => {
       return res.status(404).json({ message: "Không tìm thấy sản phẩm." });
     }
 
-    res
-      .status(200)
-      .json({ message: "Sản phẩm đã được cập nhật.", product: updatedProduct });
+    res.status(200).json({
+      message: "Sản phẩm đã được cập nhật.",
+      product: updatedProduct,
+    });
   } catch (error) {
     console.error("Lỗi khi cập nhật sản phẩm:", error);
     res.status(500).json({ message: "Có lỗi xảy ra khi cập nhật sản phẩm." });
+  }
+});
+
+// Route cập nhật số lượng còn lại khi mua hàng (POST)
+router.post("/products/:id/purchase", async (req, res) => {
+  const productId = req.params.id;
+  const { quantity } = req.body;
+
+  try {
+    if (!quantity || quantity <= 0) {
+      return res.status(400).json({ message: "Số lượng mua không hợp lệ." });
+    }
+
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: "Sản phẩm không tồn tại." });
+    }
+
+    if (product.remainingStock < quantity) {
+      return res.status(400).json({ message: "Số lượng trong kho không đủ." });
+    }
+
+    // Giảm số lượng còn lại sau khi mua
+    product.remainingStock -= quantity;
+
+    await product.save();
+
+    res.status(200).json({
+      message: "Mua hàng thành công",
+      product,
+    });
+  } catch (err) {
+    console.error("Lỗi khi cập nhật số lượng sản phẩm:", err);
+    res.status(500).json({ message: "Có lỗi xảy ra khi mua hàng." });
   }
 });
 

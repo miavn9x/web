@@ -34,7 +34,7 @@ const productSchema = new mongoose.Schema({
     },
   ],
   stock: { type: Number, required: true, min: 0 }, // Số lượng trong kho
-  remainingStock: { type: Number, required: true, min: 0 }, // Số lượng còn lại
+  remainingStock: { type: Number, required: true, min: 0, default: 0 }, // Số lượng còn lại
 });
 
 const Product = mongoose.model("Product", productSchema);

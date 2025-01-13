@@ -15,7 +15,9 @@ const Footer = () => {
       <div className="container">
         <div className="footer__top">
           <div className="footer__info">
-            <h2>Mía Food</h2>
+            <div className="footer__text">
+              <h2>Mía Food</h2>
+            </div>
             <p>Chuyên cung cấp các mặt hàng chính hãng.</p>
             <ul>
               <li>

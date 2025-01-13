@@ -1,171 +1,150 @@
+/* Bảo vệ không bị ảnh hưởng bởi các trang khác */
+.product-management-wrapper {
+    width: 100%;
+    max-width: 1400px;
+    
+    margin: 0 auto;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
 
+/* Tạo khoảng cách và cuộn ngang cho bảng */
+.product-management .table-responsive {
+    overflow-x: auto;
+}
 
-/* Table styles */
-.table {
-    margin-top: 20px;
+/* Định dạng bảng sản phẩm */
+.product-table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.table th,
-.table td {
+.product-table th,
+.product-table td {
+    padding: 10px;
     text-align: center;
-    padding: 12px;
+}
+
+.product-table th {
+    background-color: #f2f2f2;
+}
+
+/* Cải thiện giao diện tìm kiếm và lọc */
+.product-search-input,
+.product-category-filter {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+/* Định dạng ô trong bảng */
+.product-table th,
+.product-table td {
+    text-align: left;
+    padding: 8px 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Hình ảnh trong bảng sản phẩm */
+.product-table img {
+    max-width: 50px;
+    max-height: 50px;
+    object-fit: cover;
+    width: auto;
+    height: auto;
+}
+
+/* Các nút bấm */
+.btn {
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btn-sm {
+    font-size: 12px;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    color: #fff;
+}
+
+/* Form chỉnh sửa sản phẩm */
+.product-management form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
     border: 1px solid #ddd;
 }
 
-/* Các thuộc tính cho việc điều chỉnh form */
-input[type="text"],
-input[type="number"],
-select,
-textarea,
-input[type="file"] {
+.product-management .form-control {
     width: 100%;
     padding: 8px;
     margin-bottom: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
 }
 
-/* Thêm padding cho button trong form */
-button {
-    font-size: 14px;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
-
-
-.btn-secondary {
-    background-color: #6c757d;
-    color: white;
-}
-
-.form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-/* Đảm bảo các hình ảnh không làm thay đổi kích thước và đảm bảo không gian cho các ảnh */
-.img-thumbnail {
-    max-width: 50px;
-    max-height: 50px;
-    margin: 5px;
-}
-
+/* Phân trang */
 .pagination {
-    justify-content: center;
-    margin-top: 20px;
-}
-
-/* Thêm các phần tử nhỏ khác nếu cần thiết */
-.btn-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.875rem;
-}
-
-.alert {
-    margin-top: 20px;
-}
-
-.alert-success {
-    background-color: #d4edda;
-    color: #155724;
-}
-
-.alert-danger {
-    background-color: #f8d7da;
-    color: #721c24;
-}
-
-.text-center {
     text-align: center;
-}
-
-.text-uppercase {
-    text-transform: uppercase;
-}
-
-.mb-4 {
-    margin-bottom: 1.5rem;
-}
-
-.mb-2 {
-    margin-bottom: 0.5rem;
-}
-
-.mt-5 {
-    margin-top: 3rem;
-}
-
-.mt-3 {
-    margin-top: 1rem;
-}
-
-/* CSS Styles cho giao diện ProductTable */
-.table th,
-.table td {
-    vertical-align: middle;
-}
-
-.pagination .page-item {
-    cursor: pointer;
-}
-
-.pagination .active .page-link {
-    background-color: #00bb29 !important;
-    border-color: #fdfeff !important;
-    color: white;
-}
-
-.pagination .disabled .page-link {
-    background-color: #e9ecef;
-    border-color: #e9ecef;
-    color: #6c757d;
-}
-
-img.img-thumbnail {
-    margin: 5px;
-    max-width: 50px;
-    max-height: 50px;
-}
-
-.form-control {
-    margin-bottom: 10px;
-}
-
-.btn-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.875rem;
-}
-.pagination {
+    margin-top: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
-}
-
-.pagination button {
-    margin: 0 10px;
 }
 
 .page-number {
-    font-size: 1rem;
-    font-weight: bold;
-    margin: 0 10px;
+    margin: 0 15px;
 }
 
-/* Button styling for previous and next page */
-.pagination button.btn-secondary {
-    padding: 6px 12px;
-    font-size: 0.875rem;
+.pagination button {
+    margin: 0 5px;
 }
 
-.pagination .btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+/* Responsive */
+@media (max-width: 768px) {
+    .product-management-wrapper {
+        padding: 0 10px;
+    }
+
+    .product-table td,
+    .product-table th {
+        font-size: 12px;
+    }
+
+    .form-control {
+        font-size: 14px;
+    }
+
+    .pagination {
+        flex-direction: column;
+    }
 }

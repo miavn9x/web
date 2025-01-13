@@ -192,12 +192,15 @@ app.delete(
 );
 
 // Import product routes
-const producAdmintRoutes = require("./routes/producAdmintRoutes");
-app.use("/api", producAdmintRoutes);
+const productRoutes = require("./routes/productRoutes");
+app.use("/api", productRoutes);
+
+const orderRoutes = require("./routes/orderRoutes");
+app.use("/api", orderRoutes);
+
 
 
 const userRoutes = require("./routes/userRoutes");
-
 // Sử dụng các route liên quan đến người dùng
 app.use("/api/user", userRoutes);
 
