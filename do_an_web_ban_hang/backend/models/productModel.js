@@ -11,7 +11,6 @@ const productSchema = new mongoose.Schema({
       required: true,
       validate: {
         validator: function (value) {
-          // Kiểm tra xem có phải URL hợp lệ hoặc là đường dẫn của ảnh
           return (
             /^(http|https):\/\/[^ "\n]+$/.test(value) ||
             /\.(jpg|jpeg|png|gif)$/.test(value)
@@ -21,7 +20,7 @@ const productSchema = new mongoose.Schema({
           `${props.value} is not a valid image URL or file path!`,
       },
     },
-  ], // Danh sách ảnh sản phẩm (URL hoặc Cloudinary URL)
+  ], // Danh sách ảnh sản phẩm
   originalPrice: { type: Number, required: true }, // Giá gốc
   discountPercentage: { type: Number, default: 0 }, // Phần trăm giảm giá
   priceAfterDiscount: { type: Number, required: true }, // Giá sau khi giảm
@@ -34,6 +33,8 @@ const productSchema = new mongoose.Schema({
       rating: { type: Number, min: 1, max: 5 }, // Đánh giá sao
     },
   ],
+  stock: { type: Number, required: true, min: 0 }, // Số lượng trong kho
+  remainingStock: { type: Number, required: true, min: 0 }, // Số lượng còn lại
 });
 
 const Product = mongoose.model("Product", productSchema);

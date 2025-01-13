@@ -14,6 +14,7 @@ import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
 import AddProduct from "./Pages/Auth/AddProduct/AddProduct";
 import ProductTable from "./Pages/Auth/ProductTable/ProductTable";
 import AccountList from "./Pages/Auth/AccountList/AccountList";
+import UserPage from "./Pages/Auth/User/userPage";
 
 function App() {
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -55,6 +56,15 @@ function App() {
         <Route path="/register" element={<Register />} />
 
         {/* Protected Routes - User & admin */}
+        <Route
+          path="/thong-tin-ca-nhan"
+          element={
+            <PrivateRoute isAuthenticated={isAuthenticated}>
+              <UserPage />
+            </PrivateRoute>
+          }
+        />
+
         <Route
           path="/gio-hang"
           element={

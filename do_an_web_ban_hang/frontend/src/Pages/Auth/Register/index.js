@@ -70,7 +70,7 @@ const Register = ({ closeModal, onRegisterSuccess, switchToLogin }) => {
       return false;
     }
 
-    if (formData.password.length < 6) {
+    if (formData.password.length < 1) {
       setError("Mật khẩu phải có ít nhất 6 ký tự");
       return false;
     }

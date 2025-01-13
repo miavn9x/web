@@ -3,7 +3,7 @@ import Carousel from "../../Components/common/Carousel/index";
 import "../../App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Product from "../../Components/Product/product";
-import Productcart from "../../Components/Product/Productcart";
+import Productcart from "../../Components/Product/product_menu";
 
 const Home = () => {
   return (

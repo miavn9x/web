@@ -195,9 +195,11 @@ app.delete(
 const producAdmintRoutes = require("./routes/producAdmintRoutes");
 app.use("/api", producAdmintRoutes);
 
-// // Import product routes
-// const producRoutes = require("./models/productRoutes");
-// app.use("/api", producRoutes);
+
+const userRoutes = require("./routes/userRoutes");
+
+// Sử dụng các route liên quan đến người dùng
+app.use("/api/user", userRoutes);
 
 // Khởi chạy server
 app.listen(PORT, () => {
