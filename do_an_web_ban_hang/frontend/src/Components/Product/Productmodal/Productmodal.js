@@ -98,7 +98,7 @@ const ProductModal = (props) => {
             </div>
             <Slider {...settings} className="zoomSliderBig" ref={zoomSliderBig}>
               {displayImages.map((image, index) => (
-                <div className="item" key={index}>
+                <div className="item " key={index}>
                   <InnerImageZoom zoomType="hover" zoomScale={1} src={image} />
                 </div>
               ))}
@@ -119,39 +119,43 @@ const ProductModal = (props) => {
         </div>
         <div className="col-md-7">
           <p className="mt-3">{product.description}</p>
-          <div className="d-flex align-items-center ">
-            <span className="badge__badge bg-success">{product.category}</span>
+          <div className="product__modal__box">
+            <div className="d-flex align-items-center ">
+              <span className="badge__badge bg-success">
+                {product.category}
+              </span>
 
-            <Button
-              className="btn-round text-uppercase add_to_favorites"
-              variant="outlined"
-              onClick={handleAddToFavorites}
-            >
-              <FaRegHeart /> &nbsp; Thêm vào yêu thích
-            </Button>
-          </div>
+              <Button
+                className="btn-round text-uppercase add_to_favorites"
+                variant="outlined"
+                onClick={handleAddToFavorites}
+              >
+                <FaRegHeart /> &nbsp; Thêm vào yêu thích
+              </Button>
+            </div>
 
-          <div className="d-flex info__product align-items-center mb-4">
-            <span className="product__price text-decoration-line-through opacity-50">
-              {formatter(product.originalPrice)}
-            </span>
-            <span className="product__price__old text-danger fs-5 fw-bold">
-              {formatter(product.priceAfterDiscount)}
-            </span>
-          </div>
-          <div className="d-flex align-items-center">
-            <QuantityBox quantity={quantity} setQuantity={setQuantity} />
+            <div className="d-flex info__product align-items-center mb-4">
+              <span className="product__price text-decoration-line-through opacity-50">
+                {formatter(product.originalPrice)}
+              </span>
+              <span className="product__price__old text-danger fs-5 fw-bold">
+                {formatter(product.priceAfterDiscount)}
+              </span>
+            </div>
+            <div className="d-flex align-items-center">
+              <QuantityBox quantity={quantity} setQuantity={setQuantity} />
 
-            <button
-              className="btn__add__cart custom-btn"
-              onClick={handleAddToCart}
-            >
-              Thêm vào giỏ hàng
-            </button>
+              <button
+                className="btn__add__cart custom-btn"
+                onClick={handleAddToCart}
+              >
+                Thêm vào giỏ hàng
+              </button>
 
-            <button className="btn__buy" onClick={handleBuyNow}>
-              Mua ngay
-            </button>
+              <button className="btn__buy" onClick={handleBuyNow}>
+                Mua ngay
+              </button>
+            </div>
           </div>
         </div>
       </div>

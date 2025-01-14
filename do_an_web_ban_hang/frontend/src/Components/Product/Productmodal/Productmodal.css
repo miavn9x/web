@@ -6,10 +6,10 @@
     border: 1px solid rgba(0, 0, 0, 0.1) !important;
     border-radius: 10px !important;
     position: relative;
-    width: 1000px !important;
+    width: 900px !important;
     max-width: 100% !important;
+    height: auto !important;
 }
-
 
 
 .product__modal .close__ {
@@ -54,12 +54,9 @@
    
 }
 
-.zoomSliderBig {
-    width: 100% !important;
-}
+
 
 /* .zoomSliderBig img {
-    width: 100% !important;
 
     height: auto !important;
     border-radius: 15px;
@@ -68,18 +65,38 @@
         border: 1px solid rgba(0, 0, 0, 0.4);
 } */
 
+.zoomSliderBig .item {
+  overflow: hidden; /* Đảm bảo các hình ảnh không tràn ra ngoài */
+  border-radius: 15px; /* Bo tròn góc */
+}
+
+/* Cấu hình cho hình ảnh khi zoom */
+.zoomSliderBig .item img {
+  transition: transform 0.3s ease; /* Thêm hiệu ứng mượt khi zoom */
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+}
+
+.zoomSliderBig .item:hover img {
+    transform: scale(1.1);
+    border-radius: 15px;
+}
 
 
 .zoomSlider {
     padding-top: 30px;
+    
 }
 
 .zoomSlider .slick-slide {
     padding-right: 30px !important;
+    
 }
 
 .zoomSlider * {
     outline: none !important;
+
 }
 
 .zoomSlider .item {
@@ -159,8 +176,8 @@ button:active {
     background-color: #28a745;
     color: #fff;
     border: none;
-    padding: 12px 18px;
-    font-size: 18px;
+    padding: 12px 18px!important;
+    font-size: 16px!important;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -184,8 +201,8 @@ button:active {
     background-color: #ff5722;
     color: #fff;
     border: none;
-    padding: 12px 18px;
-    font-size: 18px;
+    padding: 12px 18px!important;
+    font-size: 16px!important;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
@@ -212,11 +229,11 @@ button:active {
     text-transform: capitalize !important;
 }
 .badge__badge{
-    font-size: 18px!important;
+    font-size: 16px!important;
     font-weight: 600!important;
     color: #ffffff!important;
     background-color: #ff1515;
-    padding: 8px 20px!important;
+    padding: 8px 15px!important;
     border-radius: 8px!important;
     margin: 15px 5px;
 }
@@ -232,7 +249,7 @@ button:active {
 
 }
 .add_to_favorites svg{
-    font-size: 16px!important;
+    font-size: 10px!important;
     /* margin-right: 10px!important; */
 }
 .add_to_favorites svg:hover{
@@ -242,11 +259,12 @@ button:active {
     color: #ff1515 !important;
 }
 .col-md-7 .product__price {
-    font-size: 22px!important;
+    font-size: 18px!important;
     font-weight: 600;
 }
 .col-md-7 .product__price__old{
-    font-size: 26px!important;
+    font-size: 24px!important;
     font-weight: 400;
 
 }
+
