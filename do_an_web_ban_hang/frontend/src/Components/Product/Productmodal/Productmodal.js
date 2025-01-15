@@ -1,28 +1,33 @@
+import React, { useRef, useState, useEffect } from "react";
 import { Button, Dialog } from "@mui/material";
 import { IoCloseCircleSharp } from "react-icons/io5";
 import Rating from "@mui/material/Rating";
-import { useRef, useState } from "react";
 import InnerImageZoom from "react-inner-image-zoom";
 import Slider from "react-slick";
-import "./Productmodal.css";
-import QuantityBox from "../../common/QuantityBox";
 import { FaRegHeart } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { addToCart, addToFavorites } from "../../../../src/redux/actions";
-import { formatter } from "../../../utils/fomater"; // Đảm bảo bạn nhập đúng đường dẫn
+import { addToCart } from "../../../redux/actions";
+import QuantityBox from "../../common/QuantityBox";
+import { formatter } from "../../../utils/fomater";
+import axios from "axios";
+import { useNavigate, useLocation } from "react-router-dom"; // Hook để lấy location và điều hướng
+
+import "./Productmodal.css";
 
 const ProductModal = (props) => {
-  const { product } = props; // Nhận product từ props
+  const { product } = props;
   const zoomSliderBig = useRef();
   const zoomSlider = useRef();
 
-  // Lấy tối đa 3 ảnh từ mảng images
+  const [quantity, setQuantity] = useState(1);
+  const [isFavorited, setIsFavorited] = useState(false);
+  const [notification, setNotification] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); // Hook điều hướng
+  const location = useLocation(); // Hook để lấy đường dẫn hiện tại
+
   const displayImages = product.images.slice(0, 3);
 
-  const [quantity, setQuantity] = useState(1);
-  const dispatch = useDispatch();
-
-  // Cấu hình cho slider hình ảnh lớn
   const settings = {
     dots: false,
     infinite: false,
@@ -31,7 +36,6 @@ const ProductModal = (props) => {
     slidesToScroll: 1,
   };
 
-  // Cấu hình cho slider hình ảnh thu nhỏ
   const settings1 = {
     dots: false,
     infinite: false,
@@ -41,29 +45,98 @@ const ProductModal = (props) => {
     arrows: true,
   };
 
-  // Chuyển đến ảnh khác khi chọn trong slider thu nhỏ
   const goTo = (index) => {
     zoomSlider.current.slickGoTo(index);
     zoomSliderBig.current.slickGoTo(index);
   };
 
-  // Xử lý thêm vào giỏ hàng
   const handleAddToCart = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      // Lưu URL hiện tại vào localStorage trước khi chuyển hướng đến trang đăng nhập
+      localStorage.setItem("redirectUrl", location.pathname);
+      navigate("/login"); // Chuyển hướng đến trang đăng nhập
+      return;
+    }
     dispatch(addToCart(product, quantity));
-    alert("Sản phẩm đã được thêm vào giỏ hàng");
+    setNotification("Sản phẩm đã được thêm vào giỏ hàng");
   };
 
-  // Xử lý thêm vào yêu thích
   const handleAddToFavorites = () => {
-    dispatch(addToFavorites(product));
-    alert("Sản phẩm đã được thêm vào mục yêu thích");
+    const token = localStorage.getItem("token");
+    if (!token) {
+      // Lưu URL hiện tại vào localStorage trước khi chuyển hướng đến trang đăng nhập
+      localStorage.setItem("redirectUrl", location.pathname);
+      navigate("/login"); // Chuyển hướng đến trang đăng nhập
+      return;
+    }
+
+    if (isFavorited) {
+      setNotification("Sản phẩm đã có trong yêu thích.");
+      setTimeout(() => setNotification(""), 5000);
+      return;
+    }
+
+    axios
+      .post(
+        "http://localhost:5000/api/favorites",
+        { productId: product._id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        setIsFavorited(true);
+        setNotification("Sản phẩm đã được thêm vào mục yêu thích.");
+        setTimeout(() => setNotification(""), 5000);
+      })
+      .catch((err) => {
+        setNotification("Đã xảy ra lỗi khi thêm sản phẩm vào yêu thích.");
+        setTimeout(() => setNotification(""), 5000);
+      });
   };
 
-  // Xử lý mua ngay
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      axios
+        .get(`http://localhost:5000/api/favorites`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          const isProductInFavorites = response.data.favorites.some(
+            (favProduct) => favProduct._id === product._id
+          );
+          setIsFavorited(isProductInFavorites);
+        })
+        .catch((err) => {
+          console.error("Lỗi khi kiểm tra yêu thích", err);
+        });
+    }
+  }, [product._id]);
+
   const handleBuyNow = () => {
-    alert("Mua ngay!");
-    // navigate("/checkout"); // Điều hướng đến trang thanh toán (nếu có)
+    const token = localStorage.getItem("token");
+    if (!token) {
+      localStorage.setItem("redirectUrl", location.pathname);
+      navigate("/login");
+      return;
+    }
+
+    setNotification("Mua ngay!");
+    setTimeout(() => setNotification(""), 5000);
   };
+
+  // useEffect(() => {
+  //   const redirectUrl = localStorage.getItem("redirectUrl");
+  //   if (redirectUrl) {
+  //     // Sau khi đăng nhập thành công, chuyển hướng về URL đã lưu trong localStorage
+  //     navigate(redirectUrl);
+  //     localStorage.removeItem("redirectUrl"); // Xóa URL đã lưu sau khi chuyển hướng
+  //   }
+  // }, [navigate]);
 
   return (
     <Dialog
@@ -94,10 +167,12 @@ const ProductModal = (props) => {
         />
       </div>
 
+      <div className="notification-message justify-content-center text-center text-danger">
+        {notification && <span>{notification}</span>}
+      </div>
       <hr />
 
       <div className="row mt-2 product__modal__content">
-        {/* Phần hình ảnh */}
         <div className="col-md-5">
           <div className="product__modal__zoom position-relative">
             <div className="badge badge-primary bg-primary">
@@ -126,7 +201,6 @@ const ProductModal = (props) => {
           </Slider>
         </div>
 
-        {/* Phần thông tin sản phẩm */}
         <div className="col-md-7">
           <p className="mt-3">{product.description}</p>
 
@@ -140,8 +214,9 @@ const ProductModal = (props) => {
                 className="btn-round text-uppercase add_to_favorites"
                 variant="outlined"
                 onClick={handleAddToFavorites}
+                color={isFavorited ? "red" : "gray"}
               >
-                <FaRegHeart /> &nbsp; Thêm vào yêu thích
+                <FaRegHeart size={20} /> &nbsp; Thêm vào yêu thích
               </Button>
             </div>
 

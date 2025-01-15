@@ -4,6 +4,46 @@ const Product = require("../models/productModel");
 const Favorite = require("../models/favoriteModel");
 const router = express.Router();
 
+
+
+
+// Route thêm sản phẩm vào yêu thích
+router.post("/favorites", authMiddleware, async (req, res) => {
+  const { productId } = req.body;
+  const userId = req.user.id;
+
+  try {
+    // Kiểm tra sản phẩm
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: "Sản phẩm không tồn tại." });
+    }
+
+    // Kiểm tra người dùng đã có sản phẩm yêu thích chưa
+    let favorite = await Favorite.findOne({ user: userId });
+
+    if (!favorite) {
+      favorite = new Favorite({ user: userId, products: [productId] });
+      await favorite.save();
+    } else {
+      if (!favorite.products.includes(productId)) {
+        favorite.products.push(productId);
+        await favorite.save();
+      } else {
+        return res.status(400).json({ message: "Sản phẩm đã có trong yêu thích." });
+      }
+    }
+
+    res.status(200).json({ message: "Sản phẩm đã được thêm vào yêu thích." });
+  } catch (err) {
+    console.error("Lỗi khi thêm sản phẩm vào yêu thích:", err);
+    res.status(500).json({ message: "Có lỗi xảy ra khi thêm sản phẩm vào yêu thích." });
+  }
+});
+
+module.exports = router;
+
+
 // Kiểm tra lại route thêm vào yêu thích
 router.post("/favorites", authMiddleware, async (req, res) => {
   const { productId } = req.body;

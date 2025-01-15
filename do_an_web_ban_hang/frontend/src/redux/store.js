@@ -1,10 +1,11 @@
-// redux/store.js
-import { createStore } from "redux";
-import rootReducer from "./reducers"; // Giả sử bạn đã có reducer
+// store.js
+import { createStore, combineReducers } from "redux";
+import cartReducer from "./reducers/cartReducer";
 
-const store = createStore(
-  rootReducer, // Reducer của bạn
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() // Để sử dụng Redux DevTools trong trình duyệt
-);
+const rootReducer = combineReducers({
+  cart: cartReducer, // Kết hợp reducer giỏ hàng vào store
+});
+
+const store = createStore(rootReducer);
 
 export default store;
