@@ -99,3 +99,10 @@
 .product___content>h4 {
     text-align: justify !important;
 }
+.notification-message{
+    padding: 0px 20px;
+    text-align: center;
+    font-size: 16px !important;
+    font-weight: bold;
+    color: #dc3545 !important;
+}

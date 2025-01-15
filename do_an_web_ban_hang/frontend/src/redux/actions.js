@@ -13,3 +13,5 @@ export const addToFavorites = (product) => {
     payload: product,
   };
 };
+//
+

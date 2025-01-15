@@ -1,16 +1,32 @@
-// cartReducer.js
+// src/redux/reducers/cartReducer.js
+
 const initialState = {
   cartItems: [],
 };
 
 const cartReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "ADD_TO_CART":
+    case "REMOVE_ITEM":
       return {
         ...state,
-        cartItems: [...state.cartItems, action.payload],
+        cartItems: state.cartItems.filter(
+          (item) => item.product._id !== action.payload
+        ),
       };
-    // Các hành động khác (nếu có)
+
+    case "UPDATE_QUANTITY":
+      return {
+        ...state,
+        cartItems: state.cartItems.map((item) =>
+          item.product._id === action.payload.productId
+            ? {
+                ...item,
+                quantity: item.quantity + action.payload.quantityChange,
+              }
+            : item
+        ),
+      };
+
     default:
       return state;
   }

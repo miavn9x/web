@@ -129,6 +129,11 @@ const Header = () => {
                               Các sản phẩm đã mua
                             </Dropdown.Item>
                             <Dropdown.Item
+                              onClick={() => navigate("/gio-hang")}
+                            >
+                              Giot hàng
+                            </Dropdown.Item>
+                            <Dropdown.Item
                               onClick={() => navigate("/admin/user-management")}
                             >
                               Quản lý user
@@ -158,6 +163,11 @@ const Header = () => {
                             </Dropdown.Item>
                             <Dropdown.Item onClick={() => navigate("/")}>
                               Các sản phẩm đã mua
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                              onClick={() => navigate("/gio-hang")}
+                            >
+                              Giot hàng
                             </Dropdown.Item>
                           </>
                         )}
