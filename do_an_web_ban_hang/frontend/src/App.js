@@ -15,6 +15,7 @@ import AddProduct from "./Pages/Auth/AddProduct/AddProduct";
 import ProductTable from "./Pages/Auth/ProductTable/ProductTable";
 import AccountList from "./Pages/Auth/AccountList/AccountList";
 import UserPage from "./Pages/Auth/User/userPage";
+import Favorites from "./Pages/Product/Favorites/Favorites";
 
 function App() {
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -61,6 +62,14 @@ function App() {
           element={
             <PrivateRoute isAuthenticated={isAuthenticated}>
               <UserPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/danh-sach-yeu-thich"
+          element={
+            <PrivateRoute isAuthenticated={isAuthenticated}>
+              <Favorites />
             </PrivateRoute>
           }
         />

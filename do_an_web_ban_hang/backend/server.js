@@ -204,6 +204,12 @@ const userRoutes = require("./routes/userRoutes");
 // Sử dụng các route liên quan đến người dùng
 app.use("/api/user", userRoutes);
 
+const favoritesRoutes = require("./routes/favoritesRoutes"); // import thêm mục yêu thích
+app.use("/api", favoritesRoutes); 
+
+const productDisplayRoutes = require("./routes/productDisplayRoutes"); // Đường dẫn cần phù hợp
+app.use("/api/products", productDisplayRoutes);
+
 // Khởi chạy server
 app.listen(PORT, () => {
   console.log(`Server đang chạy tại http://localhost:${PORT}`);

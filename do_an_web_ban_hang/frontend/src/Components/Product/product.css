@@ -21,14 +21,19 @@
     align-items: center;
     padding: 10px 20px;
     border: 2px solid rgba(0, 0, 0, 0.1);
-        background-color: #d1fde8;
-        border-radius: 10px;
+    background-color: #d1fde8;
+    border-radius: 10px;
 }
+
 .home__product .product__info {
+    max-width: 85%;
+    width: 85%;
     color: #198754;
     font-weight: 900;
     font-size: 18px;
     margin-left: 10px;
+    padding: 10px 0px;
+
 }
 
 .home__product .product__info .product__sale {
@@ -55,7 +60,7 @@
 
 .product__btn__viewall {
     border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+    border-radius: 17px !important;
     padding: 8px 8px !important;
     background-color: #ffffff !important;
     color: #198754 !important;
@@ -87,12 +92,13 @@
     left: 10px;
     padding: 5px 5px;
     border-radius: 10px;
-    font-size: 12px!important;
+    font-size: 12px !important;
     font-weight: 700;
     z-index: 1;
 }
-.home__product .swiper .swiper-wrapper{
-padding: 5px 0!important;
+
+.home__product .swiper .swiper-wrapper {
+    padding: 5px 0 !important;
 }
 
 .badge-primary {

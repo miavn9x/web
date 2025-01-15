@@ -95,7 +95,7 @@ router.get("/products", async (req, res) => {
   try {
     const {
       page = 1,
-      limit = 10,
+      limit = 9999,
       search = "",
       category,
       minPrice,
@@ -275,5 +275,7 @@ router.post("/products/:id/purchase", async (req, res) => {
     res.status(500).json({ message: "Có lỗi xảy ra khi mua hàng." });
   }
 });
+
+
 
 module.exports = router;

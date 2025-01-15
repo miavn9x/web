@@ -116,6 +116,19 @@ const Header = () => {
                         {userRole === "admin" ? (
                           <>
                             <Dropdown.Item
+                              onClick={() => navigate("/thong-tin-ca-nhan")}
+                            >
+                              Thông tin tài khoản
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                              onClick={() => navigate("/danh-sach-yeu-thich")}
+                            >
+                              Sản phẩm yêu thích
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => navigate("/")}>
+                              Các sản phẩm đã mua
+                            </Dropdown.Item>
+                            <Dropdown.Item
                               onClick={() => navigate("/admin/user-management")}
                             >
                               Quản lý user
@@ -139,7 +152,7 @@ const Header = () => {
                               Thông tin tài khoản
                             </Dropdown.Item>
                             <Dropdown.Item
-                              onClick={() => navigate("/thong-tin-ca-nhan")}
+                              onClick={() => navigate("/danh-sach-yeu-thich")}
                             >
                               Sản phẩm yêu thích
                             </Dropdown.Item>

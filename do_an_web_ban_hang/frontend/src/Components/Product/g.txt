@@ -1,0 +1,40 @@
+ const categories = [
+    "thịt",
+    "cá",
+    "rau",
+    "gia vị",
+    "Đồ uống",
+    "gạo",
+    "mì ăn liền",
+    "đồ khô",
+    "các loại trứng",
+    "đồ ăn đóng hộp",
+    "sữa",
+  ];
+
+            <section className="home__product">
+        {categories.map((category) => (
+          <div key={category} className="product__row__Product_catalog">
+            <div className="d-flex align-items-center product__row__title w-100">
+              <div className="info product__info">
+                <h4
+                  className="text-uppercase mb-0"
+                  style={{ color: "red", paddingTop: "2px" }}
+                >
+                  {category}
+                </h4>
+              </div>
+              <Button
+                className="product__btn__viewall justify-content-end"
+                onClick={() => handleNavigate("/danh-sach-san-pham")}
+              >
+                Xem thêm <VscArrowRight />
+              </Button>
+            </div>
+
+            <div className="product__row w-100 bg-white">
+              <ListProduct category={category} /> {/* Hiển thị sản phẩm theo category */}
+            </div>
+          </div>
+        ))}
+      </section>

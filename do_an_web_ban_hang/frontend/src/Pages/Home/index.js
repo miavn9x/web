@@ -3,7 +3,7 @@ import Carousel from "../../Components/common/Carousel/index";
 import "../../App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Product from "../../Components/Product/product";
-import Productcart from "../../Components/Product/product_menu";
+// import Productcart from "../../Components/Product/product_menu";
 
 const Home = () => {
   return (
@@ -13,7 +13,7 @@ const Home = () => {
           <div className="col-sm-12">
             <Carousel />
 
-            <Productcart />
+            {/* <Productcart /> */}
           </div>
           <div className="col-sm-12">
             <Product />

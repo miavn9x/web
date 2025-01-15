@@ -1,54 +1,61 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { VscArrowRight } from "react-icons/vsc";
-import { Button } from "@mui/material";
 import "./Productlist.css";
-import { useNavigate } from "react-router-dom";
 import ProductItem from "../ProductItem/ProductItem";
 
-const ListProduct = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+const ListProduct = ({ category, sortBy, limit }) => {
+  const [products, setProducts] = useState([]); // State lưu danh sách sản phẩm
+  const [loading, setLoading] = useState(true); // State lưu trạng thái đang tải
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setLoading(true); // Bắt đầu tải sản phẩm
       try {
-        const response = await axios.get(
-          "http://localhost:5000/api/products?limit=5"
-        );
-        setProducts(response.data.products);
+        let url = "http://localhost:5000/api/products"; // URL cơ bản để lấy sản phẩm
+        if (category) {
+          url = `${url}/category/${category}`; // Lọc sản phẩm theo category nếu có
+        }
+
+        const response = await axios.get(url);
+        let fetchedProducts = response.data.products;
+
+        if (!fetchedProducts || fetchedProducts.length === 0) {
+          setLoading(false);
+          return;
+        }
+
+        // Sắp xếp sản phẩm nếu cần
+        if (sortBy === "discountPercentage") {
+          fetchedProducts = fetchedProducts.sort(
+            (a, b) => b.discountPercentage - a.discountPercentage
+          );
+        } else if (sortBy === "random") {
+          fetchedProducts = fetchedProducts.sort(() => Math.random() - 0.5);
+        }
+
+        // Giới hạn số lượng sản phẩm nếu cần
+        if (limit) {
+          fetchedProducts = fetchedProducts.slice(0, limit);
+        }
+
+        setProducts(fetchedProducts); // Cập nhật state với danh sách sản phẩm đã lọc
         setLoading(false);
       } catch (error) {
         console.error("Error fetching products:", error);
         setLoading(false);
       }
     };
-    fetchProducts();
-  }, []);
 
-  const handleNavigate = (path) => {
-    navigate(path);
-  };
+    fetchProducts();
+  }, [category, sortBy, limit]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>Đang tải...</div>;
   }
 
   return (
     <section className="home__product">
       <div className="product__row">
-        <div className="d-flex align-items-center product__row__title w-100">
-          <div className="info product__info w-75">
-            <h4 className="text-uppercase mb-0">Danh sách sản phẩm</h4>
-          </div>
-          <Button
-            className="product__btn__viewall justify-content-end"
-            onClick={() => handleNavigate("/danh-sach-san-pham")}
-          >
-            Xem thêm sản phẩm <VscArrowRight />
-          </Button>
-        </div>
         <div className="product__list_item w-100">
           {products && products.length > 0 ? (
             products.map((product) => (

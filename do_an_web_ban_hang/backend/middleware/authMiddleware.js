@@ -1,5 +1,12 @@
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET } = process.env; // Lấy secret từ file .env
+
+// Lấy secret từ file .env
+const { JWT_SECRET } = process.env;
+
+// Kiểm tra nếu JWT_SECRET không tồn tại
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET không được cấu hình trong môi trường.");
+}
 
 // Middleware kiểm tra token
 const authMiddleware = (req, res, next) => {
@@ -8,7 +15,9 @@ const authMiddleware = (req, res, next) => {
 
   // Kiểm tra xem token có tồn tại hay không
   if (!token) {
-    return res.status(401).json({ message: "Không tìm thấy token" });
+    return res
+      .status(401)
+      .json({ message: "Không tìm thấy token. Vui lòng đăng nhập." });
   }
 
   try {
@@ -22,8 +31,12 @@ const authMiddleware = (req, res, next) => {
     next();
   } catch (err) {
     // Trường hợp token không hợp lệ hoặc đã hết hạn
-    console.error(err); // Ghi lại lỗi nếu có
-    res.status(401).json({ message: "Token không hợp lệ hoặc đã hết hạn" });
+    console.error("Lỗi xác thực token:", err); // Ghi lại lỗi nếu có
+    res
+      .status(401)
+      .json({
+        message: "Token không hợp lệ hoặc đã hết hạn. Vui lòng đăng nhập lại.",
+      });
   }
 };
 
