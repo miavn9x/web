@@ -1,17 +1,17 @@
+
 import React, { useRef, useState, useEffect } from "react";
-import { Button, Dialog } from "@mui/material";
+import { Button, Dialog, Snackbar } from "@mui/material";
 import { IoCloseCircleSharp } from "react-icons/io5";
 import Rating from "@mui/material/Rating";
 import InnerImageZoom from "react-inner-image-zoom";
 import Slider from "react-slick";
 import { FaRegHeart } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../../../redux/actions";
+import { addToCart } from "../../../redux1/actions/cartActions";
 import QuantityBox from "../../common/QuantityBox";
 import { formatter } from "../../../utils/fomater";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom"; // Hook để lấy location và điều hướng
-
 import "./Productmodal.css";
 
 const ProductModal = (props) => {
@@ -22,6 +22,8 @@ const ProductModal = (props) => {
   const [quantity, setQuantity] = useState(1);
   const [isFavorited, setIsFavorited] = useState(false);
   const [notification, setNotification] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false); // Thêm state cho Snackbar
+
   const dispatch = useDispatch();
   const navigate = useNavigate(); // Hook điều hướng
   const location = useLocation(); // Hook để lấy đường dẫn hiện tại
@@ -50,17 +52,27 @@ const ProductModal = (props) => {
     zoomSliderBig.current.slickGoTo(index);
   };
 
-  const handleAddToCart = () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      // Lưu URL hiện tại vào localStorage trước khi chuyển hướng đến trang đăng nhập
-      localStorage.setItem("redirectUrl", location.pathname);
-      navigate("/login"); // Chuyển hướng đến trang đăng nhập
-      return;
-    }
-    dispatch(addToCart(product, quantity));
-    setNotification("Sản phẩm đã được thêm vào giỏ hàng");
-  };
+const handleAddToCart = () => {
+  const token = localStorage.getItem("token"); // Lấy token của người dùng từ localStorage
+
+  if (!token) {
+    localStorage.setItem("redirectUrl", location.pathname); // Lưu URL hiện tại
+    navigate("/login"); // Chuyển hướng đến trang đăng nhập
+    return;
+  }
+
+  console.log("Sản phẩm truyền vào handleAddToCart:", product);
+
+  // Gọi action Redux để thêm sản phẩm vào giỏ hàng
+  dispatch(addToCart(product, quantity));
+
+  // Hiển thị thông báo sản phẩm đã được thêm vào giỏ hàng
+  setNotification("Sản phẩm đã được thêm vào giỏ hàng");
+  setSnackbarOpen(true); // Mở thông báo
+  setTimeout(() => setSnackbarOpen(false), 3000); // Tự động tắt thông báo sau 3 giây
+};
+
+
 
   const handleAddToFavorites = () => {
     const token = localStorage.getItem("token");
@@ -73,7 +85,8 @@ const ProductModal = (props) => {
 
     if (isFavorited) {
       setNotification("Sản phẩm đã có trong yêu thích.");
-      setTimeout(() => setNotification(""), 5000);
+      setSnackbarOpen(true); // Mở Snackbar
+      setTimeout(() => setSnackbarOpen(false), 5000); // Ẩn thông báo sau 5 giây
       return;
     }
 
@@ -90,11 +103,13 @@ const ProductModal = (props) => {
       .then((response) => {
         setIsFavorited(true);
         setNotification("Sản phẩm đã được thêm vào mục yêu thích.");
-        setTimeout(() => setNotification(""), 5000);
+        setSnackbarOpen(true); // Mở Snackbar
+        setTimeout(() => setSnackbarOpen(false), 5000); // Ẩn thông báo sau 5 giây
       })
       .catch((err) => {
         setNotification("Đã xảy ra lỗi khi thêm sản phẩm vào yêu thích.");
-        setTimeout(() => setNotification(""), 5000);
+        setSnackbarOpen(true); // Mở Snackbar
+        setTimeout(() => setSnackbarOpen(false), 5000); // Ẩn thông báo sau 5 giây
       });
   };
 
@@ -126,17 +141,9 @@ const ProductModal = (props) => {
     }
 
     setNotification("Mua ngay!");
-    setTimeout(() => setNotification(""), 5000);
+    setSnackbarOpen(true); // Mở Snackbar
+    setTimeout(() => setSnackbarOpen(false), 5000); // Ẩn thông báo sau 5 giây
   };
-
-  // useEffect(() => {
-  //   const redirectUrl = localStorage.getItem("redirectUrl");
-  //   if (redirectUrl) {
-  //     // Sau khi đăng nhập thành công, chuyển hướng về URL đã lưu trong localStorage
-  //     navigate(redirectUrl);
-  //     localStorage.removeItem("redirectUrl"); // Xóa URL đã lưu sau khi chuyển hướng
-  //   }
-  // }, [navigate]);
 
   return (
     <Dialog
@@ -167,6 +174,7 @@ const ProductModal = (props) => {
         />
       </div>
 
+      {/* Thông báo lỗi */}
       <div className="notification-message justify-content-center text-center text-danger">
         {notification && <span>{notification}</span>}
       </div>
@@ -246,6 +254,15 @@ const ProductModal = (props) => {
           </div>
         </div>
       </div>
+
+      {/* Snackbar để hiển thị thông báo */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+        message={notification}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      />
     </Dialog>
   );
 };

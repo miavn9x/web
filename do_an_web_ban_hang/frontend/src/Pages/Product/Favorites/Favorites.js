@@ -1,4 +1,3 @@
-// components/Favorites/Favorites.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
@@ -38,7 +37,7 @@ const Favorites = () => {
     };
 
     fetchFavorites(); // Gọi hàm lấy danh sách yêu thích
-  }, []);
+  }, []); // Chạy once khi component mount
 
   // Xử lý khi người dùng muốn xóa sản phẩm khỏi danh sách yêu thích
   const handleRemoveFromFavorites = async (productId) => {
@@ -117,7 +116,7 @@ const Favorites = () => {
                   <TableCell>
                     <Button
                       variant="outlined"
-                      color="danger"
+                      color="error"
                       className="btn-sm"
                       onClick={() => handleRemoveFromFavorites(product._id)} // Xóa sản phẩm khỏi yêu thích
                     >

@@ -1,0 +1,20 @@
+
+
+├── redux1/
+│   ├── constants/
+│   │   └── actionTypes.js    # Định nghĩa các hằng số action types
+│   ├── actions/              # Chứa các action creators
+│   │   ├── cartActions.js    # Actions liên quan đến giỏ hàng  
+│   │   └── favoriteActions.js # Actions liên quan đến yêu thích
+│   ├── reducers/             # Chứa các reducers để xử lý state
+│   │   ├── cartReducer.js    # Reducer xử lý state giỏ hàng
+│   │   └── favoriteReducer.js # Reducer xử lý state yêu thích
+│   └── store.js              # Khởi tạo Redux store
+├── components/ 
+│   ├── Product/              # Components liên quan đến sản phẩm
+│   │   ├── ProductItem.js    # Hiển thị thông tin sản phẩm
+│   │   └── ProductModal.js   # Modal chi tiết sản phẩm
+│   ├── Cart/                 # Components liên quan đến giỏ hàng  
+│   │   └── Cart.js          # Hiển thị và xử lý giỏ hàng
+│   └── Favorites/           # Components liên quan đến yêu thích
+│       └── Favorites.js     # Hiển thị và xử lý yêu thích
