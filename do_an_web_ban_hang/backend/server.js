@@ -9,7 +9,6 @@ require("dotenv").config();
 const app = express();
 
 // Cấu hình từ file .env
-const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -210,7 +209,21 @@ app.use("/api", favoritesRoutes);
 const productDisplayRoutes = require("./routes/productDisplayRoutes"); // Đường dẫn cần phù hợp
 app.use("/api/products", productDisplayRoutes);
 
-// Khởi chạy server
+// // cart
+// const cartRoutes = require("./routes/cartRoutes"); // Import cart.js
+// // Sử dụng router cho giỏ hàng
+// app.use("/api/cart", cartRoutes);
+
+
+
+// // Khởi chạy server
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server đang chạy tại http://localhost:${PORT}`);
 });
+
+
+// const PORT = process.env.PORT || 5001; // Đổi sang 5001
+// app.listen(PORT, () => {
+//   console.log(`Server is running on http://localhost:${PORT}`);
+// });
