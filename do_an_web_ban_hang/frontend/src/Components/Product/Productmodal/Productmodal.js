@@ -62,6 +62,7 @@ const handleAddToCart = () => {
   }
 
   console.log("Sản phẩm truyền vào handleAddToCart:", product);
+  console.log("Token:", token); // Kiểm tra token có hợp lệ không
 
   // Gọi action Redux để thêm sản phẩm vào giỏ hàng
   dispatch(addToCart(product, quantity));
@@ -144,6 +145,9 @@ const handleAddToCart = () => {
     setSnackbarOpen(true); // Mở Snackbar
     setTimeout(() => setSnackbarOpen(false), 5000); // Ẩn thông báo sau 5 giây
   };
+
+
+
 
   return (
     <Dialog
@@ -242,7 +246,7 @@ const handleAddToCart = () => {
 
               <button
                 className="btn__add__cart custom-btn"
-                onClick={handleAddToCart}
+                onClick={handleAddToCart} // Không cần truyền tham số
               >
                 Thêm vào giỏ hàng
               </button>

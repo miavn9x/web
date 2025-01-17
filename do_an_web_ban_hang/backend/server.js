@@ -209,10 +209,10 @@ app.use("/api", favoritesRoutes);
 const productDisplayRoutes = require("./routes/productDisplayRoutes"); // Đường dẫn cần phù hợp
 app.use("/api/products", productDisplayRoutes);
 
-// // cart
-// const cartRoutes = require("./routes/cartRoutes"); // Import cart.js
-// // Sử dụng router cho giỏ hàng
-// app.use("/api/cart", cartRoutes);
+// cart
+const cartRoutes = require("./routes/cartRoutes"); // Import cart.js
+// Sử dụng router cho giỏ hàng
+app.use("/api", cartRoutes);
 
 
 

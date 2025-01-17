@@ -1,13 +1,12 @@
-// src/redux1/constants/actionTypes.js
 
+
+// src/redux1/constants/actionTypes.js
 export const CART_ACTIONS = {
   ADD_TO_CART: "ADD_TO_CART",
   REMOVE_FROM_CART: "REMOVE_FROM_CART",
   UPDATE_CART_QUANTITY: "UPDATE_CART_QUANTITY",
-  CLEAR_CART: "CLEAR_CART",
-  LOAD_CART: "LOAD_CART", // Thêm hành động LOAD_CART
+  SET_CART: "SET_CART",
 };
-
 
 export const FAVORITE_ACTIONS = {
   ADD_TO_FAVORITES: "FAVORITES_ADD_TO_FAVORITES", // Thêm sản phẩm vào yêu thích

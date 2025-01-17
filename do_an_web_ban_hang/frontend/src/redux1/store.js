@@ -1,11 +1,11 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
-// import thunk from "redux-thunk";
 import { thunk } from "redux-thunk";
-
-import { cartReducer } from "./reducers/cartReducer";
+import userReducer from "./reducers/userReducer"; // Import userReducer
+import { cartReducer } from "./reducers/cartReducer"; // Nếu có cartReducer
 
 const rootReducer = combineReducers({
-  cart: cartReducer, // Giỏ hàng
+  user: userReducer, // Thêm userReducer vào rootReducer
+  cart: cartReducer, // Giả sử bạn cũng có cartReducer
 });
 
 const middleware = [thunk];

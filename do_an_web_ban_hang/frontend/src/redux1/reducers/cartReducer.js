@@ -1,93 +1,91 @@
-// cartReducer.js
 import { CART_ACTIONS } from "../constants/actionTypes";
 
 const initialState = {
-  items: JSON.parse(localStorage.getItem("cartItems")) || [],
+  items: [],
   total: 0,
 };
 
 export const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case CART_ACTIONS.ADD_TO_CART: {
-      const { product, quantity } = action.payload;
       const existingItemIndex = state.items.findIndex(
-        (item) => item.product._id === product._id
+        (item) => item.product._id === action.payload.product._id
       );
 
-      let updatedItems;
       if (existingItemIndex !== -1) {
-        updatedItems = state.items.map((item, index) =>
-          index === existingItemIndex
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
-      } else {
-        const newItem = {
-          product: {
-            ...product,
-            image:
-              product.image ||
-              (product.images && product.images[0]) ||
-              "https://via.placeholder.com/150",
-          },
-          quantity,
+        const updatedItems = [...state.items];
+        updatedItems[existingItemIndex].quantity += action.payload.quantity;
+        return {
+          ...state,
+          items: updatedItems,
+          total: updatedItems.reduce(
+            (acc, item) =>
+              acc + (item.product.priceAfterDiscount || 0) * item.quantity,
+            0
+          ),
         };
-        updatedItems = [...state.items, newItem];
       }
-
-      const total = updatedItems.reduce((acc, item) => acc + item.quantity, 0);
-      localStorage.setItem("cartItems", JSON.stringify(updatedItems));
 
       return {
         ...state,
-        items: updatedItems,
-        total,
+        items: [
+          ...state.items,
+          {
+            product: action.payload.product,
+            quantity: action.payload.quantity,
+          },
+        ],
+        total:
+          state.total +
+          (action.payload.product.priceAfterDiscount || 0) *
+            action.payload.quantity,
       };
     }
 
     case CART_ACTIONS.REMOVE_FROM_CART: {
-      const updatedItems = state.items.filter(
+      const newItems = state.items.filter(
         (item) => item.product._id !== action.payload
       );
-
-      const total = updatedItems.reduce((acc, item) => acc + item.quantity, 0);
-      localStorage.setItem("cartItems", JSON.stringify(updatedItems));
-
       return {
         ...state,
-        items: updatedItems,
-        total,
+        items: newItems,
+        total: newItems.reduce(
+          (acc, item) =>
+            acc + (item.product.priceAfterDiscount || 0) * item.quantity,
+          0
+        ),
       };
     }
 
     case CART_ACTIONS.UPDATE_CART_QUANTITY: {
-      const { productId, quantity } = action.payload;
-
-      const updatedItems = state.items.map((item) =>
-        item.product._id === productId
-          ? {
-              ...item,
-              quantity: Math.max(1, quantity), // Đảm bảo số lượng tối thiểu là 1
-            }
+      const updatedCart = state.items.map((item) =>
+        item.product._id === action.payload.productId
+          ? { ...item, quantity: action.payload.quantity }
           : item
       );
-
-      const total = updatedItems.reduce((acc, item) => acc + item.quantity, 0);
-      localStorage.setItem("cartItems", JSON.stringify(updatedItems));
-
       return {
         ...state,
-        items: updatedItems,
-        total,
+        items: updatedCart,
+        total: updatedCart.reduce(
+          (acc, item) =>
+            acc + (item.product.priceAfterDiscount || 0) * item.quantity,
+          0
+        ),
       };
     }
 
-    case CART_ACTIONS.CLEAR_CART: {
-      localStorage.removeItem("cartItems");
+    case CART_ACTIONS.SET_CART: {
       return {
-        ...initialState,
-        items: [],
-        total: 0,
+        ...state,
+        items: action.payload.map((item) => ({
+          product: item.product,
+          quantity: item.quantity,
+        })),
+        total: action.payload.reduce(
+          (acc, item) =>
+            acc + (item.product.priceAfterDiscount || 0) * item.quantity,
+          0
+        ),
       };
     }
 
